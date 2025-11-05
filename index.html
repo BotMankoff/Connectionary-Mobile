@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Connectionary Mobile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body { overscroll-behavior: none; }
+        .cell-selected {
+            background: #3B82F6 !important;
+            border-color: #2563EB !important;
+            transform: scale(0.95);
+        }
+        .locked-cell {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+        }
+        @keyframes celebration {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .celebrate { animation: celebration 0.5s ease-in-out 3; }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .quadrant-icon-appear {
+            animation: fadeInScale 0.5s ease-out forwards;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const PUZZLES = [
+            {
+                id: 20,
+                title: "Drive Away",
+                centerWord: "DRIVE",
+                solutions: [
+                    ["WHEEL","CRASH","MOUSE","STEER","DRIVE","EJECT","WRANGLE","SCATTER","REPEL"],
+                    ["WRANGLE","STEER","WHEEL","SCATTER","DRIVE","CRASH","REPEL","EJECT","MOUSE"],
+                    ["REPEL","SCATTER","WRANGLE","EJECT","DRIVE","STEER","MOUSE","CRASH","WHEEL"],
+                    ["MOUSE","EJECT","REPEL","CRASH","DRIVE","SCATTER","WHEEL","STEER","WRANGLE"],
+                    ["MOUSE","CRASH","WHEEL","EJECT","DRIVE","STEER","REPEL","SCATTER","WRANGLE"],
+                    ["WRANGLE","SCATTER","REPEL","STEER","DRIVE","EJECT","WHEEL","CRASH","MOUSE"],
+                    ["WHEEL","STEER","WRANGLE","CRASH","DRIVE","SCATTER","MOUSE","EJECT","REPEL"],
+                    ["REPEL","EJECT","MOUSE","SCATTER","DRIVE","CRASH","WRANGLE","STEER","WHEEL"]
+                ],
+                allWords: ["WHEEL","CRASH","MOUSE","STEER","EJECT","WRANGLE","SCATTER","REPEL"],
+                quadrantClues: [
+                    { clue: "VEHICLES", words: ["WHEEL","CRASH","STEER","DRIVE"], icon: "🚗" },
+                    { clue: "COMPUTER/TECH", words: ["CRASH","MOUSE","DRIVE","EJECT"], icon: "💻" },
+                    { clue: "CATTLE HERDING", words: ["STEER","WRANGLE","SCATTER","DRIVE"], icon: "🤠" },
+                    { clue: "DRIVING AWAY", words: ["REPEL","SCATTER","EJECT","DRIVE"], icon: "🧹" }
+                ],
+                explanations: {
+                    "DRIVE": "Operate a vehicle / Computer storage / Herd cattle / Drive away",
+                    "WHEEL": "Vehicle component",
+                    "CRASH": "Vehicle accident / Computer failure",
+                    "MOUSE": "Computer input device",
+                    "STEER": "Guide vehicle / Direct herd",
+                    "EJECT": "Eject disk / Expel",
+                    "WRANGLE": "Herd cattle",
+                    "SCATTER": "Disperse herd / Drive away",
+                    "REPEL": "Drive back"
+                }
+            },
+            {
+                id: 11,
+                title: "What's Your Bid?",
+                centerWord: "BID",
+                solutions: [
+                    ["GAVEL","RAISE","TRUMP","ESTIMATE","BID","CALL","QUOTE","REQUEST","WELCOME"],
+                    ["QUOTE","ESTIMATE","GAVEL","REQUEST","BID","RAISE","WELCOME","CALL","TRUMP"],
+                    ["WELCOME","CALL","TRUMP","REQUEST","BID","RAISE","QUOTE","ESTIMATE","GAVEL"],
+                    ["TRUMP","CALL","WELCOME","RAISE","BID","REQUEST","GAVEL","ESTIMATE","QUOTE"],
+                    ["TRUMP","RAISE","GAVEL","CALL","BID","ESTIMATE","WELCOME","REQUEST","QUOTE"],
+                    ["QUOTE","REQUEST","WELCOME","ESTIMATE","BID","CALL","GAVEL","RAISE","TRUMP"],
+                    ["GAVEL","ESTIMATE","QUOTE","RAISE","BID","REQUEST","TRUMP","CALL","WELCOME"],
+                    ["TRUMP","CALL","WELCOME","RAISE","BID","REQUEST","GAVEL","ESTIMATE","QUOTE"]
+                ],
+                allWords: ["GAVEL","RAISE","TRUMP","ESTIMATE","CALL","QUOTE","REQUEST","WELCOME"],
+                quadrantClues: [
+                    { clue: "AUCTION", words: ["GAVEL","RAISE","ESTIMATE","BID"], icon: "🔨" },
+                    { clue: "BRIDGE", words: ["RAISE","TRUMP","CALL","BID"], icon: "🃏" },
+                    { clue: "VALUATION", words: ["QUOTE","ESTIMATE","REQUEST","BID"], icon: "💲" },
+                    { clue: "ADDRESS", words: ["CALL","REQUEST","WELCOME","BID"], icon: "🗣️" }
+                ],
+                explanations: {
+                    "BID": "Auction offer / Bridge call / Price quote / Formal welcome",
+                    "GAVEL": "Auctioneer's hammer",
+                    "RAISE": "Increase bid / Bridge supporting bid",
+                    "TRUMP": "Bridge suit",
+                    "ESTIMATE": "Pre-sale price / Approximate cost",
+                    "CALL": "Bridge call / Speaking act",
+                    "QUOTE": "Stated price",
+                    "REQUEST": "Direct ask",
+                    "WELCOME": "Formal greeting"
+                }
+            },
+            {
+                id: 19,
+                title: "The Punchline",
+                centerWord: "PUNCH",
+                solutions: [
+                    ["UPPERCUT", "RIPOSTE", "SKIT", "SMASH", "PUNCH", "BIT", "NEGRONI", "SCREWDRIVER", "AWL"],
+                    ["SKIT", "BIT", "AWL", "RIPOSTE", "PUNCH", "SCREWDRIVER", "UPPERCUT", "SMASH", "NEGRONI"],
+                    ["AWL", "SCREWDRIVER", "NEGRONI", "BIT", "PUNCH", "SMASH", "SKIT", "RIPOSTE", "UPPERCUT"],
+                    ["NEGRONI", "SMASH", "UPPERCUT", "SCREWDRIVER", "PUNCH", "RIPOSTE", "AWL", "BIT", "SKIT"],
+                    ["SKIT", "RIPOSTE", "UPPERCUT", "BIT", "PUNCH", "SMASH", "AWL", "SCREWDRIVER", "NEGRONI"],
+                    ["AWL", "BIT", "SKIT", "SCREWDRIVER", "PUNCH", "RIPOSTE", "NEGRONI", "SMASH", "UPPERCUT"],
+                    ["NEGRONI", "SCREWDRIVER", "AWL", "SMASH", "PUNCH", "BIT", "UPPERCUT", "RIPOSTE", "SKIT"],
+                    ["UPPERCUT", "SMASH", "NEGRONI", "RIPOSTE", "PUNCH", "SCREWDRIVER", "SKIT", "BIT", "AWL"]
+                ],
+                allWords: ["UPPERCUT", "RIPOSTE", "SKIT", "SMASH", "BIT", "NEGRONI", "SCREWDRIVER", "AWL"],
+                quadrantClues: [
+                    { clue: "FIGHTING TERMS", words: ["UPPERCUT", "RIPOSTE", "SMASH", "PUNCH"], icon: "🤺" },
+                    { clue: "COMEDY TERMS", words: ["RIPOSTE", "SKIT", "PUNCH", "BIT"], icon: "😂" },
+                    { clue: "COCKTAILS", words: ["SMASH", "PUNCH", "NEGRONI", "SCREWDRIVER"], icon: "🍸" },
+                    { clue: "HAND TOOLS", words: ["PUNCH", "BIT", "SCREWDRIVER", "AWL"], icon: "🛠️" }
+                ],
+                explanations: {
+                    "UPPERCUT": "An upward boxing punch.",
+                    "RIPOSTE": "A quick counter-attack in fencing or boxing / A witty comeback.",
+                    "SKIT": "A short comedy sketch.",
+                    "SMASH": "A powerful hit in boxing / A cocktail with fruit and spirits.",
+                    "PUNCH": "A boxing strike / A comedy punchline / A fruity party drink / A tool for making holes.",
+                    "BIT": "A comedy routine / A drill attachment tool.",
+                    "NEGRONI": "An Italian cocktail with gin, vermouth, and Campari.",
+                    "SCREWDRIVER": "A vodka and orange juice cocktail / A tool for driving screws.",
+                    "AWL": "A pointed tool for making holes in leather or wood."
+                }
+            }
+        ];
+
+        function App() {
+            const [puzzleIdx, setPuzzleIdx] = useState(0);
+            const [grid, setGrid] = useState([]);
+            const [selected, setSelected] = useState(null);
+            const [history, setHistory] = useState([]);
+            const [historyIdx, setHistoryIdx] = useState(-1);
+            const [solved, setSolved] = useState(false);
+            const [showThemes, setShowThemes] = useState(false);
+            const [showHelp, setShowHelp] = useState(false);
+            const [moves, setMoves] = useState(0);
+
+            const puzzle = PUZZLES[puzzleIdx];
+
+            // Initialize puzzle
+            useEffect(() => {
+                const shuffled = [...puzzle.allWords].sort(() => Math.random() - 0.5);
+                shuffled.splice(4, 0, puzzle.centerWord);
+                setGrid(shuffled);
+                setHistory([shuffled]);
+                setHistoryIdx(0);
+                setSolved(false);
+                setSelected(null);
+                setMoves(0);
+                setShowThemes(false);
+            }, [puzzleIdx]);
+
+            // Check solution
+            useEffect(() => {
+                if (grid.length === 0) return;
+                const isSolved = puzzle.solutions.some(sol => 
+                    JSON.stringify(sol) === JSON.stringify(grid)
+                );
+                if (isSolved && !solved) {
+                    setSolved(true);
+                    setShowThemes(true);
+                }
+            }, [grid]);
+
+            const getFontSize = (word) => {
+                if (word.length <= 5) return 'text-lg';
+                if (word.length <= 8) return 'text-base';
+                if (word.length <= 10) return 'text-sm';
+                return 'text-xs';
+            };
+
+            const handleCellClick = (idx) => {
+                if (idx === 4 || solved) return;
+                
+                if (selected === null) {
+                    setSelected(idx);
+                } else if (selected === idx) {
+                    setSelected(null);
+                } else {
+                    const newGrid = [...grid];
+                    [newGrid[selected], newGrid[idx]] = [newGrid[idx], newGrid[selected]];
+                    
+                    const newHistory = history.slice(0, historyIdx + 1);
+                    newHistory.push(newGrid);
+                    setHistory(newHistory);
+                    setHistoryIdx(historyIdx + 1);
+                    
+                    setGrid(newGrid);
+                    setSelected(null);
+                    setMoves(moves + 1);
+                }
+            };
+
+            const undo = () => {
+                if (historyIdx > 0) {
+                    setHistoryIdx(historyIdx - 1);
+                    setGrid(history[historyIdx - 1]);
+                    setSelected(null);
+                }
+            };
+
+            const redo = () => {
+                if (historyIdx < history.length - 1) {
+                    setHistoryIdx(historyIdx + 1);
+                    setGrid(history[historyIdx + 1]);
+                    setSelected(null);
+                }
+            };
+
+            const solve = () => {
+                setGrid(puzzle.solutions[0]);
+                setSolved(true);
+                setShowThemes(true);
+                setSelected(null);
+            };
+
+            const reset = () => {
+                const shuffled = [...puzzle.allWords].sort(() => Math.random() - 0.5);
+                shuffled.splice(4, 0, puzzle.centerWord);
+                setGrid(shuffled);
+                setHistory([shuffled]);
+                setHistoryIdx(0);
+                setSolved(false);
+                setSelected(null);
+                setMoves(0);
+                setShowThemes(false);
+            };
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4">
+                    <div className="max-w-md mx-auto">
+                        {/* Header */}
+                        <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-6 mb-6">
+                            <div className="flex items-center gap-3">
+                                <span className="text-4xl">{puzzle.quadrantClues[0].icon}</span>
+                                <div>
+                                    <h1 className="text-2xl font-bold text-white">{puzzle.title}</h1>
+                                    <div className="text-blue-200 text-sm">Puzzle {puzzleIdx + 1} of {PUZZLES.length}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Navigation */}
+                        <div className="flex gap-3 mb-6">
+                            <button
+                                onClick={() => setPuzzleIdx(Math.max(0, puzzleIdx - 1))}
+                                disabled={puzzleIdx === 0}
+                                className={`flex-1 py-3 rounded-xl font-semibold ${
+                                    puzzleIdx === 0 ? 'bg-gray-600 text-gray-400' : 'bg-blue-600 text-white'
+                                }`}
+                            >
+                                ← Previous
+                            </button>
+                            <button
+                                onClick={() => setPuzzleIdx(Math.min(PUZZLES.length - 1, puzzleIdx + 1))}
+                                disabled={puzzleIdx >= PUZZLES.length - 1}
+                                className={`flex-1 py-3 rounded-xl font-semibold ${
+                                    puzzleIdx >= PUZZLES.length - 1 ? 'bg-gray-600 text-gray-400' : 'bg-blue-600 text-white'
+                                }`}
+                            >
+                                Next →
+                            </button>
+                        </div>
+
+                        {/* Actions */}
+                        <div className="space-y-3 mb-6">
+                            <button onClick={() => setShowThemes(!showThemes)}
+                                className="w-full bg-purple-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2">
+                                <span className="text-xl">{showThemes ? '🙈' : '👁️'}</span>
+                                {showThemes ? 'Hide Themes' : 'View Themes'}
+                            </button>
+                            <button onClick={solve}
+                                className="w-full bg-green-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2">
+                                ✨ Solve Puzzle
+                            </button>
+                            <button onClick={reset}
+                                className="w-full bg-gray-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2">
+                                🔄 Reset Puzzle
+                            </button>
+                            <button onClick={() => setShowHelp(!showHelp)}
+                                className="w-full bg-blue-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2">
+                                📖 How to Play
+                            </button>
+                        </div>
+
+                        {/* Help Modal */}
+                        {showHelp && (
+                            <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
+                                onClick={() => setShowHelp(false)}>
+                                <div className="bg-white rounded-2xl p-6 max-w-md max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+                                    <h2 className="text-2xl font-bold mb-4">How to Play Connectionary</h2>
+                                    
+                                    <div className="space-y-4 text-gray-700 text-sm">
+                                        {/* The Goal */}
+                                        <div>
+                                            <h3 className="font-bold text-base mb-2">The Goal</h3>
+                                            <p>Arrange the 9 words in the grid so that each 2×2 quadrant (group of 4 cells) shares a common theme.</p>
+                                        </div>
+
+                                        {/* The Grid Layout */}
+                                        <div>
+                                            <h3 className="font-bold text-base mb-2">The Grid Layout</h3>
+                                            <div className="bg-gray-100 p-3 rounded-lg font-mono text-xs mb-2">
+                                                <div>[Corner] [Edge]   [Corner]</div>
+                                                <div>[Edge]   [CENTER] [Edge]</div>
+                                                <div>[Corner] [Edge]   [Corner]</div>
+                                            </div>
+                                            <p className="text-xs"><strong>Four Quadrants:</strong></p>
+                                            <ul className="text-xs space-y-1 ml-4 mt-1">
+                                                <li>• <strong>Top-Left:</strong> Top-left corner, top edge, left edge, and CENTER</li>
+                                                <li>• <strong>Top-Right:</strong> Top edge, top-right corner, CENTER, and right edge</li>
+                                                <li>• <strong>Bottom-Left:</strong> Left edge, CENTER, bottom-left corner, and bottom edge</li>
+                                                <li>• <strong>Bottom-Right:</strong> CENTER, right edge, bottom edge, and bottom-right corner</li>
+                                            </ul>
+                                        </div>
+
+                                        {/* How to Play */}
+                                        <div>
+                                            <h3 className="font-bold text-base mb-2">How to Play</h3>
+                                            <p><strong>Tap two words to swap their positions.</strong> Keep swapping until all four quadrants are correct.</p>
+                                        </div>
+
+                                        {/* The Center Word */}
+                                        <div>
+                                            <h3 className="font-bold text-base mb-2">The Center Word 🔒</h3>
+                                            <p>The locked center word is special—it belongs to <strong>ALL FOUR themes</strong>. It has four different meanings that connect to each quadrant's theme.</p>
+                                        </div>
+
+                                        {/* Understanding Word Types */}
+                                        <div>
+                                            <h3 className="font-bold text-base mb-2">Understanding Word Types</h3>
+                                            <p className="mb-2"><strong>Corner Words</strong> (4 total): Each belongs to only ONE theme.</p>
+                                            <p><strong>Edge Words</strong> (4 total): These are the tricky ones! Each edge word appears in TWO different quadrants, so it must have <strong>two different meanings</strong>—one for each theme it touches.</p>
+                                        </div>
+
+                                        {/* Example Section */}
+                                        <div className="bg-yellow-50 border-2 border-yellow-400 rounded-lg p-4">
+                                            <h3 className="font-bold text-base mb-3">📚 Example: Why Knowing Themes Isn't Enough</h3>
+                                            
+                                            <div className="space-y-3 text-xs">
+                                                {/* Step 1: Wrong Placement */}
+                                                <div>
+                                                    <p className="font-semibold mb-2">❌ Step 1: This placement LOOKS right...</p>
+                                                    <div className="bg-white p-2 rounded border border-gray-300 font-mono text-[10px] leading-relaxed mb-2">
+                                                        <div>WHEEL  CRASH  MOUSE</div>
+                                                        <div>STEER  DRIVE  WRANGLE</div>
+                                                        <div>EJECT  REPEL  SCATTER</div>
+                                                    </div>
+                                                    <p className="text-gray-700">CRASH is at the top edge, which is part of BOTH:</p>
+                                                    <p className="text-gray-700 ml-2">✓ VEHICLES (top-left quadrant)</p>
+                                                    <p className="text-gray-700 ml-2">✓ COMPUTER/TECH (top-right quadrant)</p>
+                                                    <p className="text-gray-700 mt-1">Seems correct, right?</p>
+                                                </div>
+
+                                                {/* Step 2: The Problem */}
+                                                <div>
+                                                    <p className="font-semibold mb-2">🔍 Step 2: But let's check the quadrants...</p>
+                                                    <div className="bg-white p-2 rounded border border-gray-300 mb-2">
+                                                        <p className="font-semibold text-green-700">🚗 Top-Left (VEHICLES):</p>
+                                                        <p className="ml-2">WHEEL, CRASH, STEER, DRIVE ✓</p>
+                                                        <p className="text-green-700 ml-2 text-[10px]">All vehicle words - perfect!</p>
+                                                    </div>
+                                                    <div className="bg-white p-2 rounded border border-red-300">
+                                                        <p className="font-semibold text-red-700">💻 Top-Right (COMPUTER/TECH):</p>
+                                                        <p className="ml-2">CRASH, MOUSE, DRIVE, WRANGLE ❌</p>
+                                                        <p className="text-red-700 ml-2 text-[10px] font-semibold">WRANGLE isn't a computer term!</p>
+                                                    </div>
+                                                </div>
+
+                                                {/* Step 3: The Issue */}
+                                                <div>
+                                                    <p className="font-semibold mb-2">💡 Step 3: Here's the problem...</p>
+                                                    <p className="text-gray-700">WRANGLE ended up in the right edge position (between CENTER and top-right corner).</p>
+                                                    <p className="text-gray-700 mt-1">That edge position is shared by:</p>
+                                                    <p className="text-gray-700 ml-2">• Top-right quadrant (needs COMPUTER/TECH)</p>
+                                                    <p className="text-gray-700 ml-2">• Bottom-right quadrant (needs DRIVING AWAY)</p>
+                                                    <p className="text-red-700 mt-1 font-semibold">WRANGLE only fits CATTLE HERDING!</p>
+                                                </div>
+
+                                                {/* Step 4: The Solution */}
+                                                <div>
+                                                    <p className="font-semibold mb-2">✅ Step 4: The correct placement</p>
+                                                    <div className="bg-white p-2 rounded border border-green-300 font-mono text-[10px] leading-relaxed mb-2">
+                                                        <div>WHEEL  CRASH   MOUSE</div>
+                                                        <div>STEER  DRIVE   EJECT ← Fixed!</div>
+                                                        <div>WRANGLE SCATTER REPEL</div>
+                                                    </div>
+                                                    <p className="text-gray-700">Now EJECT is at the right edge:</p>
+                                                    <p className="text-green-700 ml-2">✓ Fits COMPUTER/TECH (eject disk)</p>
+                                                    <p className="text-green-700 ml-2">✓ Fits DRIVING AWAY (eject/expel)</p>
+                                                    <p className="text-green-700 mt-1 font-semibold">Both quadrants work!</p>
+                                                </div>
+
+                                                {/* Key Insight */}
+                                                <div className="bg-blue-50 p-3 rounded border-2 border-blue-400">
+                                                    <p className="font-bold text-blue-900 mb-2">🎯 The Key Insight</p>
+                                                    <p className="text-gray-800">Even when you KNOW which words belong to which themes, you still must figure out WHERE each word can physically go and how all quadrants fit together spatially.</p>
+                                                    <p className="text-gray-800 mt-2 font-semibold">That's the puzzle!</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* The Critical Rule */}
+                                        <div>
+                                            <h3 className="font-bold text-base mb-2">The Critical Rule</h3>
+                                            <p className="mb-2"><strong>Words must work with EVERY quadrant they're part of.</strong></p>
+                                            <p className="text-xs">For example: An edge word appears in TWO quadrants, so it must have two meanings—one that fits each quadrant's theme. If it only fits one theme, it's in the wrong position.</p>
+                                        </div>
+
+                                        {/* Multiple Solutions */}
+                                        <div>
+                                            <h3 className="font-bold text-base mb-2">Multiple Solutions</h3>
+                                            <p>There isn't just one correct arrangement! <strong>Many different arrangements can be valid</strong>, as long as all four quadrants have correct themes. The puzzle is solved when you find ANY arrangement where all quadrants work.</p>
+                                        </div>
+
+                                        {/* Tips */}
+                                        <div>
+                                            <h3 className="font-bold text-base mb-2">Tips</h3>
+                                            <ul className="space-y-1 ml-4">
+                                                <li>• Use "View Themes" to see what the four themes are</li>
+                                                <li>• Edge words always have double meanings—that's your key clue!</li>
+                                                <li>• The center word has four meanings, one for each theme</li>
+                                                <li>• Corner words only need to fit one theme</li>
+                                                <li>• If three quadrants work but one doesn't, keep swapping!</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <button onClick={() => setShowHelp(false)}
+                                        className="mt-6 w-full bg-blue-600 text-white py-3 rounded-lg font-bold">
+                                        Got it!
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Themes */}
+                        {showThemes && (
+                            <div className="mb-6 space-y-3">
+                                {puzzle.quadrantClues.map((q, i) => (
+                                    <div key={i} className="bg-white rounded-2xl p-4">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <span className="text-2xl">{q.icon}</span>
+                                            <h3 className="font-bold text-lg">{q.clue}</h3>
+                                        </div>
+                                        <div className="flex flex-wrap gap-2">
+                                            {q.words.map((w, j) => (
+                                                <span key={j} className="px-3 py-1 bg-gray-100 rounded-lg text-sm font-semibold">
+                                                    {w}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* Grid */}
+                        <div className="bg-white rounded-2xl p-4 shadow-2xl">
+                            {solved && (
+                                <div className="mb-4 text-center celebrate">
+                                    <div className="text-4xl mb-2">🎉</div>
+                                    <div className="text-green-700 font-bold">Puzzle Solved!</div>
+                                    <div className="text-sm text-gray-600">Moves: {moves}</div>
+                                </div>
+                            )}
+                            
+                            <div className="grid grid-cols-3 gap-3 relative">
+                                {/* Quadrant Icons at Intersections (when solved) */}
+                                {solved && (
+                                    <>
+                                        {/* Top-left quadrant icon */}
+                                        <div className="absolute z-20 text-4xl pointer-events-none quadrant-icon-appear"
+                                            style={{ top: 'calc(33.333% - 24px)', left: 'calc(33.333% - 24px)' }}>
+                                            {puzzle.quadrantClues[0].icon}
+                                        </div>
+                                        {/* Top-right quadrant icon */}
+                                        <div className="absolute z-20 text-4xl pointer-events-none quadrant-icon-appear"
+                                            style={{ top: 'calc(33.333% - 24px)', left: 'calc(66.666% - 24px)', animationDelay: '0.1s' }}>
+                                            {puzzle.quadrantClues[1].icon}
+                                        </div>
+                                        {/* Bottom-left quadrant icon */}
+                                        <div className="absolute z-20 text-4xl pointer-events-none quadrant-icon-appear"
+                                            style={{ top: 'calc(66.666% - 24px)', left: 'calc(33.333% - 24px)', animationDelay: '0.2s' }}>
+                                            {puzzle.quadrantClues[2].icon}
+                                        </div>
+                                        {/* Bottom-right quadrant icon */}
+                                        <div className="absolute z-20 text-4xl pointer-events-none quadrant-icon-appear"
+                                            style={{ top: 'calc(66.666% - 24px)', left: 'calc(66.666% - 24px)', animationDelay: '0.3s' }}>
+                                            {puzzle.quadrantClues[3].icon}
+                                        </div>
+                                    </>
+                                )}
+                                {grid.map((word, idx) => {
+                                    const isCenter = idx === 4;
+                                    const isSelected = selected === idx;
+                                    
+                                    return (
+                                        <div key={idx} onClick={() => handleCellClick(idx)}
+                                            className={`aspect-square rounded-xl border-4 flex flex-col items-center justify-center transition-all relative
+                                                ${isCenter ? 'locked-cell border-amber-500 cursor-not-allowed' : 
+                                                  isSelected ? 'cell-selected' :
+                                                  solved ? 'bg-green-50 border-green-400' :
+                                                  'bg-gray-50 border-gray-400 cursor-pointer active:scale-95'}`}>
+                                            {isCenter && (
+                                                <div className="absolute -top-2 -right-2 bg-amber-500 rounded-full p-1 z-10">
+                                                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                            )}
+                                            <div className={`font-bold ${getFontSize(word)} text-center px-1 leading-tight
+                                                ${isCenter ? 'text-amber-900' : 
+                                                  solved ? 'text-green-800' : 
+                                                  isSelected ? 'text-white' : 'text-gray-800'}`}>
+                                                {word}
+                                            </div>
+                                            {!isCenter && !solved && (
+                                                <div className="text-xs text-gray-400 mt-1">{idx + 1}</div>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            {!solved && selected !== null && (
+                                <div className="mt-4 text-center text-sm text-blue-600 font-semibold">
+                                    Selected: {grid[selected]} - Tap another to swap
+                                </div>
+                            )}
+                            {!solved && selected === null && (
+                                <div className="mt-4 text-center text-sm text-gray-500">
+                                    Tap two words to swap positions
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Explanations */}
+                        {solved && (
+                            <div className="mt-6 bg-white rounded-2xl p-4">
+                                <h3 className="font-bold text-lg mb-3">Word Explanations</h3>
+                                <div className="space-y-2 text-sm">
+                                    {grid.map((word, idx) => (
+                                        <div key={idx}>
+                                            <span className="font-semibold">{word}:</span>{' '}
+                                            <span className="text-gray-700">{puzzle.explanations[word]}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
