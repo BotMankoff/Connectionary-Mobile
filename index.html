@@ -46,13 +46,13 @@
                 centerWord: "DRIVE",
                 solutions: [
                     ["WHEEL","CRASH","MOUSE","STEER","DRIVE","EJECT","WRANGLE","SCATTER","REPEL"],
-                    ["WRANGLE","STEER","WHEEL","SCATTER","DRIVE","CRASH","REPEL","EJECT","MOUSE"],
-                    ["REPEL","SCATTER","WRANGLE","EJECT","DRIVE","STEER","MOUSE","CRASH","WHEEL"],
                     ["MOUSE","EJECT","REPEL","CRASH","DRIVE","SCATTER","WHEEL","STEER","WRANGLE"],
-                    ["MOUSE","CRASH","WHEEL","EJECT","DRIVE","STEER","REPEL","SCATTER","WRANGLE"],
-                    ["WRANGLE","SCATTER","REPEL","STEER","DRIVE","EJECT","WHEEL","CRASH","MOUSE"],
+                    ["REPEL","SCATTER","WRANGLE","EJECT","DRIVE","STEER","MOUSE","CRASH","WHEEL"],
+                    ["WRANGLE","STEER","WHEEL","SCATTER","DRIVE","CRASH","REPEL","EJECT","MOUSE"],
                     ["WHEEL","STEER","WRANGLE","CRASH","DRIVE","SCATTER","MOUSE","EJECT","REPEL"],
-                    ["REPEL","EJECT","MOUSE","SCATTER","DRIVE","CRASH","WRANGLE","STEER","WHEEL"]
+                    ["WRANGLE","SCATTER","REPEL","STEER","DRIVE","EJECT","WHEEL","CRASH","MOUSE"],
+                    ["REPEL","EJECT","MOUSE","SCATTER","DRIVE","CRASH","WRANGLE","STEER","WHEEL"],
+                    ["MOUSE","CRASH","WHEEL","EJECT","DRIVE","STEER","REPEL","SCATTER","WRANGLE"]
                 ],
                 allWords: ["WHEEL","CRASH","MOUSE","STEER","EJECT","WRANGLE","SCATTER","REPEL"],
                 quadrantClues: [
@@ -62,7 +62,7 @@
                     { clue: "DRIVING AWAY", words: ["REPEL","SCATTER","EJECT","DRIVE"], icon: "🧹" }
                 ],
                 explanations: {
-                    "DRIVE": "Operate a vehicle / Computer storage / Herd cattle / Drive away",
+                    "DRIVE": "Vehicle / Storage / Herd / Repel",
                     "WHEEL": "Vehicle component",
                     "CRASH": "Vehicle accident / Computer failure",
                     "MOUSE": "Computer input device",
@@ -78,32 +78,32 @@
                 title: "What's Your Bid?",
                 centerWord: "BID",
                 solutions: [
-                    ["GAVEL","RAISE","TRUMP","ESTIMATE","BID","CALL","QUOTE","REQUEST","WELCOME"],
-                    ["QUOTE","ESTIMATE","GAVEL","REQUEST","BID","RAISE","WELCOME","CALL","TRUMP"],
-                    ["WELCOME","CALL","TRUMP","REQUEST","BID","RAISE","QUOTE","ESTIMATE","GAVEL"],
-                    ["TRUMP","CALL","WELCOME","RAISE","BID","REQUEST","GAVEL","ESTIMATE","QUOTE"],
-                    ["TRUMP","RAISE","GAVEL","CALL","BID","ESTIMATE","WELCOME","REQUEST","QUOTE"],
-                    ["QUOTE","REQUEST","WELCOME","ESTIMATE","BID","CALL","GAVEL","RAISE","TRUMP"],
-                    ["GAVEL","ESTIMATE","QUOTE","RAISE","BID","REQUEST","TRUMP","CALL","WELCOME"],
-                    ["TRUMP","CALL","WELCOME","RAISE","BID","REQUEST","GAVEL","ESTIMATE","QUOTE"]
+                    ["GAVEL","RAISE","TRUMP","APPRAISAL","BID","CALL","QUOTE","ASK","WELCOME"],
+                    ["TRUMP","CALL","WELCOME","RAISE","BID","ASK","GAVEL","APPRAISAL","QUOTE"],
+                    ["WELCOME","ASK","QUOTE","CALL","BID","APPRAISAL","TRUMP","RAISE","GAVEL"],
+                    ["QUOTE","APPRAISAL","GAVEL","ASK","BID","RAISE","WELCOME","CALL","TRUMP"],
+                    ["GAVEL","APPRAISAL","QUOTE","RAISE","BID","ASK","TRUMP","CALL","WELCOME"],
+                    ["QUOTE","ASK","WELCOME","APPRAISAL","BID","CALL","GAVEL","RAISE","TRUMP"],
+                    ["WELCOME","CALL","TRUMP","ASK","BID","RAISE","QUOTE","APPRAISAL","GAVEL"],
+                    ["TRUMP","RAISE","GAVEL","CALL","BID","APPRAISAL","WELCOME","ASK","QUOTE"]
                 ],
-                allWords: ["GAVEL","RAISE","TRUMP","ESTIMATE","CALL","QUOTE","REQUEST","WELCOME"],
+                allWords: ["GAVEL","RAISE","TRUMP","APPRAISAL","CALL","QUOTE","ASK","WELCOME"],
                 quadrantClues: [
-                    { clue: "AUCTION", words: ["GAVEL","RAISE","ESTIMATE","BID"], icon: "🔨" },
-                    { clue: "BRIDGE", words: ["RAISE","TRUMP","CALL","BID"], icon: "🃏" },
-                    { clue: "VALUATION", words: ["QUOTE","ESTIMATE","REQUEST","BID"], icon: "💲" },
-                    { clue: "ADDRESS", words: ["CALL","REQUEST","WELCOME","BID"], icon: "🗣️" }
+                    { clue: "AUCTION", words: ["GAVEL","RAISE","APPRAISAL","BID"], icon: "🔨" },
+                    { clue: "BRIDGE", words: ["RAISE","TRUMP","CALL","BID"], icon: "♠️" },
+                    { clue: "VALUATION", words: ["QUOTE","APPRAISAL","ASK","BID"], icon: "💲" },
+                    { clue: "TO ADDRESS", words: ["CALL","ASK","WELCOME","BID"], icon: "🗣️" }
                 ],
                 explanations: {
-                    "BID": "Auction offer / Bridge call / Price quote / Formal welcome",
+                    "BID": "Auction offer / Bridge call / Price quote / To address formally",
                     "GAVEL": "Auctioneer's hammer",
-                    "RAISE": "Increase bid / Bridge supporting bid",
+                    "RAISE": "Increase bid / Bridge bid",
                     "TRUMP": "Bridge suit",
-                    "ESTIMATE": "Pre-sale price / Approximate cost",
-                    "CALL": "Bridge call / Speaking act",
+                    "APPRAISAL": "Pre-auction valuation / Professional assessment",
+                    "CALL": "Bridge call / To summon or speak to",
                     "QUOTE": "Stated price",
-                    "REQUEST": "Direct ask",
-                    "WELCOME": "Formal greeting"
+                    "ASK": "Asking price / To request",
+                    "WELCOME": "To greet formally"
                 }
             },
             {
@@ -111,14 +111,14 @@
                 title: "The Punchline",
                 centerWord: "PUNCH",
                 solutions: [
-                    ["UPPERCUT", "RIPOSTE", "SKIT", "SMASH", "PUNCH", "BIT", "NEGRONI", "SCREWDRIVER", "AWL"],
-                    ["SKIT", "BIT", "AWL", "RIPOSTE", "PUNCH", "SCREWDRIVER", "UPPERCUT", "SMASH", "NEGRONI"],
-                    ["AWL", "SCREWDRIVER", "NEGRONI", "BIT", "PUNCH", "SMASH", "SKIT", "RIPOSTE", "UPPERCUT"],
-                    ["NEGRONI", "SMASH", "UPPERCUT", "SCREWDRIVER", "PUNCH", "RIPOSTE", "AWL", "BIT", "SKIT"],
-                    ["SKIT", "RIPOSTE", "UPPERCUT", "BIT", "PUNCH", "SMASH", "AWL", "SCREWDRIVER", "NEGRONI"],
-                    ["AWL", "BIT", "SKIT", "SCREWDRIVER", "PUNCH", "RIPOSTE", "NEGRONI", "SMASH", "UPPERCUT"],
-                    ["NEGRONI", "SCREWDRIVER", "AWL", "SMASH", "PUNCH", "BIT", "UPPERCUT", "RIPOSTE", "SKIT"],
-                    ["UPPERCUT", "SMASH", "NEGRONI", "RIPOSTE", "PUNCH", "SCREWDRIVER", "SKIT", "BIT", "AWL"]
+                    ["UPPERCUT","RIPOSTE","SKIT","SMASH","PUNCH","BIT","NEGRONI","SCREWDRIVER","AWL"],
+                    ["SKIT","BIT","AWL","RIPOSTE","PUNCH","SCREWDRIVER","UPPERCUT","SMASH","NEGRONI"],
+                    ["AWL","SCREWDRIVER","NEGRONI","BIT","PUNCH","SMASH","SKIT","RIPOSTE","UPPERCUT"],
+                    ["NEGRONI","SMASH","UPPERCUT","SCREWDRIVER","PUNCH","RIPOSTE","AWL","BIT","SKIT"],
+                    ["UPPERCUT","SMASH","NEGRONI","RIPOSTE","PUNCH","SCREWDRIVER","SKIT","BIT","AWL"],
+                    ["NEGRONI","SCREWDRIVER","AWL","SMASH","PUNCH","BIT","UPPERCUT","RIPOSTE","SKIT"],
+                    ["AWL","BIT","SKIT","SCREWDRIVER","PUNCH","RIPOSTE","NEGRONI","SMASH","UPPERCUT"],
+                    ["SKIT","RIPOSTE","UPPERCUT","BIT","PUNCH","SMASH","AWL","SCREWDRIVER","NEGRONI"]
                 ],
                 allWords: ["UPPERCUT", "RIPOSTE", "SKIT", "SMASH", "BIT", "NEGRONI", "SCREWDRIVER", "AWL"],
                 quadrantClues: [
@@ -128,15 +128,15 @@
                     { clue: "HAND TOOLS", words: ["PUNCH", "BIT", "SCREWDRIVER", "AWL"], icon: "🛠️" }
                 ],
                 explanations: {
-                    "UPPERCUT": "An upward boxing punch.",
-                    "RIPOSTE": "A quick counter-attack in fencing or boxing / A witty comeback.",
-                    "SKIT": "A short comedy sketch.",
-                    "SMASH": "A powerful hit in boxing / A cocktail with fruit and spirits.",
-                    "PUNCH": "A boxing strike / A comedy punchline / A fruity party drink / A tool for making holes.",
-                    "BIT": "A comedy routine / A drill attachment tool.",
-                    "NEGRONI": "An Italian cocktail with gin, vermouth, and Campari.",
-                    "SCREWDRIVER": "A vodka and orange juice cocktail / A tool for driving screws.",
-                    "AWL": "A pointed tool for making holes in leather or wood."
+                    "UPPERCUT": "Upward boxing punch",
+                    "RIPOSTE": "Counter-attack / Witty comeback",
+                    "SKIT": "Short comedy sketch",
+                    "SMASH": "Powerful hit / Fruit cocktail",
+                    "PUNCH": "Strike / Punchline / Drink / Tool",
+                    "BIT": "Comedy routine / Drill tool",
+                    "NEGRONI": "Italian cocktail",
+                    "SCREWDRIVER": "Vodka cocktail / Screw tool",
+                    "AWL": "Pointed hole tool"
                 }
             }
         ];
@@ -150,6 +150,7 @@
             const [solved, setSolved] = useState(false);
             const [showThemes, setShowThemes] = useState(false);
             const [showHelp, setShowHelp] = useState(false);
+            const [showMenu, setShowMenu] = useState(false);
             const [moves, setMoves] = useState(0);
 
             const puzzle = PUZZLES[puzzleIdx];
@@ -175,7 +176,6 @@
                 );
                 if (isSolved && !solved) {
                     setSolved(true);
-                    setShowThemes(true);
                 }
             }, [grid]);
 
@@ -184,6 +184,36 @@
                 if (word.length <= 8) return 'text-base';
                 if (word.length <= 10) return 'text-sm';
                 return 'text-xs';
+            };
+
+            const getQuadrantIcons = () => {
+                if (!solved) return null;
+                
+                // For each quadrant, find which theme it belongs to by checking the corner word
+                // Corner words belong to only one theme, so we can use them to identify the quadrant
+                
+                // Top-Left quadrant: position 0 is the corner
+                const tlCornerWord = grid[0];
+                const tlTheme = puzzle.quadrantClues.find(q => q.words.includes(tlCornerWord));
+                
+                // Top-Right quadrant: position 2 is the corner
+                const trCornerWord = grid[2];
+                const trTheme = puzzle.quadrantClues.find(q => q.words.includes(trCornerWord));
+                
+                // Bottom-Left quadrant: position 6 is the corner
+                const blCornerWord = grid[6];
+                const blTheme = puzzle.quadrantClues.find(q => q.words.includes(blCornerWord));
+                
+                // Bottom-Right quadrant: position 8 is the corner
+                const brCornerWord = grid[8];
+                const brTheme = puzzle.quadrantClues.find(q => q.words.includes(brCornerWord));
+                
+                return {
+                    tl: tlTheme?.icon || '?',
+                    tr: trTheme?.icon || '?',
+                    bl: blTheme?.icon || '?',
+                    br: brTheme?.icon || '?'
+                };
             };
 
             const handleCellClick = (idx) => {
@@ -227,7 +257,6 @@
             const solve = () => {
                 setGrid(puzzle.solutions[0]);
                 setSolved(true);
-                setShowThemes(true);
                 setSelected(null);
             };
 
@@ -246,17 +275,6 @@
             return (
                 <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4">
                     <div className="max-w-md mx-auto">
-                        {/* Header */}
-                        <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-6 mb-6">
-                            <div className="flex items-center gap-3">
-                                <span className="text-4xl">{puzzle.quadrantClues[0].icon}</span>
-                                <div>
-                                    <h1 className="text-2xl font-bold text-white">{puzzle.title}</h1>
-                                    <div className="text-blue-200 text-sm">Puzzle {puzzleIdx + 1} of {PUZZLES.length}</div>
-                                </div>
-                            </div>
-                        </div>
-
                         {/* Navigation */}
                         <div className="flex gap-3 mb-6">
                             <button
@@ -280,25 +298,42 @@
                         </div>
 
                         {/* Actions */}
-                        <div className="space-y-3 mb-6">
+                        <div className="flex gap-3 mb-6 relative">
                             <button onClick={() => setShowThemes(!showThemes)}
-                                className="w-full bg-purple-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2">
+                                className="flex-1 bg-purple-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2">
                                 <span className="text-xl">{showThemes ? '🙈' : '👁️'}</span>
-                                {showThemes ? 'Hide Themes' : 'View Themes'}
+                                <span className="text-sm">{showThemes ? 'Hide' : 'Themes'}</span>
                             </button>
-                            <button onClick={solve}
-                                className="w-full bg-green-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2">
-                                ✨ Solve Puzzle
+                            <button onClick={() => setShowHelp(true)}
+                                className="flex-1 bg-blue-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2">
+                                <span>📖</span>
+                                <span className="text-sm">How to Play</span>
                             </button>
-                            <button onClick={reset}
-                                className="w-full bg-gray-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2">
-                                🔄 Reset Puzzle
+                            <button onClick={() => setShowMenu(!showMenu)}
+                                className="flex-1 bg-blue-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2">
+                                <span className="text-sm">More</span>
+                                <span className="text-xl">⋮</span>
                             </button>
-                            <button onClick={() => setShowHelp(!showHelp)}
-                                className="w-full bg-blue-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2">
-                                📖 How to Play
-                            </button>
+                            
+                            {/* Dropdown Menu */}
+                            {showMenu && (
+                                <div className="absolute top-full right-0 mt-2 bg-white rounded-xl shadow-2xl overflow-hidden z-50 min-w-[180px]">
+                                    <button onClick={() => { reset(); setShowMenu(false); }}
+                                        className="w-full text-left px-4 py-3 hover:bg-gray-100 flex items-center gap-3 text-gray-700 font-semibold">
+                                        <span>🔄</span> Reset Puzzle
+                                    </button>
+                                    <button onClick={() => { solve(); setShowMenu(false); }}
+                                        className="w-full text-left px-4 py-3 hover:bg-gray-100 flex items-center gap-3 text-gray-700 font-semibold border-t border-gray-200">
+                                        <span>✨</span> Solve Puzzle
+                                    </button>
+                                </div>
+                            )}
                         </div>
+
+                        {/* Backdrop to close menu */}
+                        {showMenu && (
+                            <div className="fixed inset-0 z-40" onClick={() => setShowMenu(false)}></div>
+                        )}
 
                         {/* Help Modal */}
                         {showHelp && (
@@ -474,6 +509,17 @@
 
                         {/* Grid */}
                         <div className="bg-white rounded-2xl p-4 shadow-2xl">
+                            {/* Puzzle Title */}
+                            <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-2xl">{puzzle.quadrantClues[0].icon}</span>
+                                    <h2 className="text-lg font-bold text-gray-800">{puzzle.title}</h2>
+                                </div>
+                                <div className="text-sm text-gray-500 font-semibold">
+                                    {puzzleIdx + 1} of {PUZZLES.length}
+                                </div>
+                            </div>
+
                             {solved && (
                                 <div className="mb-4 text-center celebrate">
                                     <div className="text-4xl mb-2">🎉</div>
@@ -484,30 +530,33 @@
                             
                             <div className="grid grid-cols-3 gap-3 relative">
                                 {/* Quadrant Icons at Intersections (when solved) */}
-                                {solved && (
-                                    <>
-                                        {/* Top-left quadrant icon */}
-                                        <div className="absolute z-20 text-4xl pointer-events-none quadrant-icon-appear"
-                                            style={{ top: 'calc(33.333% - 24px)', left: 'calc(33.333% - 24px)' }}>
-                                            {puzzle.quadrantClues[0].icon}
-                                        </div>
-                                        {/* Top-right quadrant icon */}
-                                        <div className="absolute z-20 text-4xl pointer-events-none quadrant-icon-appear"
-                                            style={{ top: 'calc(33.333% - 24px)', left: 'calc(66.666% - 24px)', animationDelay: '0.1s' }}>
-                                            {puzzle.quadrantClues[1].icon}
-                                        </div>
-                                        {/* Bottom-left quadrant icon */}
-                                        <div className="absolute z-20 text-4xl pointer-events-none quadrant-icon-appear"
-                                            style={{ top: 'calc(66.666% - 24px)', left: 'calc(33.333% - 24px)', animationDelay: '0.2s' }}>
-                                            {puzzle.quadrantClues[2].icon}
-                                        </div>
-                                        {/* Bottom-right quadrant icon */}
-                                        <div className="absolute z-20 text-4xl pointer-events-none quadrant-icon-appear"
-                                            style={{ top: 'calc(66.666% - 24px)', left: 'calc(66.666% - 24px)', animationDelay: '0.3s' }}>
-                                            {puzzle.quadrantClues[3].icon}
-                                        </div>
-                                    </>
-                                )}
+                                {solved && (() => {
+                                    const icons = getQuadrantIcons();
+                                    return (
+                                        <>
+                                            {/* Top-left quadrant icon */}
+                                            <div className="absolute z-20 text-4xl pointer-events-none quadrant-icon-appear"
+                                                style={{ top: 'calc(33.333% - 24px)', left: 'calc(33.333% - 24px)' }}>
+                                                {icons.tl}
+                                            </div>
+                                            {/* Top-right quadrant icon */}
+                                            <div className="absolute z-20 text-4xl pointer-events-none quadrant-icon-appear"
+                                                style={{ top: 'calc(33.333% - 24px)', left: 'calc(66.666% - 24px)', animationDelay: '0.1s' }}>
+                                                {icons.tr}
+                                            </div>
+                                            {/* Bottom-left quadrant icon */}
+                                            <div className="absolute z-20 text-4xl pointer-events-none quadrant-icon-appear"
+                                                style={{ top: 'calc(66.666% - 24px)', left: 'calc(33.333% - 24px)', animationDelay: '0.2s' }}>
+                                                {icons.bl}
+                                            </div>
+                                            {/* Bottom-right quadrant icon */}
+                                            <div className="absolute z-20 text-4xl pointer-events-none quadrant-icon-appear"
+                                                style={{ top: 'calc(66.666% - 24px)', left: 'calc(66.666% - 24px)', animationDelay: '0.3s' }}>
+                                                {icons.br}
+                                            </div>
+                                        </>
+                                    );
+                                })()}
                                 {grid.map((word, idx) => {
                                     const isCenter = idx === 4;
                                     const isSelected = selected === idx;
@@ -515,6 +564,7 @@
                                     return (
                                         <div key={idx} onClick={() => handleCellClick(idx)}
                                             className={`aspect-square rounded-xl border-4 flex flex-col items-center justify-center transition-all relative
+                                                ${solved ? 'py-2 px-2' : 'py-4'}
                                                 ${isCenter ? 'locked-cell border-amber-500 cursor-not-allowed' : 
                                                   isSelected ? 'cell-selected' :
                                                   solved ? 'bg-green-50 border-green-400' :
@@ -532,6 +582,11 @@
                                                   isSelected ? 'text-white' : 'text-gray-800'}`}>
                                                 {word}
                                             </div>
+                                            {solved && puzzle.explanations[word] && (
+                                                <div className="text-[11px] text-gray-600 text-center mt-1 leading-tight px-1">
+                                                    {puzzle.explanations[word]}
+                                                </div>
+                                            )}
                                             {!isCenter && !solved && (
                                                 <div className="text-xs text-gray-400 mt-1">{idx + 1}</div>
                                             )}
@@ -551,21 +606,6 @@
                                 </div>
                             )}
                         </div>
-
-                        {/* Explanations */}
-                        {solved && (
-                            <div className="mt-6 bg-white rounded-2xl p-4">
-                                <h3 className="font-bold text-lg mb-3">Word Explanations</h3>
-                                <div className="space-y-2 text-sm">
-                                    {grid.map((word, idx) => (
-                                        <div key={idx}>
-                                            <span className="font-semibold">{word}:</span>{' '}
-                                            <span className="text-gray-700">{puzzle.explanations[word]}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
                     </div>
                 </div>
             );
