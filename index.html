@@ -598,7 +598,7 @@
                         )}
 
                         {/* COMPACT THEMES - NEW DESIGN */}
-                        {showThemes && !solved && (
+                        {showThemes && (
                             <div className="mb-6 bg-white/95 backdrop-blur rounded-2xl p-4">
                                 <div className="text-xs font-semibold text-gray-500 mb-3 text-center">
                                     {difficulty === 'easy' ? '⭐ EASY MODE - Themes & Words' : '⭐⭐ MEDIUM MODE - Themes Only'}
@@ -610,18 +610,20 @@
                                                 <span className="text-2xl">{q.icon}</span>
                                                 <span className="font-bold text-sm leading-tight">{q.clue}</span>
                                             </div>
-                                            {difficulty === 'easy' ? (
-                                                <div className="flex flex-wrap gap-1.5">
-                                                    {q.words.map((w, j) => (
-                                                        <span key={j} className="text-xs bg-gray-200 px-2 py-1 rounded font-semibold">
-                                                            {w}
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            ) : (
-                                                <div className="text-xs text-gray-500 italic">
-                                                    Find the 4 words for this theme
-                                                </div>
+                                            {!solved && (
+                                                difficulty === 'easy' ? (
+                                                    <div className="flex flex-wrap gap-1.5">
+                                                        {q.words.map((w, j) => (
+                                                            <span key={j} className="text-xs bg-gray-200 px-2 py-1 rounded font-semibold">
+                                                                {w}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                ) : (
+                                                    <div className="text-xs text-gray-500 italic">
+                                                        Find the 4 words for this theme
+                                                    </div>
+                                                )
                                             )}
                                         </div>
                                     ))}
@@ -631,24 +633,23 @@
 
                         {/* Grid */}
                         <div className="bg-white rounded-2xl p-4 shadow-2xl">
-                            {/* Puzzle Title */}
+                            {/* COMPACT HEADER - NEW DESIGN */}
                             <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
                                 <div className="flex items-center gap-2">
                                     <span className="text-2xl">{puzzle.titleIcon || puzzle.quadrantClues[0].icon}</span>
-                                    <h2 className="text-lg font-bold text-gray-800">{puzzle.title}</h2>
+                                    <div>
+                                        <h2 className="text-lg font-bold text-gray-800 leading-tight">{puzzle.title}</h2>
+                                        {solved && (
+                                            <div className="text-xs text-green-600 font-semibold flex items-center gap-1">
+                                                ✓ Solved in {moves} moves
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                                 <div className="text-sm text-gray-500 font-semibold">
                                     {puzzleIdx + 1} of {PUZZLES.length}
                                 </div>
                             </div>
-
-                            {solved && (
-                                <div className="mb-4 text-center celebrate">
-                                    <div className="text-4xl mb-2">🎉</div>
-                                    <div className="text-green-700 font-bold">Puzzle Solved!</div>
-                                    <div className="text-sm text-gray-600">Moves: {moves}</div>
-                                </div>
-                            )}
 
                             {/* Solution Rotation Controls */}
                             {solved && (
