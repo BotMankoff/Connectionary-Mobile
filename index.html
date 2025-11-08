@@ -53,25 +53,25 @@
         const PUZZLES = [
             {
                 id: 20,
-                title: "Drive Away",
+                title: "Torque n' Talk",
                 titleIcon: "🚗",
                 centerWord: "DRIVE",
                 solutions: [
-                    ["WHEEL","CRASH","MOUSE","STEER","DRIVE","EJECT","WRANGLE","SCATTER","REPEL"],
-                    ["MOUSE","EJECT","REPEL","CRASH","DRIVE","SCATTER","WHEEL","STEER","WRANGLE"],
-                    ["REPEL","SCATTER","WRANGLE","EJECT","DRIVE","STEER","MOUSE","CRASH","WHEEL"],
-                    ["WRANGLE","STEER","WHEEL","SCATTER","DRIVE","CRASH","REPEL","EJECT","MOUSE"],
-                    ["WHEEL","STEER","WRANGLE","CRASH","DRIVE","SCATTER","MOUSE","EJECT","REPEL"],
-                    ["WRANGLE","SCATTER","REPEL","STEER","DRIVE","EJECT","WHEEL","CRASH","MOUSE"],
-                    ["REPEL","EJECT","MOUSE","SCATTER","DRIVE","CRASH","WRANGLE","STEER","WHEEL"],
-                    ["MOUSE","CRASH","WHEEL","EJECT","DRIVE","STEER","REPEL","SCATTER","WRANGLE"]
+                    ["WHEEL","CRASH","MOUSE","STEER","DRIVE","EJECT","WRANGLE","CHASE","REPEL"],
+                    ["MOUSE","EJECT","REPEL","CRASH","DRIVE","CHASE","WHEEL","STEER","WRANGLE"],
+                    ["REPEL","CHASE","WRANGLE","EJECT","DRIVE","STEER","MOUSE","CRASH","WHEEL"],
+                    ["WRANGLE","STEER","WHEEL","CHASE","DRIVE","CRASH","REPEL","EJECT","MOUSE"],
+                    ["WHEEL","STEER","WRANGLE","CRASH","DRIVE","CHASE","MOUSE","EJECT","REPEL"],
+                    ["WRANGLE","CHASE","REPEL","STEER","DRIVE","EJECT","WHEEL","CRASH","MOUSE"],
+                    ["REPEL","EJECT","MOUSE","CHASE","DRIVE","CRASH","WRANGLE","STEER","WHEEL"],
+                    ["MOUSE","CRASH","WHEEL","EJECT","DRIVE","STEER","REPEL","CHASE","WRANGLE"]
                 ],
-                allWords: ["WHEEL","CRASH","MOUSE","STEER","EJECT","WRANGLE","SCATTER","REPEL"],
+                allWords: ["WHEEL","CRASH","MOUSE","STEER","EJECT","WRANGLE","CHASE","REPEL"],
                 quadrantClues: [
                     { clue: "VEHICLES", words: ["WHEEL","CRASH","STEER","DRIVE"], icon: "🚗" },
                     { clue: "COMPUTER/TECH", words: ["CRASH","MOUSE","DRIVE","EJECT"], icon: "💻" },
-                    { clue: "CATTLE HERDING", words: ["STEER","WRANGLE","SCATTER","DRIVE"], icon: "🤠" },
-                    { clue: "DRIVING AWAY", words: ["REPEL","SCATTER","EJECT","DRIVE"], icon: "🧹" }
+                    { clue: "CATTLE HERDING", words: ["STEER","WRANGLE","CHASE","DRIVE"], icon: "🤠" },
+                    { clue: "FORCE OUT", words: ["REPEL","CHASE","EJECT","DRIVE"], icon: "🧹" }
                 ],
                 explanations: {
                     "DRIVE": "Operate vehicle / Storage device / Herd cattle / Drive away",
@@ -81,30 +81,30 @@
                     "STEER": "Guide vehicle / Direct herd",
                     "EJECT": "Eject disk / Expel",
                     "WRANGLE": "Round up cattle",
-                    "SCATTER": "Disperse herd / Drive away",
+                    "CHASE": "Chase cattle / Chase away",
                     "REPEL": "Drive back"
                 }
             },
             {
                 id: 11,
-                title: "What's Your Bid?",
+                title: "Going Once, Partner",
                 titleIcon: "🔨",
                 centerWord: "BID",
                 solutions: [
-                    ["GAVEL","RAISE","TRUMP","APPRAISAL","BID","CALL","QUOTE","ASK","WELCOME"],
-                    ["TRUMP","CALL","WELCOME","RAISE","BID","ASK","GAVEL","APPRAISAL","QUOTE"],
-                    ["WELCOME","ASK","QUOTE","CALL","BID","APPRAISAL","TRUMP","RAISE","GAVEL"],
-                    ["QUOTE","APPRAISAL","GAVEL","ASK","BID","RAISE","WELCOME","CALL","TRUMP"],
-                    ["GAVEL","APPRAISAL","QUOTE","RAISE","BID","ASK","TRUMP","CALL","WELCOME"],
-                    ["QUOTE","ASK","WELCOME","APPRAISAL","BID","CALL","GAVEL","RAISE","TRUMP"],
-                    ["WELCOME","CALL","TRUMP","ASK","BID","RAISE","QUOTE","APPRAISAL","GAVEL"],
-                    ["TRUMP","RAISE","GAVEL","CALL","BID","APPRAISAL","WELCOME","ASK","QUOTE"]
+                    ["GAVEL","RAISE","TRUMP","ITEM","BID","CALL","QUOTE","ASK","WELCOME"],
+                    ["TRUMP","CALL","WELCOME","RAISE","BID","ASK","GAVEL","ITEM","QUOTE"],
+                    ["WELCOME","ASK","QUOTE","CALL","BID","ITEM","TRUMP","RAISE","GAVEL"],
+                    ["QUOTE","ITEM","GAVEL","ASK","BID","RAISE","WELCOME","CALL","TRUMP"],
+                    ["GAVEL","ITEM","QUOTE","RAISE","BID","ASK","TRUMP","CALL","WELCOME"],
+                    ["QUOTE","ASK","WELCOME","ITEM","BID","CALL","GAVEL","RAISE","TRUMP"],
+                    ["WELCOME","CALL","TRUMP","ASK","BID","RAISE","QUOTE","ITEM","GAVEL"],
+                    ["TRUMP","RAISE","GAVEL","CALL","BID","ITEM","WELCOME","ASK","QUOTE"]
                 ],
-                allWords: ["GAVEL","RAISE","TRUMP","APPRAISAL","CALL","QUOTE","ASK","WELCOME"],
+                allWords: ["GAVEL","RAISE","TRUMP","ITEM","CALL","QUOTE","ASK","WELCOME"],
                 quadrantClues: [
-                    { clue: "AUCTION", words: ["GAVEL","RAISE","APPRAISAL","BID"], icon: "🔨" },
+                    { clue: "AUCTION", words: ["GAVEL","RAISE","ITEM","BID"], icon: "🔨" },
                     { clue: "BRIDGE", words: ["RAISE","TRUMP","CALL","BID"], icon: "♠️" },
-                    { clue: "VALUATION", words: ["QUOTE","APPRAISAL","ASK","BID"], icon: "💲" },
+                    { clue: "COMMERCE", words: ["QUOTE","ASK","ITEM","BID"], icon: "💲" },
                     { clue: "TO ADDRESS", words: ["CALL","ASK","WELCOME","BID"], icon: "🗣️" }
                 ],
                 explanations: {
@@ -112,7 +112,7 @@
                     "GAVEL": "Auctioneer's hammer",
                     "RAISE": "Increase bid / Bridge bid",
                     "TRUMP": "Bridge suit",
-                    "APPRAISAL": "Pre-auction valuation / Professional assessment",
+                    "ITEM": "Item for auction / Item for sale",
                     "CALL": "Bridge call / To summon or speak to",
                     "QUOTE": "Stated price",
                     "ASK": "Asking price / To request",
@@ -121,41 +121,41 @@
             },
             {
                 id: 19,
-                title: "The Punchline",
-                titleIcon: "😂",
-                centerWord: "PUNCH",
+                title: "Squared Circle",
+                titleIcon: "🥊",
+                centerWord: "RING",
                 solutions: [
-                    ["UPPERCUT","RIPOSTE","SKIT","SMASH","PUNCH","BIT","NEGRONI","SCREWDRIVER","AWL"],
-                    ["SKIT","BIT","AWL","RIPOSTE","PUNCH","SCREWDRIVER","UPPERCUT","SMASH","NEGRONI"],
-                    ["AWL","SCREWDRIVER","NEGRONI","BIT","PUNCH","SMASH","SKIT","RIPOSTE","UPPERCUT"],
-                    ["NEGRONI","SMASH","UPPERCUT","SCREWDRIVER","PUNCH","RIPOSTE","AWL","BIT","SKIT"],
-                    ["UPPERCUT","SMASH","NEGRONI","RIPOSTE","PUNCH","SCREWDRIVER","SKIT","BIT","AWL"],
-                    ["NEGRONI","SCREWDRIVER","AWL","SMASH","PUNCH","BIT","UPPERCUT","RIPOSTE","SKIT"],
-                    ["AWL","BIT","SKIT","SCREWDRIVER","PUNCH","RIPOSTE","NEGRONI","SMASH","UPPERCUT"],
-                    ["SKIT","RIPOSTE","UPPERCUT","BIT","PUNCH","SMASH","AWL","SCREWDRIVER","NEGRONI"]
+                    ["HOOK","TITLE","AWARD","TELEGRAPH","RING","WATCH","CALL","WIRE","TAPE"],
+                    ["CALL","TELEGRAPH","HOOK","WIRE","RING","TITLE","TAPE","WATCH","AWARD"],
+                    ["AWARD","WATCH","TAPE","TITLE","RING","WIRE","HOOK","TELEGRAPH","CALL"],
+                    ["TAPE","WIRE","CALL","WATCH","RING","TELEGRAPH","AWARD","TITLE","HOOK"],
+                    ["AWARD","TITLE","HOOK","WATCH","RING","TELEGRAPH","TAPE","WIRE","CALL"],
+                    ["TAPE","WATCH","AWARD","WIRE","RING","TITLE","CALL","TELEGRAPH","HOOK"],
+                    ["CALL","WIRE","TAPE","TELEGRAPH","RING","WATCH","HOOK","TITLE","AWARD"],
+                    ["HOOK","TELEGRAPH","CALL","TITLE","RING","WIRE","AWARD","WATCH","TAPE"]
                 ],
-                allWords: ["UPPERCUT", "RIPOSTE", "SKIT", "SMASH", "BIT", "NEGRONI", "SCREWDRIVER", "AWL"],
+                allWords: ["HOOK", "TITLE", "AWARD", "TELEGRAPH", "WATCH", "CALL", "WIRE", "TAPE"],
                 quadrantClues: [
-                    { clue: "FIGHTING TERMS", words: ["UPPERCUT", "RIPOSTE", "SMASH", "PUNCH"], icon: "🤺" },
-                    { clue: "COMEDY TERMS", words: ["RIPOSTE", "SKIT", "PUNCH", "BIT"], icon: "😂" },
-                    { clue: "COCKTAILS", words: ["SMASH", "PUNCH", "NEGRONI", "SCREWDRIVER"], icon: "🍸" },
-                    { clue: "HAND TOOLS", words: ["PUNCH", "BIT", "SCREWDRIVER", "AWL"], icon: "🛠️" }
+                    { clue: "BOXING TERMS", words: ["HOOK", "TITLE", "TELEGRAPH", "RING"], icon: "🥊" },
+                    { clue: "ITEMS THAT CAN BE 'GIVEN'", words: ["TITLE", "AWARD", "WATCH", "RING"], icon: "🎁" },
+                    { clue: "VERBS OF COMMUNICATION", words: ["TELEGRAPH", "CALL", "WIRE", "RING"], icon: "💬" },
+                    { clue: "THINGS THAT ENCIRCLE", words: ["WATCH", "TAPE", "WIRE", "RING"], icon: "⭕" }
                 ],
                 explanations: {
-                    "UPPERCUT": "Upward boxing punch",
-                    "RIPOSTE": "Counter-attack / Witty comeback",
-                    "SKIT": "Short comedy sketch",
-                    "SMASH": "Powerful hit / Fruit cocktail",
-                    "PUNCH": "Strike / Punchline / Drink / Tool",
-                    "BIT": "Comedy routine / Drill tool",
-                    "NEGRONI": "Italian cocktail",
-                    "SCREWDRIVER": "Vodka cocktail / Screw tool",
-                    "AWL": "Pointed hole tool"
+                    "HOOK": "A type of punch in boxing.",
+                    "TITLE": "A boxing championship / An honor.",
+                    "AWARD": "Something given for achievement.",
+                    "TELEGRAPH": "To signal a punch / A method of communication.",
+                    "RING": "Boxing arena / A gift / To call someone / An encircling band.",
+                    "WATCH": "A gift item / Encircles the wrist.",
+                    "CALL": "To communicate by phone.",
+                    "WIRE": "To send a message or money / Forms loops and circles.",
+                    "TAPE": "Used to wrap or encircle things."
                 }
             },
             {
                 id: 4,
-                title: "Storm Warning",
+                title: "Fasten the Forecast",
                 titleIcon: "⛈️",
                 centerWord: "BOLT",
                 solutions: [
@@ -186,6 +186,40 @@
                     "SHEET": "Fabric / Rain sheet",
                     "HAIL": "Ice pellets"
                 }
+            },
+            {
+                id: 5,
+                title: "Quarry Query",
+                titleIcon: "🏛️",
+                centerWord: "STONE",
+                solutions: [
+                    ["BIRDIE","MARBLE","GRANITE","SEED","STONE","SLATE","PIT","BROWN","TAUPE"],
+                    ["PIT","SEED","BIRDIE","BROWN","STONE","MARBLE","TAUPE","SLATE","GRANITE"],
+                    ["TAUPE","BROWN","PIT","SLATE","STONE","SEED","GRANITE","MARBLE","BIRDIE"],
+                    ["GRANITE","SLATE","TAUPE","MARBLE","STONE","BROWN","BIRDIE","SEED","PIT"],
+                    ["GRANITE","MARBLE","BIRDIE","SLATE","STONE","SEED","TAUPE","BROWN","PIT"],
+                    ["TAUPE","SLATE","GRANITE","BROWN","STONE","MARBLE","PIT","SEED","BIRDIE"],
+                    ["BIRDIE","SEED","PIT","MARBLE","STONE","BROWN","GRANITE","SLATE","TAUPE"],
+                    ["PIT","BROWN","TAUPE","SEED","STONE","SLATE","BIRDIE","MARBLE","GRANITE"]
+                ],
+                allWords: ["BIRDIE","MARBLE","GRANITE","SEED","SLATE","PIT","BROWN","TAUPE"],
+                quadrantClues: [
+                    { clue: "SPORTS & GAMES TERMS", words: ["BIRDIE","MARBLE","SEED","STONE"], icon: "🏟️" },
+                    { clue: "BUILDING STONE MATERIALS", words: ["MARBLE","GRANITE","SLATE","STONE"], icon: "🏛️" },
+                    { clue: "KITCHEN PREP VERBS", words: ["SEED","STONE","PIT","BROWN"], icon: "🍳" },
+                    { clue: "COLOR WORDS", words: ["SLATE","STONE","BROWN","TAUPE"], icon: "🎨" }
+                ],
+                explanations: {
+                    "STONE": "Playing piece in Go or curling / Building material / To remove stone from fruit / A color",
+                    "BIRDIE": "Score of one under par in golf",
+                    "MARBLE": "Game piece / Type of stone",
+                    "GRANITE": "Type of building stone",
+                    "SEED": "Tournament ranking / To remove seeds from fruit",
+                    "SLATE": "Type of building stone / A color",
+                    "PIT": "To remove a pit from fruit",
+                    "BROWN": "To cook until brown / A color",
+                    "TAUPE": "A brownish-gray color"
+                }
             }
         ];
 
@@ -202,7 +236,7 @@
             const [moves, setMoves] = useState(0);
             const [solutionIndex, setSolutionIndex] = useState(0);
             const [userSolutionIndex, setUserSolutionIndex] = useState(null);
-            const [difficulty, setDifficulty] = useState('easy'); // 'easy' or 'medium'
+            const [difficulty, setDifficulty] = useState('easy'); // 'easy', 'medium', 'hard', or 'hardest'
 
             const puzzle = PUZZLES[puzzleIdx];
 
@@ -211,8 +245,14 @@
                 let shuffled;
                 // Keep shuffling until we get a starting position with NO correct quadrants
                 do {
-                    shuffled = [...puzzle.allWords].sort(() => Math.random() - 0.5);
-                    shuffled.splice(4, 0, puzzle.centerWord);
+                    if (difficulty === 'hardest') {
+                        // HARDEST MODE: Shuffle ALL words including center word randomly
+                        shuffled = [...puzzle.allWords, puzzle.centerWord].sort(() => Math.random() - 0.5);
+                    } else {
+                        // Normal modes: Lock center word at position 4
+                        shuffled = [...puzzle.allWords].sort(() => Math.random() - 0.5);
+                        shuffled.splice(4, 0, puzzle.centerWord);
+                    }
                 } while (hasAnyCorrectQuadrant(shuffled));
                 
                 setGrid(shuffled);
@@ -224,7 +264,7 @@
                 setShowThemes(false);
                 setSolutionIndex(0);
                 setUserSolutionIndex(null);
-            }, [puzzleIdx]);
+            }, [puzzleIdx, difficulty]); // Re-initialize when difficulty changes
 
             // Check solution
             useEffect(() => {
@@ -311,7 +351,8 @@
             };
 
             const checkPartialQuadrants = () => {
-                if (solved) return null;
+                // HARD/HARDEST MODE: No feedback icons until solved
+                if (solved || difficulty === 'hard' || difficulty === 'hardest') return null;
                 
                 const checkQuadrant = (positions) => {
                     // Identify position types
@@ -381,7 +422,9 @@
             };
 
             const handleCellClick = (idx) => {
-                if (idx === 4 || solved) return;
+                // HARDEST MODE: Allow clicking position 4 since center word is not locked
+                if (solved) return;
+                if (idx === 4 && difficulty !== 'hardest') return;
                 
                 if (selected === null) {
                     setSelected(idx);
@@ -415,8 +458,14 @@
                 let shuffled;
                 // Keep shuffling until we get a starting position with NO correct quadrants
                 do {
-                    shuffled = [...puzzle.allWords].sort(() => Math.random() - 0.5);
-                    shuffled.splice(4, 0, puzzle.centerWord);
+                    if (difficulty === 'hardest') {
+                        // HARDEST MODE: Shuffle ALL words including center word randomly
+                        shuffled = [...puzzle.allWords, puzzle.centerWord].sort(() => Math.random() - 0.5);
+                    } else {
+                        // Normal modes: Lock center word at position 4
+                        shuffled = [...puzzle.allWords].sort(() => Math.random() - 0.5);
+                        shuffled.splice(4, 0, puzzle.centerWord);
+                    }
                 } while (hasAnyCorrectQuadrant(shuffled));
                 
                 setGrid(shuffled);
@@ -477,6 +526,24 @@
                                 }`}>
                                 ⭐⭐ Medium
                             </button>
+                            <button
+                                onClick={() => setDifficulty('hard')}
+                                className={`flex-1 py-3 px-4 rounded-lg font-semibold transition-all ${
+                                    difficulty === 'hard' 
+                                        ? 'bg-red-600 text-white' 
+                                        : 'bg-gray-600 text-gray-300 opacity-60'
+                                }`}>
+                                ⭐⭐⭐ Hard
+                            </button>
+                            <button
+                                onClick={() => setDifficulty('hardest')}
+                                className={`flex-1 py-3 px-4 rounded-lg font-semibold transition-all ${
+                                    difficulty === 'hardest' 
+                                        ? 'bg-purple-600 text-white' 
+                                        : 'bg-gray-600 text-gray-300 opacity-60'
+                                }`}>
+                                ⭐⭐⭐⭐ Hardest
+                            </button>
                         </div>
 
                         {/* Menu Buttons */}
@@ -513,95 +580,87 @@
                         {/* Help Modal */}
                         {showHelp && (
                             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" onClick={() => setShowHelp(false)}>
-                                <div className="bg-white rounded-2xl p-6 max-w-lg max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-                                    <div className="flex justify-between items-start mb-4">
-                                        <h2 className="text-2xl font-bold text-gray-800">How to Play Connectionary</h2>
+                                <div className="bg-white rounded-2xl p-6 max-w-md" onClick={e => e.stopPropagation()}>
+                                    <div className="flex justify-between items-start mb-6">
+                                        <h2 className="text-2xl font-bold text-gray-800">How to Play</h2>
                                         <button onClick={() => setShowHelp(false)} className="text-gray-500 hover:text-gray-700 text-2xl">×</button>
                                     </div>
                                     
-                                    <div className="space-y-4 text-gray-700">
+                                    <div className="space-y-5 text-gray-700">
                                         <div>
-                                            <h3 className="font-bold text-lg mb-2">The Goal</h3>
-                                            <p>Arrange the 9 words in the grid so that each 2×2 quadrant (group of 4 cells) shares a common theme.</p>
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <span className="text-xl">🎯</span>
+                                                <h3 className="font-bold text-lg">Goal</h3>
+                                            </div>
+                                            <p>Arrange 9 words so each 2×2 corner shares a theme. Each theme quadrant must work with every other quadrant. Position matters - words overlap multiple corners!</p>
                                         </div>
 
                                         <div>
-                                            <h3 className="font-bold text-lg mb-2">Difficulty Levels</h3>
-                                            <p><strong>⭐ Easy Mode:</strong> See all 4 words that belong to each theme. Quadrant icons appear as you solve.</p>
-                                            <p className="mt-2"><strong>⭐⭐ Medium Mode:</strong> Only see theme names - you must figure out which words belong to each theme! Quadrant icons still appear when correct.</p>
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <span className="text-xl">📐</span>
+                                                <h3 className="font-bold text-lg">Example Corner</h3>
+                                            </div>
+                                            <div className="bg-gray-50 p-4 rounded-lg border-2 border-gray-200">
+                                                <div className="grid grid-cols-2 gap-2 mb-3">
+                                                    <div className="bg-white border-2 border-blue-400 rounded p-2 text-center font-bold text-sm">WHEEL</div>
+                                                    <div className="bg-white border-2 border-blue-400 rounded p-2 text-center font-bold text-sm">CRASH</div>
+                                                    <div className="bg-white border-2 border-blue-400 rounded p-2 text-center font-bold text-sm">STEER</div>
+                                                    <div className="bg-white border-2 border-blue-400 rounded p-2 text-center font-bold text-sm">DRIVE</div>
+                                                </div>
+                                                <div className="text-center text-sm">
+                                                    <span className="font-semibold">All 4 are VEHICLE words</span> ✓
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div>
-                                            <h3 className="font-bold text-lg mb-2">The Grid Layout</h3>
-                                            <pre className="bg-gray-100 p-3 rounded font-mono text-sm">
-[Corner] [Edge]   [Corner]
-[Edge]   [CENTER] [Edge]
-[Corner] [Edge]   [Corner]
-                                            </pre>
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <span className="text-xl">🎮</span>
+                                                <h3 className="font-bold text-lg">How</h3>
+                                            </div>
+                                            <p>Tap two words to swap positions.</p>
                                         </div>
 
                                         <div>
-                                            <h3 className="font-bold text-lg mb-2">Four Quadrants:</h3>
-                                            <ul className="list-disc pl-5 space-y-1">
-                                                <li><strong>Top-Left:</strong> Top-left corner, top edge, left edge, and CENTER</li>
-                                                <li><strong>Top-Right:</strong> Top edge, top-right corner, CENTER, and right edge</li>
-                                                <li><strong>Bottom-Left:</strong> Left edge, CENTER, bottom-left corner, and bottom edge</li>
-                                                <li><strong>Bottom-Right:</strong> CENTER, right edge, bottom edge, and bottom-right corner</li>
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <span className="text-xl">💡</span>
+                                                <h3 className="font-bold text-lg">Tip</h3>
+                                            </div>
+                                            <p>DRIVE (center) fits ALL 4 themes!</p>
+                                            <p className="mt-2 text-sm">Words may work as part of common phrases (e.g., "drive away" or "chase off").</p>
+                                        </div>
+
+                                        <div>
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <span className="text-xl">⭐</span>
+                                                <h3 className="font-bold text-lg">Difficulty Modes</h3>
+                                            </div>
+                                            <ul className="text-sm space-y-1 pl-5">
+                                                <li><strong>⭐ Easy:</strong> See all words per theme. Icons for solved quadrants</li>
+                                                <li><strong>⭐⭐ Medium:</strong> Same as above but no knowledge of theme words</li>
+                                                <li><strong>⭐⭐⭐ Hard:</strong> Same as Medium but no icons for solved quadrants</li>
+                                                <li><strong>⭐⭐⭐⭐ Hardest:</strong> Find the center word!</li>
                                             </ul>
                                         </div>
 
-                                        <div>
-                                            <h3 className="font-bold text-lg mb-2">How to Play</h3>
-                                            <p><strong>Tap two words to swap their positions.</strong> Keep swapping until all four quadrants are correct.</p>
-                                        </div>
-
-                                        <div>
-                                            <h3 className="font-bold text-lg mb-2">The Center Word 🔒</h3>
-                                            <p>The locked center word is special—it belongs to <strong>ALL FOUR themes</strong>. It has four different meanings that connect to each quadrant's theme.</p>
-                                        </div>
-
-                                        <div>
-                                            <h3 className="font-bold text-lg mb-2">Understanding Word Types</h3>
-                                            <p><strong>Corner Words</strong> (4 total): Each belongs to only ONE theme.</p>
-                                            <p className="mt-2"><strong>Edge Words</strong> (4 total): These are the tricky ones! Each edge word appears in TWO different quadrants, so it must have <strong>two different meanings</strong>—one for each theme it touches.</p>
-                                        </div>
-
-                                        <div>
-                                            <h3 className="font-bold text-lg mb-2">The Critical Rule</h3>
-                                            <p><strong>Words must work with EVERY quadrant they're part of.</strong></p>
-                                            <p className="mt-2">For example: An edge word appears in TWO quadrants, so it must have two meanings—one that fits each quadrant's theme. If it only fits one theme, it's in the wrong position.</p>
-                                        </div>
-
-                                        <div>
-                                            <h3 className="font-bold text-lg mb-2">Multiple Solutions</h3>
-                                            <p>There isn't just one correct arrangement! <strong>Many different arrangements can be valid</strong>, as long as all four quadrants have correct themes. The puzzle is solved when you find ANY arrangement where all quadrants work.</p>
-                                        </div>
-
-                                        <div>
-                                            <h3 className="font-bold text-lg mb-2">After Solving</h3>
-                                            <p>Once you solve the puzzle, you can use the <strong>← Prev / Next →</strong> buttons to rotate through all 8 valid solutions. Your solution will be marked with a ⭐ star!</p>
-                                        </div>
-
-                                        <div>
-                                            <h3 className="font-bold text-lg mb-2">Tips</h3>
-                                            <ul className="list-disc pl-5 space-y-1">
-                                                <li>Use "View Themes" to see what the four themes are</li>
-                                                <li>Edge words always have double meanings—that's your key clue!</li>
-                                                <li>The center word has four meanings, one for each theme</li>
-                                                <li>Corner words only need to fit one theme</li>
-                                                <li>If three quadrants work but one doesn't, keep swapping!</li>
-                                            </ul>
-                                        </div>
+                                        <button 
+                                            onClick={() => setShowHelp(false)}
+                                            className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                                            Start Playing!
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         )}
 
-                        {/* COMPACT THEMES - NEW DESIGN */}
-                        {showThemes && (
+                        {/* COMPACT THEMES - 2x2 GRID - ABOVE GRID WHEN UNSOLVED */}
+                        {!solved && showThemes && (
                             <div className="mb-6 bg-white/95 backdrop-blur rounded-2xl p-4">
                                 <div className="text-xs font-semibold text-gray-500 mb-3 text-center">
-                                    {difficulty === 'easy' ? '⭐ EASY MODE - Themes & Words' : '⭐⭐ MEDIUM MODE - Themes Only'}
+                                    {difficulty === 'easy' ? '⭐ EASY MODE - Themes & Words' : 
+                                     difficulty === 'medium' ? '⭐⭐ MEDIUM MODE - Themes Only' :
+                                     difficulty === 'hard' ? '⭐⭐⭐ HARD MODE - Themes Only, No Feedback!' :
+                                     '⭐⭐⭐⭐ HARDEST MODE - Themes Only, Find the Center Word!'}
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
                                     {puzzle.quadrantClues.map((q, i) => (
@@ -741,7 +800,7 @@
                                 {(() => {
                                     const displayGrid = solved ? puzzle.solutions[solutionIndex] : grid;
                                     return displayGrid.map((word, idx) => {
-                                        const isCenter = idx === 4;
+                                        const isCenter = idx === 4 && difficulty !== 'hardest'; // Hide center in hardest mode
                                         const isSelected = selected === idx;
                                         
                                         return (
@@ -790,6 +849,28 @@
                                 </div>
                             )}
                         </div>
+
+                        {/* COMPACT THEMES - 2x2 GRID - BELOW GRID WHEN SOLVED */}
+                        {solved && showThemes && (
+                            <div className="mt-6 bg-white/95 backdrop-blur rounded-2xl p-4">
+                                <div className="text-xs font-semibold text-gray-500 mb-3 text-center">
+                                    {difficulty === 'easy' ? '⭐ EASY MODE - Themes & Words' : 
+                                     difficulty === 'medium' ? '⭐⭐ MEDIUM MODE - Themes Only' :
+                                     difficulty === 'hard' ? '⭐⭐⭐ HARD MODE - Themes Only, No Feedback!' :
+                                     '⭐⭐⭐⭐ HARDEST MODE - Themes Only, Find the Center Word!'}
+                                </div>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {puzzle.quadrantClues.map((q, i) => (
+                                        <div key={i} className="border-2 border-gray-200 rounded-xl p-3 bg-gradient-to-br from-white to-gray-50">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <span className="text-2xl">{q.icon}</span>
+                                                <span className="font-bold text-sm leading-tight">{q.clue}</span>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             );
