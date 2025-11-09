@@ -69,7 +69,7 @@
                 allWords: ["WHEEL","CRASH","MOUSE","STEER","EJECT","WRANGLE","CHASE","REPEL"],
                 quadrantClues: [
                     { clue: "VEHICLES", words: ["WHEEL","CRASH","STEER","DRIVE"], icon: "🚗" },
-                    { clue: "COMPUTER/TECH", words: ["CRASH","MOUSE","DRIVE","EJECT"], icon: "💻" },
+                    { clue: "COMPUTERS", words: ["CRASH","MOUSE","DRIVE","EJECT"], icon: "💻" },
                     { clue: "CATTLE HERDING", words: ["STEER","WRANGLE","CHASE","DRIVE"], icon: "🤠" },
                     { clue: "FORCE OUT", words: ["REPEL","CHASE","EJECT","DRIVE"], icon: "🧹" }
                 ],
@@ -137,8 +137,8 @@
                 allWords: ["HOOK", "TITLE", "AWARD", "TELEGRAPH", "WATCH", "CALL", "WIRE", "TAPE"],
                 quadrantClues: [
                     { clue: "BOXING TERMS", words: ["HOOK", "TITLE", "TELEGRAPH", "RING"], icon: "🥊" },
-                    { clue: "ITEMS THAT CAN BE 'GIVEN'", words: ["TITLE", "AWARD", "WATCH", "RING"], icon: "🎁" },
-                    { clue: "VERBS OF COMMUNICATION", words: ["TELEGRAPH", "CALL", "WIRE", "RING"], icon: "💬" },
+                    { clue: "GIFTS", words: ["TITLE", "AWARD", "WATCH", "RING"], icon: "🎁" },
+                    { clue: "COMMUNICATION", words: ["TELEGRAPH", "CALL", "WIRE", "RING"], icon: "💬" },
                     { clue: "THINGS THAT ENCIRCLE", words: ["WATCH", "TAPE", "WIRE", "RING"], icon: "⭕" }
                 ],
                 explanations: {
@@ -172,8 +172,8 @@
                 quadrantClues: [
                     { clue: "MECHANICAL", words: ["AXLE","SPRING","PIN","BOLT"], icon: "🔩" },
                     { clue: "SUDDEN MOVEMENT", words: ["SPRING","DASH","BOLT","SURGE"], icon: "🏃" },
-                    { clue: "SEWING/FABRIC", words: ["PIN","BOLT","SEAM","SHEET"], icon: "🧵" },
-                    { clue: "WEATHER/STORM", words: ["BOLT","SURGE","SHEET","HAIL"], icon: "⛈️" }
+                    { clue: "SEWING", words: ["PIN","BOLT","SEAM","SHEET"], icon: "🧵" },
+                    { clue: "STORM", words: ["BOLT","SURGE","SHEET","HAIL"], icon: "⛈️" }
                 ],
                 explanations: {
                     "BOLT": "Fastener / Move suddenly / Fabric roll / Lightning",
@@ -204,9 +204,9 @@
                 ],
                 allWords: ["BIRDIE","MARBLE","GRANITE","SEED","SLATE","PIT","BROWN","TAUPE"],
                 quadrantClues: [
-                    { clue: "SPORTS & GAMES TERMS", words: ["BIRDIE","MARBLE","SEED","STONE"], icon: "🏟️" },
-                    { clue: "BUILDING STONE MATERIALS", words: ["MARBLE","GRANITE","SLATE","STONE"], icon: "🏛️" },
-                    { clue: "KITCHEN PREP VERBS", words: ["SEED","STONE","PIT","BROWN"], icon: "🍳" },
+                    { clue: "SPORTS & GAMES", words: ["BIRDIE","MARBLE","SEED","STONE"], icon: "🏟️" },
+                    { clue: "BUILDING STONE", words: ["MARBLE","GRANITE","SLATE","STONE"], icon: "🏛️" },
+                    { clue: "KITCHEN PREP", words: ["SEED","STONE","PIT","BROWN"], icon: "🍳" },
                     { clue: "COLOR WORDS", words: ["SLATE","STONE","BROWN","TAUPE"], icon: "🎨" }
                 ],
                 explanations: {
@@ -239,9 +239,9 @@
                 allWords: ["SCOOP","COPY","SERIF","SPIN","PLATE","STARCH","IRON","SQUAT"],
                 quadrantClues: [
                     { clue: "NEWS & MEDIA", words: ["SCOOP","COPY","SPIN","PRESS"], icon: "📰" },
-                    { clue: "PRINTING & TYPOGRAPHY", words: ["COPY","SERIF","PRESS","PLATE"], icon: "🖨️" },
-                    { clue: "LAUNDRY & GARMENT CARE", words: ["SPIN","PRESS","STARCH","IRON"], icon: "🧺" },
-                    { clue: "WEIGHTLIFTING & STRENGTH", words: ["PRESS","PLATE","IRON","SQUAT"], icon: "🏋️" }
+                    { clue: "PRINTING", words: ["COPY","SERIF","PRESS","PLATE"], icon: "🖨️" },
+                    { clue: "LAUNDRY", words: ["SPIN","PRESS","STARCH","IRON"], icon: "🧺" },
+                    { clue: "WEIGHTLIFTING", words: ["PRESS","PLATE","IRON","SQUAT"], icon: "🏋️" }
                 ],
                 explanations: {
                     "PRESS": "The news media collectively / A printing machine / To smooth clothes with heat and pressure / A weightlifting movement pushing weight overhead",
@@ -614,12 +614,22 @@
                         {/* Help Modal */}
                         {showHelp && (
                             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" onClick={() => setShowHelp(false)}>
-                                <div className="bg-white rounded-2xl p-6 max-w-md" onClick={e => e.stopPropagation()}>
-                                    <div className="flex justify-between items-start mb-6">
-                                        <h2 className="text-2xl font-bold text-gray-800">How to Play</h2>
-                                        <button onClick={() => setShowHelp(false)} className="text-gray-500 hover:text-gray-700 text-2xl">×</button>
+                                <div className="bg-white rounded-2xl max-w-md max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+                                    {/* Sticky header with close button */}
+                                    <div className="sticky top-0 bg-white rounded-t-2xl px-6 pt-6 pb-4 border-b border-gray-100 z-10">
+                                        <div className="flex justify-between items-start">
+                                            <h2 className="text-2xl font-bold text-gray-800">How to Play</h2>
+                                            <button onClick={() => setShowHelp(false)} 
+                                                className="text-gray-400 hover:text-gray-600 -mt-1 -mr-1 w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 active:bg-gray-200 transition-colors">
+                                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </div>
                                     
+                                    {/* Scrollable content */}
+                                    <div className="px-6 pb-6 pt-4">
                                     <div className="space-y-5 text-gray-700">
                                         <div>
                                             <div className="flex items-center gap-2 mb-2">
@@ -682,6 +692,7 @@
                                             className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">
                                             Start Playing!
                                         </button>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -840,7 +851,7 @@
                                         return (
                                             <div key={idx} onClick={() => handleCellClick(idx)}
                                                 className={`aspect-square rounded-xl border-4 flex flex-col items-center justify-center transition-all relative
-                                                    ${solved ? 'py-2 px-2' : 'py-4'}
+                                                    ${solved ? 'py-1 px-1' : 'py-4'}
                                                     ${isCenter ? 'locked-cell border-amber-500 cursor-not-allowed' : 
                                                       isSelected ? 'cell-selected' :
                                                       solved ? 'bg-green-50 border-green-400' :
@@ -852,14 +863,14 @@
                                                         </svg>
                                                     </div>
                                                 )}
-                                                <div className={`font-bold ${getFontSize(word)} text-center px-1 leading-tight
+                                                <div className={`font-bold ${getFontSize(word)} text-center px-0.5 leading-tight
                                                     ${isCenter ? 'text-amber-900' : 
                                                       solved ? 'text-green-800' : 
                                                       isSelected ? 'text-white' : 'text-gray-800'}`}>
                                                     {word}
                                                 </div>
                                                 {solved && puzzle.explanations[word] && (
-                                                    <div className="text-[11px] text-gray-600 text-center mt-1 leading-tight px-1">
+                                                    <div className="text-[10px] text-gray-600 text-center mt-0.5 leading-[1.2] px-0.5 w-full">
                                                         {puzzle.explanations[word]}
                                                     </div>
                                                 )}
