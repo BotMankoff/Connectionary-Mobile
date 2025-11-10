@@ -417,7 +417,7 @@
                     if (puzzleIdx === 0 && !hasCompletedPuzzle1) {
                         setHasCompletedPuzzle1(true);
                         localStorage.setItem('connectionary_v2_puzzle1', 'true');
-                        setTimeout(() => setShowModeExplorer(true), 1000); // Brief delay for celebration
+                        setTimeout(() => setShowModeExplorer(true), 15000); // Wait for celebration to complete (6 steps × 2.5s = 15s)
                     }
                 }
             }, [grid]);
@@ -967,53 +967,56 @@
                             </div>
                         )}
 
-                        {/* Quick Transition Banner - Slides in from top */}
+                        {/* Quick Transition Banner - Overlays the puzzle */}
                         {showTransitionBanner && (
-                            <div className="fixed top-0 left-0 right-0 z-50 slide-in-from-top">
-                                <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-2xl">
-                                    <div className="max-w-4xl mx-auto px-4 py-4">
-                                        <div className="flex flex-col gap-3">
-                                            <div className="text-center text-sm font-semibold opacity-90">
-                                                Ready for Puzzle #{puzzleIdx + 1}?
-                                            </div>
-                                            <div className="flex gap-2 justify-center items-center flex-wrap">
-                                                <button
-                                                    onClick={() => {
-                                                        setDifficulty('easy');
-                                                        setDifficultySelected(true);
-                                                        setShowTransitionBanner(false);
-                                                    }}
-                                                    className="px-6 py-3 bg-white/20 hover:bg-white/30 rounded-xl font-bold text-sm backdrop-blur-sm transition-all active:scale-95 border-2 border-white/30">
-                                                    ⭐ Easy
-                                                </button>
-                                                <button
-                                                    onClick={() => {
-                                                        setDifficulty('medium');
-                                                        setDifficultySelected(true);
-                                                        setShowTransitionBanner(false);
-                                                    }}
-                                                    className="px-6 py-3 bg-white/20 hover:bg-white/30 rounded-xl font-bold text-sm backdrop-blur-sm transition-all active:scale-95 border-2 border-white/30">
-                                                    ⭐⭐ Medium
-                                                </button>
-                                                <button
-                                                    onClick={() => {
-                                                        setDifficulty('hard');
-                                                        setDifficultySelected(true);
-                                                        setShowTransitionBanner(false);
-                                                    }}
-                                                    className="px-6 py-3 bg-white/20 hover:bg-white/30 rounded-xl font-bold text-sm backdrop-blur-sm transition-all active:scale-95 border-2 border-white/30">
-                                                    ⭐⭐⭐ Hard
-                                                </button>
-                                                <button
-                                                    onClick={() => {
-                                                        setDifficulty('hardest');
-                                                        setDifficultySelected(true);
-                                                        setShowTransitionBanner(false);
-                                                    }}
-                                                    className="px-6 py-3 bg-white/20 hover:bg-white/30 rounded-xl font-bold text-sm backdrop-blur-sm transition-all active:scale-95 border-2 border-white/30">
-                                                    ⭐⭐⭐⭐ Hardest
-                                                </button>
-                                            </div>
+                            <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+                                <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-3xl shadow-2xl p-8 max-w-md w-full">
+                                    <div className="flex flex-col gap-6">
+                                        <div className="text-center">
+                                            <h2 className="text-3xl font-bold text-white mb-2">
+                                                Puzzle #{puzzleIdx + 1}
+                                            </h2>
+                                            <p className="text-blue-100 text-lg">
+                                                Choose your difficulty
+                                            </p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <button
+                                                onClick={() => {
+                                                    setDifficulty('easy');
+                                                    setDifficultySelected(true);
+                                                    setShowTransitionBanner(false);
+                                                }}
+                                                className="py-4 bg-white/20 hover:bg-white/30 rounded-xl font-bold text-base backdrop-blur-sm transition-all active:scale-95 border-2 border-white/40 text-white">
+                                                ⭐ Easy
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    setDifficulty('medium');
+                                                    setDifficultySelected(true);
+                                                    setShowTransitionBanner(false);
+                                                }}
+                                                className="py-4 bg-white/20 hover:bg-white/30 rounded-xl font-bold text-base backdrop-blur-sm transition-all active:scale-95 border-2 border-white/40 text-white">
+                                                ⭐⭐ Medium
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    setDifficulty('hard');
+                                                    setDifficultySelected(true);
+                                                    setShowTransitionBanner(false);
+                                                }}
+                                                className="py-4 bg-white/20 hover:bg-white/30 rounded-xl font-bold text-base backdrop-blur-sm transition-all active:scale-95 border-2 border-white/40 text-white">
+                                                ⭐⭐⭐ Hard
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    setDifficulty('hardest');
+                                                    setDifficultySelected(true);
+                                                    setShowTransitionBanner(false);
+                                                }}
+                                                className="py-4 bg-white/20 hover:bg-white/30 rounded-xl font-bold text-base backdrop-blur-sm transition-all active:scale-95 border-2 border-white/40 text-white">
+                                                ⭐⭐⭐⭐ Hardest
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
