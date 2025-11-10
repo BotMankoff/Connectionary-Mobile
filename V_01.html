@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Connectionary Mobile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body { overscroll-behavior: none; }
+        .cell-selected {
+            background: #3B82F6 !important;
+            border-color: #2563EB !important;
+            transform: scale(0.95);
+        }
+        .locked-cell {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+        }
+        @keyframes celebration {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .celebrate { animation: celebration 0.5s ease-in-out 3; }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .quadrant-icon-appear {
+            animation: fadeInScale 0.5s ease-out forwards;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .fade-transition {
+            animation: fadeOut 0.15s ease-out, fadeIn 0.15s ease-in 0.15s;
+        }
+        @keyframes slideInFromTop {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .slide-in-from-top {
+            animation: slideInFromTop 0.3s ease-out forwards;
+        }
+        .quadrant-correct {
+            background: linear-gradient(135deg, #fef3c7, #fde68a) !important;
+            border-color: #f59e0b !important;
+        }
+        
+        /* Celebration highlighting - green for solved puzzle */
+        .celebration-highlight {
+            background: rgba(34, 197, 94, 0.3) !important;
+            animation: celebrationGlow 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes celebrationGlow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(34, 197, 94, 0.6);
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(34, 197, 94, 0.8);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const PUZZLES = [
+            {
+                id: 20,
+                title: "Torque n' Talk",
+                titleIcon: "🚗",
+                centerWord: "DRIVE",
+                solutions: [
+                    ["WHEEL","CRASH","MOUSE","STEER","DRIVE","EJECT","WRANGLE","CHASE","REPEL"],
+                    ["MOUSE","EJECT","REPEL","CRASH","DRIVE","CHASE","WHEEL","STEER","WRANGLE"],
+                    ["REPEL","CHASE","WRANGLE","EJECT","DRIVE","STEER","MOUSE","CRASH","WHEEL"],
+                    ["WRANGLE","STEER","WHEEL","CHASE","DRIVE","CRASH","REPEL","EJECT","MOUSE"],
+                    ["WHEEL","STEER","WRANGLE","CRASH","DRIVE","CHASE","MOUSE","EJECT","REPEL"],
+                    ["WRANGLE","CHASE","REPEL","STEER","DRIVE","EJECT","WHEEL","CRASH","MOUSE"],
+                    ["REPEL","EJECT","MOUSE","CHASE","DRIVE","CRASH","WRANGLE","STEER","WHEEL"],
+                    ["MOUSE","CRASH","WHEEL","EJECT","DRIVE","STEER","REPEL","CHASE","WRANGLE"]
+                ],
+                allWords: ["WHEEL","CRASH","MOUSE","STEER","EJECT","WRANGLE","CHASE","REPEL"],
+                quadrantClues: [
+                    { clue: "VEHICLES", words: ["WHEEL","CRASH","STEER","DRIVE"], icon: "🚗" },
+                    { clue: "COMPUTERS", words: ["CRASH","MOUSE","DRIVE","EJECT"], icon: "💻" },
+                    { clue: "CATTLE HERDING", words: ["STEER","WRANGLE","CHASE","DRIVE"], icon: "🤠" },
+                    { clue: "FORCE OUT", words: ["REPEL","CHASE","EJECT","DRIVE"], icon: "🧹" }
+                ],
+                explanations: {
+                    "DRIVE": "Operate vehicle / Storage device / Herd cattle / Drive away",
+                    "WHEEL": "Vehicle part",
+                    "CRASH": "Vehicle accident / System failure",
+                    "MOUSE": "Input device",
+                    "STEER": "Guide vehicle / Direct herd",
+                    "EJECT": "Eject disk / Expel",
+                    "WRANGLE": "Round up cattle",
+                    "CHASE": "Chase cattle / Chase away",
+                    "REPEL": "Drive back"
+                }
+            },
+            {
+                id: 11,
+                title: "Going Once, Partner",
+                titleIcon: "🔨",
+                centerWord: "BID",
+                solutions: [
+                    ["GAVEL","RAISE","TRUMP","ITEM","BID","CALL","QUOTE","ASK","WELCOME"],
+                    ["TRUMP","CALL","WELCOME","RAISE","BID","ASK","GAVEL","ITEM","QUOTE"],
+                    ["WELCOME","ASK","QUOTE","CALL","BID","ITEM","TRUMP","RAISE","GAVEL"],
+                    ["QUOTE","ITEM","GAVEL","ASK","BID","RAISE","WELCOME","CALL","TRUMP"],
+                    ["GAVEL","ITEM","QUOTE","RAISE","BID","ASK","TRUMP","CALL","WELCOME"],
+                    ["QUOTE","ASK","WELCOME","ITEM","BID","CALL","GAVEL","RAISE","TRUMP"],
+                    ["WELCOME","CALL","TRUMP","ASK","BID","RAISE","QUOTE","ITEM","GAVEL"],
+                    ["TRUMP","RAISE","GAVEL","CALL","BID","ITEM","WELCOME","ASK","QUOTE"]
+                ],
+                allWords: ["GAVEL","RAISE","TRUMP","ITEM","CALL","QUOTE","ASK","WELCOME"],
+                quadrantClues: [
+                    { clue: "AUCTION", words: ["GAVEL","RAISE","ITEM","BID"], icon: "🔨" },
+                    { clue: "BRIDGE", words: ["RAISE","TRUMP","CALL","BID"], icon: "♠️" },
+                    { clue: "COMMERCE", words: ["QUOTE","ASK","ITEM","BID"], icon: "💲" },
+                    { clue: "TO ADDRESS", words: ["CALL","ASK","WELCOME","BID"], icon: "🗣️" }
+                ],
+                explanations: {
+                    "BID": "Auction offer / Bridge call / Price quote / To address formally",
+                    "GAVEL": "Auctioneer's hammer",
+                    "RAISE": "Increase bid / Bridge bid",
+                    "TRUMP": "Bridge suit",
+                    "ITEM": "Item for auction / Item for sale",
+                    "CALL": "Bridge call / To summon or speak to",
+                    "QUOTE": "Stated price",
+                    "ASK": "Asking price / To request",
+                    "WELCOME": "To greet formally"
+                }
+            },
+            {
+                id: 19,
+                title: "Squared Circle",
+                titleIcon: "🥊",
+                centerWord: "RING",
+                solutions: [
+                    ["HOOK","TITLE","AWARD","TELEGRAPH","RING","WATCH","CALL","WIRE","TAPE"],
+                    ["CALL","TELEGRAPH","HOOK","WIRE","RING","TITLE","TAPE","WATCH","AWARD"],
+                    ["AWARD","WATCH","TAPE","TITLE","RING","WIRE","HOOK","TELEGRAPH","CALL"],
+                    ["TAPE","WIRE","CALL","WATCH","RING","TELEGRAPH","AWARD","TITLE","HOOK"],
+                    ["AWARD","TITLE","HOOK","WATCH","RING","TELEGRAPH","TAPE","WIRE","CALL"],
+                    ["TAPE","WATCH","AWARD","WIRE","RING","TITLE","CALL","TELEGRAPH","HOOK"],
+                    ["CALL","WIRE","TAPE","TELEGRAPH","RING","WATCH","HOOK","TITLE","AWARD"],
+                    ["HOOK","TELEGRAPH","CALL","TITLE","RING","WIRE","AWARD","WATCH","TAPE"]
+                ],
+                allWords: ["HOOK", "TITLE", "AWARD", "TELEGRAPH", "WATCH", "CALL", "WIRE", "TAPE"],
+                quadrantClues: [
+                    { clue: "BOXING TERMS", words: ["HOOK", "TITLE", "TELEGRAPH", "RING"], icon: "🥊" },
+                    { clue: "GIFTS", words: ["TITLE", "AWARD", "WATCH", "RING"], icon: "🎁" },
+                    { clue: "COMMUNICATION", words: ["TELEGRAPH", "CALL", "WIRE", "RING"], icon: "💬" },
+                    { clue: "THINGS THAT ENCIRCLE", words: ["WATCH", "TAPE", "WIRE", "RING"], icon: "⭕" }
+                ],
+                explanations: {
+                    "HOOK": "A type of punch in boxing.",
+                    "TITLE": "A boxing championship / An honor.",
+                    "AWARD": "Something given for achievement.",
+                    "TELEGRAPH": "To signal a punch / A method of communication.",
+                    "RING": "Boxing arena / A gift / To call someone / An encircling band.",
+                    "WATCH": "A gift item / Encircles the wrist.",
+                    "CALL": "To communicate by phone.",
+                    "WIRE": "To send a message or money / Forms loops and circles.",
+                    "TAPE": "Used to wrap or encircle things."
+                }
+            },
+            {
+                id: 4,
+                title: "Fasten the Forecast",
+                titleIcon: "⛈️",
+                centerWord: "BOLT",
+                solutions: [
+                    ["AXLE","SPRING","DASH","PIN","BOLT","SURGE","SEAM","SHEET","HAIL"],
+                    ["DASH","SURGE","HAIL","SPRING","BOLT","SHEET","AXLE","PIN","SEAM"],
+                    ["HAIL","SHEET","SEAM","SURGE","BOLT","PIN","DASH","SPRING","AXLE"],
+                    ["SEAM","PIN","AXLE","SHEET","BOLT","SPRING","HAIL","SURGE","DASH"],
+                    ["AXLE","PIN","SEAM","SPRING","BOLT","SHEET","DASH","SURGE","HAIL"],
+                    ["SEAM","SHEET","HAIL","PIN","BOLT","SURGE","AXLE","SPRING","DASH"],
+                    ["HAIL","SURGE","DASH","SHEET","BOLT","SPRING","SEAM","PIN","AXLE"],
+                    ["DASH","SPRING","AXLE","SURGE","BOLT","PIN","HAIL","SHEET","SEAM"]
+                ],
+                allWords: ["AXLE","SPRING","DASH","PIN","SURGE","SEAM","SHEET","HAIL"],
+                quadrantClues: [
+                    { clue: "MECHANICAL", words: ["AXLE","SPRING","PIN","BOLT"], icon: "🔩" },
+                    { clue: "SUDDEN MOVEMENT", words: ["SPRING","DASH","BOLT","SURGE"], icon: "🏃" },
+                    { clue: "SEWING", words: ["PIN","BOLT","SEAM","SHEET"], icon: "🧵" },
+                    { clue: "STORM", words: ["BOLT","SURGE","SHEET","HAIL"], icon: "⛈️" }
+                ],
+                explanations: {
+                    "BOLT": "Fastener / Move suddenly / Fabric roll / Lightning",
+                    "AXLE": "Rotating shaft",
+                    "SPRING": "Mechanical coil / Jump suddenly",
+                    "DASH": "Rush quickly",
+                    "PIN": "Fastener / Sewing tool",
+                    "SURGE": "Rush forward / Storm surge",
+                    "SEAM": "Stitched joint",
+                    "SHEET": "Fabric / Rain sheet",
+                    "HAIL": "Ice pellets"
+                }
+            },
+            {
+                id: 5,
+                title: "Quarry Query",
+                titleIcon: "🏛️",
+                centerWord: "STONE",
+                solutions: [
+                    ["BIRDIE","MARBLE","GRANITE","SEED","STONE","SLATE","PIT","BROWN","TAUPE"],
+                    ["PIT","SEED","BIRDIE","BROWN","STONE","MARBLE","TAUPE","SLATE","GRANITE"],
+                    ["TAUPE","BROWN","PIT","SLATE","STONE","SEED","GRANITE","MARBLE","BIRDIE"],
+                    ["GRANITE","SLATE","TAUPE","MARBLE","STONE","BROWN","BIRDIE","SEED","PIT"],
+                    ["GRANITE","MARBLE","BIRDIE","SLATE","STONE","SEED","TAUPE","BROWN","PIT"],
+                    ["TAUPE","SLATE","GRANITE","BROWN","STONE","MARBLE","PIT","SEED","BIRDIE"],
+                    ["BIRDIE","SEED","PIT","MARBLE","STONE","BROWN","GRANITE","SLATE","TAUPE"],
+                    ["PIT","BROWN","TAUPE","SEED","STONE","SLATE","BIRDIE","MARBLE","GRANITE"]
+                ],
+                allWords: ["BIRDIE","MARBLE","GRANITE","SEED","SLATE","PIT","BROWN","TAUPE"],
+                quadrantClues: [
+                    { clue: "SPORTS & GAMES", words: ["BIRDIE","MARBLE","SEED","STONE"], icon: "🏟️" },
+                    { clue: "BUILDING STONE", words: ["MARBLE","GRANITE","SLATE","STONE"], icon: "🏛️" },
+                    { clue: "KITCHEN PREP", words: ["SEED","STONE","PIT","BROWN"], icon: "🍳" },
+                    { clue: "COLOR WORDS", words: ["SLATE","STONE","BROWN","TAUPE"], icon: "🎨" }
+                ],
+                explanations: {
+                    "STONE": "Playing piece in Go or curling / Building material / To remove stone from fruit / A color",
+                    "BIRDIE": "Score of one under par in golf",
+                    "MARBLE": "Game piece / Type of stone",
+                    "GRANITE": "Type of building stone",
+                    "SEED": "Tournament ranking / To remove seeds from fruit",
+                    "SLATE": "Type of building stone / A color",
+                    "PIT": "To remove a pit from fruit",
+                    "BROWN": "To cook until brown / A color",
+                    "TAUPE": "A brownish-gray color"
+                }
+            },
+            {
+                id: 6,
+                title: "Start the Presses",
+                titleIcon: "📰",
+                centerWord: "PRESS",
+                solutions: [
+                    ["SCOOP","COPY","SERIF","SPIN","PRESS","PLATE","STARCH","IRON","SQUAT"],
+                    ["STARCH","SPIN","SCOOP","IRON","PRESS","COPY","SQUAT","PLATE","SERIF"],
+                    ["SQUAT","IRON","STARCH","PLATE","PRESS","SPIN","SERIF","COPY","SCOOP"],
+                    ["SERIF","PLATE","SQUAT","COPY","PRESS","IRON","SCOOP","SPIN","STARCH"],
+                    ["SERIF","COPY","SCOOP","PLATE","PRESS","SPIN","SQUAT","IRON","STARCH"],
+                    ["SQUAT","PLATE","SERIF","IRON","PRESS","COPY","STARCH","SPIN","SCOOP"],
+                    ["STARCH","IRON","SQUAT","SPIN","PRESS","PLATE","SCOOP","COPY","SERIF"],
+                    ["SCOOP","SPIN","STARCH","COPY","PRESS","IRON","SERIF","PLATE","SQUAT"]
+                ],
+                allWords: ["SCOOP","COPY","SERIF","SPIN","PLATE","STARCH","IRON","SQUAT"],
+                quadrantClues: [
+                    { clue: "NEWS & MEDIA", words: ["SCOOP","COPY","SPIN","PRESS"], icon: "📰" },
+                    { clue: "PRINTING", words: ["COPY","SERIF","PRESS","PLATE"], icon: "🖨️" },
+                    { clue: "LAUNDRY", words: ["SPIN","PRESS","STARCH","IRON"], icon: "🧺" },
+                    { clue: "WEIGHTLIFTING", words: ["PRESS","PLATE","IRON","SQUAT"], icon: "🏋️" }
+                ],
+                explanations: {
+                    "PRESS": "The news media collectively / A printing machine / To smooth clothes with heat and pressure / A weightlifting movement pushing weight overhead",
+                    "SCOOP": "An exclusive news story obtained before competitors",
+                    "COPY": "Written material for publication / Text prepared for printing",
+                    "SERIF": "A small decorative stroke on letters in certain typefaces",
+                    "SPIN": "To present news with a particular bias or angle / The rotating cycle in a washing machine",
+                    "PLATE": "A flat metal sheet used in printing / A weighted disc used in weightlifting",
+                    "STARCH": "A substance used to stiffen fabric during laundering",
+                    "IRON": "A heated tool for pressing clothes / Weightlifting equipment ('pumping iron')",
+                    "SQUAT": "A fundamental strength exercise lowering the body by bending the knees"
+                }
+            },
+            {
+                id: 7,
+                title: "Punchdrunk",
+                titleIcon: "🥊",
+                centerWord: "PUNCH",
+                solutions: [
+                    ["UPPERCUT","RIPOSTE","SKIT","SMASH","PUNCH","BIT","NEGRONI","SCREWDRIVER","AWL"],
+                    ["SKIT","BIT","AWL","RIPOSTE","PUNCH","SCREWDRIVER","UPPERCUT","SMASH","NEGRONI"],
+                    ["AWL","SCREWDRIVER","NEGRONI","BIT","PUNCH","SMASH","SKIT","RIPOSTE","UPPERCUT"],
+                    ["NEGRONI","SMASH","UPPERCUT","SCREWDRIVER","PUNCH","RIPOSTE","AWL","BIT","SKIT"],
+                    ["SKIT","RIPOSTE","UPPERCUT","BIT","PUNCH","SMASH","AWL","SCREWDRIVER","NEGRONI"],
+                    ["AWL","BIT","SKIT","SCREWDRIVER","PUNCH","RIPOSTE","NEGRONI","SMASH","UPPERCUT"],
+                    ["NEGRONI","SCREWDRIVER","AWL","SMASH","PUNCH","BIT","UPPERCUT","RIPOSTE","SKIT"],
+                    ["UPPERCUT","SMASH","NEGRONI","RIPOSTE","PUNCH","SCREWDRIVER","SKIT","BIT","AWL"]
+                ],
+                allWords: ["UPPERCUT","RIPOSTE","SKIT","SMASH","BIT","NEGRONI","SCREWDRIVER","AWL"],
+                quadrantClues: [
+                    { clue: "FIGHTING TERMS", words: ["UPPERCUT","RIPOSTE","SMASH","PUNCH"], icon: "🤺" },
+                    { clue: "COMEDY TERMS", words: ["RIPOSTE","SKIT","PUNCH","BIT"], icon: "😂" },
+                    { clue: "COCKTAILS", words: ["SMASH","PUNCH","NEGRONI","SCREWDRIVER"], icon: "🍸" },
+                    { clue: "HAND TOOLS", words: ["PUNCH","BIT","SCREWDRIVER","AWL"], icon: "🛠️" }
+                ],
+                explanations: {
+                    "PUNCH": "Boxing strike / Comedy punchline / Fruity party drink / Tool for making holes",
+                    "UPPERCUT": "Upward boxing punch",
+                    "RIPOSTE": "Quick counter-attack / Witty comeback",
+                    "SKIT": "Short comedy sketch",
+                    "SMASH": "Powerful hit / Cocktail with fruit",
+                    "BIT": "Comedy routine / Drill attachment",
+                    "NEGRONI": "Italian cocktail",
+                    "SCREWDRIVER": "Vodka cocktail / Tool for screws",
+                    "AWL": "Pointed tool for holes"
+                }
+            }
+        ];
+
+        function App() {
+            const [puzzleIdx, setPuzzleIdx] = useState(0);
+            const [grid, setGrid] = useState([]);
+            const [selected, setSelected] = useState(null);
+            const [history, setHistory] = useState([]);
+            const [historyIdx, setHistoryIdx] = useState(-1);
+            const [solved, setSolved] = useState(false);
+            const [showThemes, setShowThemes] = useState(false);
+            const [showHelp, setShowHelp] = useState(false);
+            const [showMenu, setShowMenu] = useState(false);
+            const [moves, setMoves] = useState(0);
+            const [solutionIndex, setSolutionIndex] = useState(0);
+            const [userSolutionIndex, setUserSolutionIndex] = useState(null);
+            const [difficulty, setDifficulty] = useState('easy'); // Default to easy for first puzzle learning
+            const [difficultySelected, setDifficultySelected] = useState(false);
+            const [showTransitionBanner, setShowTransitionBanner] = useState(false);
+            
+            // Welcome and onboarding states
+            const [showWelcome, setShowWelcome] = useState(() => {
+                // Check URL parameter for testing
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get('welcome') === 'true') return true;
+                
+                // Check if user opted out of welcome screen
+                const dontShowAgain = localStorage.getItem('connectionary_v2_hide_welcome') === 'true';
+                return !dontShowAgain; // Show welcome unless user opted out
+            });
+            const [dontShowWelcome, setDontShowWelcome] = useState(false);
+            const [showModeExplorer, setShowModeExplorer] = useState(false);
+            const [hasCompletedPuzzle1, setHasCompletedPuzzle1] = useState(() => {
+                return localStorage.getItem('connectionary_v2_puzzle1') === 'true';
+            });
+            const [correctQuadrants, setCorrectQuadrants] = useState({
+                tl: false,
+                tr: false,
+                bl: false,
+                br: false
+            });
+            const [celebrationStep, setCelebrationStep] = useState(-1); // -1=not started, 0=delay, 1-4=spotlight quadrants, 5=all green
+
+            const puzzle = PUZZLES[puzzleIdx];
+
+            // Auto-select difficulty for Puzzle #1 on first visit
+            useEffect(() => {
+                if (puzzleIdx === 0 && !hasCompletedPuzzle1 && !showWelcome) {
+                    setDifficultySelected(true);
+                    setDifficulty('easy');
+                }
+            }, [puzzleIdx, showWelcome]);
+
+            // Initialize puzzle
+            useEffect(() => {
+                let shuffled;
+                // Keep shuffling until we get a starting position with NO correct quadrants
+                do {
+                    if (difficulty === 'hardest') {
+                        // HARDEST MODE: Shuffle ALL words including center word randomly
+                        shuffled = [...puzzle.allWords, puzzle.centerWord].sort(() => Math.random() - 0.5);
+                    } else {
+                        // Normal modes: Lock center word at position 4
+                        shuffled = [...puzzle.allWords].sort(() => Math.random() - 0.5);
+                        shuffled.splice(4, 0, puzzle.centerWord);
+                    }
+                } while (hasAnyCorrectQuadrant(shuffled));
+                
+                setGrid(shuffled);
+                setHistory([shuffled]);
+                setHistoryIdx(0);
+                setSolved(false);
+                setSelected(null);
+                setMoves(0);
+                setShowThemes(false);
+                setSolutionIndex(0);
+                setUserSolutionIndex(null);
+                setCorrectQuadrants({ tl: false, tr: false, bl: false, br: false });
+                setCelebrationStep(-1); // Reset celebration
+            }, [puzzleIdx, difficulty]); // Re-initialize when difficulty changes
+
+            // Check solution
+            useEffect(() => {
+                if (grid.length === 0) return;
+                const solIndex = puzzle.solutions.findIndex(sol => 
+                    JSON.stringify(sol) === JSON.stringify(grid)
+                );
+                if (solIndex !== -1 && !solved) {
+                    setSolved(true);
+                    setUserSolutionIndex(solIndex);
+                    setSolutionIndex(solIndex);
+                    setShowThemes(true);
+                    
+                    // Show mode explorer after completing Puzzle #1 for the first time
+                    if (puzzleIdx === 0 && !hasCompletedPuzzle1) {
+                        setHasCompletedPuzzle1(true);
+                        localStorage.setItem('connectionary_v2_puzzle1', 'true');
+                        setTimeout(() => setShowModeExplorer(true), 1000); // Brief delay for celebration
+                    }
+                }
+            }, [grid]);
+
+            // Celebration sequence effect - triggers when puzzle is solved
+            useEffect(() => {
+                if (solved && celebrationStep === -1) {
+                    // Sequence: 0=delay, 1-4=spotlight each quadrant, 5=all green
+                    const sequence = [0, 1, 2, 3, 4, 5];
+                    let currentIndex = 0;
+                    
+                    const interval = setInterval(() => {
+                        currentIndex++;
+                        if (currentIndex < sequence.length) {
+                            setCelebrationStep(sequence[currentIndex]);
+                        } else {
+                            clearInterval(interval);
+                        }
+                    }, 2500); // 2.5 seconds per step
+                    
+                    return () => clearInterval(interval);
+                }
+            }, [solved]); // Only depend on solved, not celebrationStep
+
+            const getFontSize = (word) => {
+                if (word.length <= 5) return 'text-lg';
+                if (word.length <= 8) return 'text-base';
+                if (word.length <= 10) return 'text-sm';
+                return 'text-xs';
+            };
+
+            const getQuadrantIcons = (displayGrid) => {
+                if (!solved) return null;
+                
+                const tlCornerWord = displayGrid[0];
+                const tlTheme = puzzle.quadrantClues.find(q => q.words.includes(tlCornerWord));
+                
+                const trCornerWord = displayGrid[2];
+                const trTheme = puzzle.quadrantClues.find(q => q.words.includes(trCornerWord));
+                
+                const blCornerWord = displayGrid[6];
+                const blTheme = puzzle.quadrantClues.find(q => q.words.includes(blCornerWord));
+                
+                const brCornerWord = displayGrid[8];
+                const brTheme = puzzle.quadrantClues.find(q => q.words.includes(brCornerWord));
+                
+                return {
+                    tl: tlTheme?.icon || '?',
+                    tr: trTheme?.icon || '?',
+                    bl: blTheme?.icon || '?',
+                    br: brTheme?.icon || '?'
+                };
+            };
+
+            const hasAnyCorrectQuadrant = (testGrid) => {
+                const checkQuadrant = (positions) => {
+                    const cornerPos = positions.find(p => [0, 2, 6, 8].includes(p));
+                    const edgePositions = positions.filter(p => [1, 3, 5, 7].includes(p));
+                    const centerPos = 4;
+                    
+                    // FIX: Changed from !cornerPos to cornerPos === undefined
+                    if (cornerPos === undefined || edgePositions.length !== 2) return false;
+                    
+                    const currentCorner = testGrid[cornerPos];
+                    const currentEdge1 = testGrid[edgePositions[0]];
+                    const currentEdge2 = testGrid[edgePositions[1]];
+                    const currentCenter = testGrid[centerPos];
+                    const currentEdgesSorted = [currentEdge1, currentEdge2].sort();
+                    
+                    // Check against each solution
+                    for (const solution of puzzle.solutions) {
+                        const solutionCorner = solution[cornerPos];
+                        const solutionEdge1 = solution[edgePositions[0]];
+                        const solutionEdge2 = solution[edgePositions[1]];
+                        const solutionCenter = solution[centerPos];
+                        const solutionEdgesSorted = [solutionEdge1, solutionEdge2].sort();
+                        
+                        // Match if corner, center, and both edges match (edges can be swapped)
+                        if (currentCorner === solutionCorner &&
+                            currentCenter === solutionCenter &&
+                            currentEdgesSorted[0] === solutionEdgesSorted[0] &&
+                            currentEdgesSorted[1] === solutionEdgesSorted[1]) {
+                            return true;
+                        }
+                    }
+                    return false;
+                };
+                
+                return checkQuadrant([0, 1, 3, 4]) || 
+                       checkQuadrant([1, 2, 4, 5]) || 
+                       checkQuadrant([3, 4, 6, 7]) || 
+                       checkQuadrant([4, 5, 7, 8]);
+            };
+
+            const checkPartialQuadrants = () => {
+                // HARD/HARDEST MODE: No feedback icons until solved
+                if (solved || difficulty === 'hard' || difficulty === 'hardest') return null;
+                
+                const checkQuadrant = (positions) => {
+                    // Identify position types
+                    const cornerPos = positions.find(p => [0, 2, 6, 8].includes(p));
+                    const edgePositions = positions.filter(p => [1, 3, 5, 7].includes(p));
+                    const centerPos = 4;
+                    
+                    // FIX: Changed from !cornerPos to cornerPos === undefined
+                    // because position 0 is falsy in JavaScript
+                    if (cornerPos === undefined || edgePositions.length !== 2) return null;
+                    
+                    // Get current words
+                    const currentCorner = grid[cornerPos];
+                    const currentEdge1 = grid[edgePositions[0]];
+                    const currentEdge2 = grid[edgePositions[1]];
+                    const currentCenter = grid[centerPos];
+                    
+                    // Sort edge words for comparison (order doesn't matter)
+                    const currentEdgesSorted = [currentEdge1, currentEdge2].sort();
+                    
+                    // Compare against each solution
+                    for (const solution of puzzle.solutions) {
+                        const solutionCorner = solution[cornerPos];
+                        const solutionEdge1 = solution[edgePositions[0]];
+                        const solutionEdge2 = solution[edgePositions[1]];
+                        const solutionCenter = solution[centerPos];
+                        
+                        // Sort solution edge words
+                        const solutionEdgesSorted = [solutionEdge1, solutionEdge2].sort();
+                        
+                        // Check if this quadrant matches:
+                        // - Corner must match exactly (same position)
+                        // - Center must match exactly (same position)
+                        // - Edge words must be the same 2 words (can be in either order)
+                        if (currentCorner === solutionCorner &&
+                            currentCenter === solutionCenter &&
+                            currentEdgesSorted[0] === solutionEdgesSorted[0] &&
+                            currentEdgesSorted[1] === solutionEdgesSorted[1]) {
+                            
+                            // Found a match! Identify theme by corner word
+                            const theme = puzzle.quadrantClues.find(q => {
+                                if (!q.words.includes(solutionCorner)) return false;
+                                
+                                // Verify it's a corner word (appears in only 1 theme)
+                                const themeCount = puzzle.quadrantClues.filter(t => 
+                                    t.words.includes(solutionCorner)
+                                ).length;
+                                
+                                return themeCount === 1;
+                            });
+                            
+                            if (theme) {
+                                return theme.icon;
+                            }
+                        }
+                    }
+                    
+                    return null;
+                };
+                
+                return {
+                    tl: checkQuadrant([0, 1, 3, 4]),
+                    tr: checkQuadrant([1, 2, 4, 5]),
+                    bl: checkQuadrant([3, 4, 6, 7]),
+                    br: checkQuadrant([4, 5, 7, 8])
+                };
+            };
+
+            const checkCorrectQuadrants = (testGrid) => {
+                const checkQuadrant = (positions, solution) => {
+                    const cornerPos = positions.find(p => [0, 2, 6, 8].includes(p));
+                    const edgePositions = positions.filter(p => [1, 3, 5, 7].includes(p));
+                    const centerPos = 4;
+                    
+                    if (cornerPos === undefined || edgePositions.length !== 2) return false;
+                    
+                    const currentCorner = testGrid[cornerPos];
+                    const currentEdge1 = testGrid[edgePositions[0]];
+                    const currentEdge2 = testGrid[edgePositions[1]];
+                    const currentCenter = testGrid[centerPos];
+                    const currentEdgesSorted = [currentEdge1, currentEdge2].sort();
+                    
+                    const solutionCorner = solution[cornerPos];
+                    const solutionEdge1 = solution[edgePositions[0]];
+                    const solutionEdge2 = solution[edgePositions[1]];
+                    const solutionCenter = solution[centerPos];
+                    const solutionEdgesSorted = [solutionEdge1, solutionEdge2].sort();
+                    
+                    return currentCorner === solutionCorner &&
+                        currentCenter === solutionCenter &&
+                        currentEdgesSorted[0] === solutionEdgesSorted[0] &&
+                        currentEdgesSorted[1] === solutionEdgesSorted[1];
+                };
+                
+                // Check each solution and find one with the most matching quadrants
+                let bestMatch = { tl: false, tr: false, bl: false, br: false };
+                let bestMatchCount = 0;
+                
+                for (const solution of puzzle.solutions) {
+                    const tlMatch = checkQuadrant([0, 1, 3, 4], solution);
+                    const trMatch = checkQuadrant([1, 2, 4, 5], solution);
+                    const blMatch = checkQuadrant([3, 4, 6, 7], solution);
+                    const brMatch = checkQuadrant([4, 5, 7, 8], solution);
+                    
+                    const matchCount = (tlMatch ? 1 : 0) + (trMatch ? 1 : 0) + (blMatch ? 1 : 0) + (brMatch ? 1 : 0);
+                    
+                    if (matchCount > bestMatchCount) {
+                        bestMatchCount = matchCount;
+                        bestMatch = {
+                            tl: tlMatch,
+                            tr: trMatch,
+                            bl: blMatch,
+                            br: brMatch
+                        };
+                    }
+                }
+                
+                return bestMatch;
+            };
+
+            const handleCellClick = (idx) => {
+                // HARDEST MODE: Allow clicking position 4 since center word is not locked
+                if (solved) return;
+                if (idx === 4 && difficulty !== 'hardest') return;
+                
+                if (selected === null) {
+                    setSelected(idx);
+                } else if (selected === idx) {
+                    setSelected(null);
+                } else {
+                    const newGrid = [...grid];
+                    [newGrid[selected], newGrid[idx]] = [newGrid[idx], newGrid[selected]];
+                    
+                    const newHistory = history.slice(0, historyIdx + 1);
+                    newHistory.push(newGrid);
+                    setHistory(newHistory);
+                    setHistoryIdx(historyIdx + 1);
+                    
+                    setGrid(newGrid);
+                    setSelected(null);
+                    setMoves(moves + 1);
+                    
+                    // Check which quadrants are now correct
+                    const quadrantStatus = checkCorrectQuadrants(newGrid);
+                    setCorrectQuadrants(quadrantStatus);
+                }
+            };
+
+            const solve = () => {
+                setGrid(puzzle.solutions[0]);
+                setSolved(true);
+                setSelected(null);
+                setShowThemes(true);
+                setSolutionIndex(0);
+                setUserSolutionIndex(null);
+            };
+
+            const reset = () => {
+                let shuffled;
+                // Keep shuffling until we get a starting position with NO correct quadrants
+                do {
+                    if (difficulty === 'hardest') {
+                        // HARDEST MODE: Shuffle ALL words including center word randomly
+                        shuffled = [...puzzle.allWords, puzzle.centerWord].sort(() => Math.random() - 0.5);
+                    } else {
+                        // Normal modes: Lock center word at position 4
+                        shuffled = [...puzzle.allWords].sort(() => Math.random() - 0.5);
+                        shuffled.splice(4, 0, puzzle.centerWord);
+                    }
+                } while (hasAnyCorrectQuadrant(shuffled));
+                
+                setGrid(shuffled);
+                setHistory([shuffled]);
+                setHistoryIdx(0);
+                setSolved(false);
+                setSelected(null);
+                setMoves(0);
+                setShowThemes(false);
+                setSolutionIndex(0);
+                setUserSolutionIndex(null);
+                setCorrectQuadrants({ tl: false, tr: false, bl: false, br: false });
+                setCelebrationStep(-1); // Reset celebration
+            };
+
+            const nextSolution = () => {
+                setSolutionIndex((solutionIndex + 1) % puzzle.solutions.length);
+            };
+
+            const prevSolution = () => {
+                setSolutionIndex((solutionIndex - 1 + puzzle.solutions.length) % puzzle.solutions.length);
+            };
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4">
+                    <div className="max-w-md mx-auto">
+                        {/* Navigation */}
+                        <div className="flex gap-3 mb-6">
+                            <button
+                                onClick={() => {
+                                    setPuzzleIdx(Math.max(0, puzzleIdx - 1));
+                                    setShowTransitionBanner(true);
+                                    setDifficultySelected(false);
+                                }}
+                                disabled={puzzleIdx === 0}
+                                className="px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex-1">
+                                ← Previous
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setPuzzleIdx(Math.min(PUZZLES.length - 1, puzzleIdx + 1));
+                                    setShowTransitionBanner(true);
+                                    setDifficultySelected(false);
+                                }}
+                                disabled={puzzleIdx === PUZZLES.length - 1}
+                                className="px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex-1">
+                                Next →
+                            </button>
+                        </div>
+
+                        {/* Welcome Screen - First time visitors */}
+                        {showWelcome && (
+                            <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4 z-50">
+                                <div className="bg-white rounded-3xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto relative">
+                                    {/* Close X Button */}
+                                    <button 
+                                        onClick={() => {
+                                            if (dontShowWelcome) {
+                                                localStorage.setItem('connectionary_v2_hide_welcome', 'true');
+                                            }
+                                            setShowWelcome(false);
+                                            // Auto-load Puzzle #1 in Easy mode
+                                            if (puzzleIdx === 0) {
+                                                setDifficulty('easy');
+                                                setDifficultySelected(true);
+                                            }
+                                        }}
+                                        className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full text-gray-600 hover:text-gray-800 font-bold text-xl transition-all active:scale-95 z-10">
+                                        ×
+                                    </button>
+                                    
+                                    {/* Hero Section */}
+                                    <div className="text-center mb-6">
+                                        <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-2">
+                                            Connectionary
+                                        </h1>
+                                        <p className="text-gray-500 text-sm font-medium">
+                                            The Word Connection Puzzle
+                                        </p>
+                                    </div>
+
+                                    {/* What Is It? */}
+                                    <div className="mb-6">
+                                        <h2 className="text-lg font-bold text-gray-800 mb-3">🎯 What Is It?</h2>
+                                        <p className="text-gray-700 leading-relaxed text-sm mb-3">
+                                            Arrange <strong>9 words</strong> in a 3×3 grid. The golden <strong>center word has 4 different meanings</strong> - each meaning creates one of the four themed 2×2 quadrants.
+                                        </p>
+                                        <p className="text-gray-700 leading-relaxed text-sm">
+                                            Words on the edges (like <strong>CRASH, STEER, EJECT, CHASE</strong>) appear in <strong>two quadrants!</strong>
+                                        </p>
+                                    </div>
+
+                                    {/* Visual Example - Full 3x3 Grid Preview */}
+                                    <div className="mb-6">
+                                        <h2 className="text-lg font-bold text-gray-800 mb-3">👁️ Preview: Puzzle #1</h2>
+                                        <div className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl p-4 border-2 border-amber-300">
+                                            {/* 3x3 Grid */}
+                                            <div className="grid grid-cols-3 gap-2 mb-3">
+                                                {['WHEEL', 'CRASH', 'MOUSE', 'STEER', 'DRIVE', 'EJECT', 'WRANGLE', 'CHASE', 'REPEL'].map((word, idx) => (
+                                                    <div 
+                                                        key={idx}
+                                                        className={`aspect-square rounded-lg flex items-center justify-center font-bold text-sm border-2 ${
+                                                            idx === 4 
+                                                                ? 'bg-gradient-to-br from-amber-400 to-amber-500 border-amber-600 text-amber-900 relative'
+                                                                : 'bg-white border-gray-300 text-gray-800'
+                                                        }`}>
+                                                        {idx === 4 && (
+                                                            <div className="absolute -top-1.5 -right-1.5 bg-amber-500 rounded-full p-0.5">
+                                                                <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                                    <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                                                                </svg>
+                                                            </div>
+                                                        )}
+                                                        {word}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            
+                                            {/* Caption */}
+                                            <p className="text-xs text-gray-700 text-center leading-relaxed">
+                                                How do these 9 words connect? Click <strong>🎨 Show Themes</strong> in the game to discover!
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {/* Difficulty Modes */}
+                                    <div className="mb-6">
+                                        <h2 className="text-lg font-bold text-gray-800 mb-3">⭐ Difficulty Modes</h2>
+                                        <div className="space-y-2.5">
+                                            <div className="flex items-start gap-3 bg-green-50 rounded-xl p-3 border border-green-200">
+                                                <span className="text-2xl flex-shrink-0">⭐</span>
+                                                <div>
+                                                    <div className="font-bold text-green-800 text-sm">Easy</div>
+                                                    <div className="text-xs text-gray-600">See which words belong to each theme + instant feedback as you solve</div>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-start gap-3 bg-blue-50 rounded-xl p-3 border border-blue-200">
+                                                <span className="text-2xl flex-shrink-0">⭐⭐</span>
+                                                <div>
+                                                    <div className="font-bold text-blue-800 text-sm">Medium</div>
+                                                    <div className="text-xs text-gray-600">See theme names only + instant feedback as you solve</div>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-start gap-3 bg-orange-50 rounded-xl p-3 border border-orange-200">
+                                                <span className="text-2xl flex-shrink-0">⭐⭐⭐</span>
+                                                <div>
+                                                    <div className="font-bold text-orange-800 text-sm">Hard</div>
+                                                    <div className="text-xs text-gray-600">See theme names only + no feedback until fully solved</div>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-start gap-3 bg-purple-50 rounded-xl p-3 border border-purple-200">
+                                                <span className="text-2xl flex-shrink-0">⭐⭐⭐⭐</span>
+                                                <div>
+                                                    <div className="font-bold text-purple-800 text-sm">Hardest</div>
+                                                    <div className="text-xs text-gray-600">Theme names visible, center word hidden + no feedback until fully solved</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Learning Path */}
+                                    <div className="mb-6">
+                                        <div className="bg-gradient-to-br from-purple-100 via-pink-100 to-purple-100 rounded-2xl p-4 border-2 border-purple-300">
+                                            <div className="flex items-start gap-3">
+                                                <span className="text-3xl flex-shrink-0">💡</span>
+                                                <div>
+                                                    <h3 className="font-bold text-purple-900 mb-2 text-sm">Best Way to Learn:</h3>
+                                                    <p className="text-gray-800 text-sm leading-relaxed mb-3">
+                                                        Start with <strong>Puzzle #1 in Easy mode</strong>. You'll see these same 9 words - click <strong>🎨 Show Themes</strong> to reveal how they connect, then arrange them correctly.
+                                                    </p>
+                                                    <p className="text-gray-800 text-sm leading-relaxed">
+                                                        <strong>Plot twist:</strong> Each puzzle has <strong>8 different valid solutions!</strong> Tap <strong>More ⋮</strong> → <strong>🔄 Reset</strong> and find a completely different arrangement to master the mechanics.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Strategy Hint */}
+                                    <div className="mb-6">
+                                        <div className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-2xl p-4 border-2 border-amber-300">
+                                            <div className="flex items-start gap-3">
+                                                <span className="text-3xl flex-shrink-0">🎲</span>
+                                                <div>
+                                                    <h3 className="font-bold text-amber-900 mb-2 text-sm">Pro Strategy:</h3>
+                                                    <p className="text-gray-800 text-sm leading-relaxed">
+                                                        When quadrants turn amber (correct), you can still swap words <strong>within</strong> those quadrants to reach different solutions. If swapping the remaining corners doesn't work, try swapping within an amber quadrant!
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Don't Show Again Option */}
+                                    <div className="mb-6">
+                                        <label className="flex items-center gap-3 cursor-pointer group">
+                                            <input 
+                                                type="checkbox"
+                                                checked={dontShowWelcome}
+                                                onChange={(e) => setDontShowWelcome(e.target.checked)}
+                                                className="w-5 h-5 rounded border-2 border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                                            />
+                                            <span className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors">
+                                                Don't show this welcome screen again. It's always available by tapping <strong>More</strong>.
+                                            </span>
+                                        </label>
+                                    </div>
+
+                                    {/* CTA Buttons */}
+                                    <div className="flex gap-3">
+                                        <button
+                                            onClick={() => {
+                                                if (dontShowWelcome) {
+                                                    localStorage.setItem('connectionary_v2_hide_welcome', 'true');
+                                                }
+                                                setShowWelcome(false);
+                                                // Auto-load Puzzle #1 in Easy mode
+                                                if (puzzleIdx === 0) {
+                                                    setDifficulty('easy');
+                                                    setDifficultySelected(true);
+                                                }
+                                            }}
+                                            className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-4 rounded-2xl font-bold text-lg hover:from-blue-600 hover:to-blue-700 active:scale-95 transition-all shadow-lg">
+                                            Start Playing!
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                if (dontShowWelcome) {
+                                                    localStorage.setItem('connectionary_v2_hide_welcome', 'true');
+                                                }
+                                                setShowWelcome(false);
+                                                // Auto-load Puzzle #1 in Easy mode when coming back from help
+                                                if (puzzleIdx === 0) {
+                                                    setDifficulty('easy');
+                                                    setDifficultySelected(true);
+                                                }
+                                                setShowHelp(true); 
+                                            }}
+                                            className="bg-gray-100 text-gray-700 px-4 py-4 rounded-2xl font-bold text-xl hover:bg-gray-200 active:scale-95 transition-all shadow-md">
+                                            📖
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Mode Explorer - After completing Puzzle #1 */}
+                        {showModeExplorer && (
+                            <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
+                                <div className="bg-white rounded-2xl p-8 max-w-md w-full">
+                                    <h2 className="text-2xl font-bold text-gray-800 mb-3 text-center">🎉 Excellent!</h2>
+                                    <p className="text-gray-700 mb-4 text-center">You've mastered Puzzle #1 in Easy mode!</p>
+                                    
+                                    <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-6">
+                                        <p className="text-sm text-gray-700">
+                                            <strong>💡 Ready for more challenge?</strong> Now that you understand the mechanics, try Medium, Hard, and Hardest modes on this puzzle. Each removes hints and increases difficulty. Or continue to the next puzzle!
+                                        </p>
+                                    </div>
+
+                                    <div className="space-y-3">
+                                        <button
+                                            onClick={() => {
+                                                setShowModeExplorer(false);
+                                            }}
+                                            className="w-full py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition-colors">
+                                            🔄 Try Harder Modes (Reset & Switch Difficulty)
+                                        </button>
+                                        
+                                        <button
+                                            onClick={() => {
+                                                setShowModeExplorer(false);
+                                                setPuzzleIdx(1);
+                                                setShowTransitionBanner(true);
+                                                setDifficultySelected(false);
+                                            }}
+                                            className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                                            ➡️ Next Puzzle
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Quick Transition Banner - Slides in from top */}
+                        {showTransitionBanner && (
+                            <div className="fixed top-0 left-0 right-0 z-50 slide-in-from-top">
+                                <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-2xl">
+                                    <div className="max-w-4xl mx-auto px-4 py-4">
+                                        <div className="flex flex-col gap-3">
+                                            <div className="text-center text-sm font-semibold opacity-90">
+                                                Ready for Puzzle #{puzzleIdx + 1}?
+                                            </div>
+                                            <div className="flex gap-2 justify-center items-center flex-wrap">
+                                                <button
+                                                    onClick={() => {
+                                                        setDifficulty('easy');
+                                                        setDifficultySelected(true);
+                                                        setShowTransitionBanner(false);
+                                                    }}
+                                                    className="px-6 py-3 bg-white/20 hover:bg-white/30 rounded-xl font-bold text-sm backdrop-blur-sm transition-all active:scale-95 border-2 border-white/30">
+                                                    ⭐ Easy
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        setDifficulty('medium');
+                                                        setDifficultySelected(true);
+                                                        setShowTransitionBanner(false);
+                                                    }}
+                                                    className="px-6 py-3 bg-white/20 hover:bg-white/30 rounded-xl font-bold text-sm backdrop-blur-sm transition-all active:scale-95 border-2 border-white/30">
+                                                    ⭐⭐ Medium
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        setDifficulty('hard');
+                                                        setDifficultySelected(true);
+                                                        setShowTransitionBanner(false);
+                                                    }}
+                                                    className="px-6 py-3 bg-white/20 hover:bg-white/30 rounded-xl font-bold text-sm backdrop-blur-sm transition-all active:scale-95 border-2 border-white/30">
+                                                    ⭐⭐⭐ Hard
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        setDifficulty('hardest');
+                                                        setDifficultySelected(true);
+                                                        setShowTransitionBanner(false);
+                                                    }}
+                                                    className="px-6 py-3 bg-white/20 hover:bg-white/30 rounded-xl font-bold text-sm backdrop-blur-sm transition-all active:scale-95 border-2 border-white/30">
+                                                    ⭐⭐⭐⭐ Hardest
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Difficulty Selection Modal - Only show if no transition banner */}
+                        {!difficultySelected && !showWelcome && !showTransitionBanner && (
+                            <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
+                                <div className="bg-white rounded-2xl p-8 max-w-md w-full">
+                                    <h2 className="text-2xl font-bold text-gray-800 mb-2 text-center">Choose Your Challenge</h2>
+                                    <p className="text-gray-600 text-center mb-6">Select difficulty to begin Puzzle #{puzzleIdx + 1}</p>
+                                    
+                                    <div className="space-y-3">
+                                        <button
+                                            onClick={() => {
+                                                setDifficulty('easy');
+                                                setDifficultySelected(true);
+                                            }}
+                                            className="w-full py-4 px-6 bg-green-600 text-white rounded-lg font-semibold text-lg hover:bg-green-700 transition-colors">
+                                            ⭐ Easy
+                                            <div className="text-sm font-normal mt-1 opacity-90">See all themes and words</div>
+                                        </button>
+                                        
+                                        <button
+                                            onClick={() => {
+                                                setDifficulty('medium');
+                                                setDifficultySelected(true);
+                                            }}
+                                            className="w-full py-4 px-6 bg-orange-600 text-white rounded-lg font-semibold text-lg hover:bg-orange-700 transition-colors">
+                                            ⭐⭐ Medium
+                                            <div className="text-sm font-normal mt-1 opacity-90">See themes only</div>
+                                        </button>
+                                        
+                                        <button
+                                            onClick={() => {
+                                                setDifficulty('hard');
+                                                setDifficultySelected(true);
+                                            }}
+                                            className="w-full py-4 px-6 bg-red-600 text-white rounded-lg font-semibold text-lg hover:bg-red-700 transition-colors">
+                                            ⭐⭐⭐ Hard
+                                            <div className="text-sm font-normal mt-1 opacity-90">Themes only, no feedback</div>
+                                        </button>
+                                        
+                                        <button
+                                            onClick={() => {
+                                                setDifficulty('hardest');
+                                                setDifficultySelected(true);
+                                            }}
+                                            className="w-full py-4 px-6 bg-purple-600 text-white rounded-lg font-semibold text-lg hover:bg-purple-700 transition-colors">
+                                            ⭐⭐⭐⭐ Hardest
+                                            <div className="text-sm font-normal mt-1 opacity-90">Find the center word!</div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Game Content - Show after difficulty selected */}
+                        {difficultySelected && (
+                        <>
+
+                        {/* Difficulty Selector */}
+                        <div className="flex gap-3 mb-6">
+                            <button
+                                onClick={() => setDifficulty('easy')}
+                                className={`flex-1 py-3 px-4 rounded-lg font-semibold transition-all ${
+                                    difficulty === 'easy' 
+                                        ? 'bg-green-600 text-white' 
+                                        : 'bg-gray-600 text-gray-300 opacity-60'
+                                }`}>
+                                ⭐ Easy
+                            </button>
+                            <button
+                                onClick={() => setDifficulty('medium')}
+                                className={`flex-1 py-3 px-4 rounded-lg font-semibold transition-all ${
+                                    difficulty === 'medium' 
+                                        ? 'bg-orange-600 text-white' 
+                                        : 'bg-gray-600 text-gray-300 opacity-60'
+                                }`}>
+                                ⭐⭐ Medium
+                            </button>
+                            <button
+                                onClick={() => setDifficulty('hard')}
+                                className={`flex-1 py-3 px-4 rounded-lg font-semibold transition-all ${
+                                    difficulty === 'hard' 
+                                        ? 'bg-red-600 text-white' 
+                                        : 'bg-gray-600 text-gray-300 opacity-60'
+                                }`}>
+                                ⭐⭐⭐ Hard
+                            </button>
+                            <button
+                                onClick={() => setDifficulty('hardest')}
+                                className={`flex-1 py-3 px-4 rounded-lg font-semibold transition-all ${
+                                    difficulty === 'hardest' 
+                                        ? 'bg-purple-600 text-white' 
+                                        : 'bg-gray-600 text-gray-300 opacity-60'
+                                }`}>
+                                ⭐⭐⭐⭐ Hardest
+                            </button>
+                        </div>
+
+                        {/* Menu Buttons */}
+                        <div className="flex gap-3 mb-6">
+                            <button onClick={() => setShowThemes(!showThemes)}
+                                className="px-4 py-3 bg-purple-600 text-white rounded-lg font-semibold flex items-center justify-center gap-2 flex-1">
+                                {showThemes ? '🙈 Hide Themes' : '🎨 Show Themes'}
+                            </button>
+                            <button onClick={() => setShowHelp(true)}
+                                className="px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold flex items-center justify-center gap-2 flex-1">
+                                📖 How to Play
+                            </button>
+                            <button onClick={() => setShowMenu(!showMenu)}
+                                className="px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold flex items-center justify-center gap-1">
+                                More ⋮
+                            </button>
+                        </div>
+
+                        {showMenu && (
+                            <div className="mb-6 bg-gray-800 rounded-lg py-2">
+                                <div onClick={() => { reset(); setShowMenu(false); }}
+                                    className="flex items-center gap-3 px-4 py-3 text-white hover:bg-gray-700 cursor-pointer">
+                                    <span className="text-lg">🔄</span>
+                                    <span className="font-medium">Reset Puzzle</span>
+                                </div>
+                                <div onClick={() => { solve(); setShowMenu(false); }}
+                                    className="flex items-center gap-3 px-4 py-3 text-white hover:bg-gray-700 cursor-pointer">
+                                    <span className="text-lg">✨</span>
+                                    <span className="font-medium">Solve Puzzle</span>
+                                </div>
+                                <div onClick={() => { 
+                                        setShowWelcome(true); 
+                                        setDontShowWelcome(false); // Reset checkbox when manually showing welcome
+                                        setShowMenu(false); 
+                                    }}
+                                    className="flex items-center gap-3 px-4 py-3 text-white hover:bg-gray-700 cursor-pointer">
+                                    <span className="text-lg">👋</span>
+                                    <span className="font-medium">Show Welcome</span>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Help Modal */}
+                        {showHelp && (
+                            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" onClick={() => setShowHelp(false)}>
+                                <div className="bg-white rounded-2xl max-w-md max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+                                    {/* Sticky header with close button */}
+                                    <div className="sticky top-0 bg-white rounded-t-2xl px-6 pt-6 pb-4 border-b border-gray-100 z-10">
+                                        <div className="flex justify-between items-start">
+                                            <h2 className="text-2xl font-bold text-gray-800">How to Play</h2>
+                                            <button onClick={() => setShowHelp(false)} 
+                                                className="text-gray-400 hover:text-gray-600 -mt-1 -mr-1 w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 active:bg-gray-200 transition-colors">
+                                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Scrollable content */}
+                                    <div className="px-6 pb-6 pt-4">
+                                    <div className="space-y-5 text-gray-700">
+                                        <div>
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <span className="text-xl">🎯</span>
+                                                <h3 className="font-bold text-lg">Goal</h3>
+                                            </div>
+                                            <p>Arrange 9 words so each 2×2 corner shares a theme. Each theme quadrant must work with every other quadrant. Position matters - words overlap multiple corners!</p>
+                                        </div>
+
+                                        <div>
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <span className="text-xl">📐</span>
+                                                <h3 className="font-bold text-lg">Example Corner</h3>
+                                            </div>
+                                            <div className="bg-gray-50 p-4 rounded-lg border-2 border-gray-200">
+                                                <div className="grid grid-cols-2 gap-2 mb-3">
+                                                    <div className="bg-white border-2 border-blue-400 rounded p-2 text-center font-bold text-sm">WHEEL</div>
+                                                    <div className="bg-white border-2 border-blue-400 rounded p-2 text-center font-bold text-sm">CRASH</div>
+                                                    <div className="bg-white border-2 border-blue-400 rounded p-2 text-center font-bold text-sm">STEER</div>
+                                                    <div className="bg-white border-2 border-blue-400 rounded p-2 text-center font-bold text-sm">DRIVE</div>
+                                                </div>
+                                                <div className="text-center text-sm">
+                                                    <span className="font-semibold">All 4 are VEHICLE words</span> ✓
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <span className="text-xl">🎮</span>
+                                                <h3 className="font-bold text-lg">How</h3>
+                                            </div>
+                                            <p>Tap two words to swap positions.</p>
+                                        </div>
+
+                                        <div>
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <span className="text-xl">💡</span>
+                                                <h3 className="font-bold text-lg">Tip</h3>
+                                            </div>
+                                            <p>DRIVE (center) fits ALL 4 themes!</p>
+                                            <p className="mt-2 text-sm">Words may work as part of common phrases (e.g., "drive away" or "chase off").</p>
+                                        </div>
+
+                                        <div>
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <span className="text-xl">🎲</span>
+                                                <h3 className="font-bold text-lg">Multiple Solutions</h3>
+                                            </div>
+                                            <p>Each puzzle has 8 valid solutions! When quadrants turn amber (correct), you can still swap words <strong>within</strong> those quadrants to reach different solutions.</p>
+                                            <p className="mt-2 text-sm">If swapping the remaining corners doesn't solve the puzzle, try swapping within an amber quadrant to pivot to a different solution path.</p>
+                                        </div>
+
+                                        <div>
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <span className="text-xl">⭐</span>
+                                                <h3 className="font-bold text-lg">Difficulty Modes</h3>
+                                            </div>
+                                            <ul className="text-sm space-y-1 pl-5">
+                                                <li><strong>⭐ Easy:</strong> See all words per theme. Icons for solved quadrants</li>
+                                                <li><strong>⭐⭐ Medium:</strong> Same as above but no knowledge of theme words</li>
+                                                <li><strong>⭐⭐⭐ Hard:</strong> Same as Medium but no icons for solved quadrants</li>
+                                                <li><strong>⭐⭐⭐⭐ Hardest:</strong> Find the center word!</li>
+                                            </ul>
+                                        </div>
+
+                                        <button 
+                                            onClick={() => setShowHelp(false)}
+                                            className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                                            Start Playing!
+                                        </button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Grid */}
+                        <div className="bg-white rounded-2xl p-4 shadow-2xl">
+                            {/* COMPACT HEADER - NEW DESIGN */}
+                            <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
+                                <div>
+                                    <h2 className="text-lg font-bold text-gray-800 leading-tight">
+                                        {difficulty === 'hardest' ? `Puzzle #${puzzleIdx + 1}` : puzzle.title}
+                                    </h2>
+                                    {solved && (
+                                        <div className="text-xs text-green-600 font-semibold flex items-center gap-1">
+                                            ✓ Solved in {moves} moves
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="text-sm text-gray-500 font-semibold">
+                                    {puzzleIdx + 1} of {PUZZLES.length}
+                                </div>
+                            </div>
+
+                            {/* Solution Rotation Controls */}
+                            {solved && (
+                                <div className="mb-4 flex items-center justify-center gap-3">
+                                    <button onClick={prevSolution}
+                                        className="px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold text-sm active:scale-95 transition-transform">
+                                        ← Prev
+                                    </button>
+                                    <div className="text-center">
+                                        <div className="text-gray-700 font-semibold">
+                                            Solution {solutionIndex + 1} of {puzzle.solutions.length}
+                                            {solutionIndex === userSolutionIndex && userSolutionIndex !== null && (
+                                                <span className="ml-1">⭐</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <button onClick={nextSolution}
+                                        className="px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold text-sm active:scale-95 transition-transform">
+                                        Next →
+                                    </button>
+                                </div>
+                            )}
+                            
+                            <div className="grid grid-cols-3 gap-3 relative">
+                                {/* Partial Quadrant Icons (during solving) */}
+                                {!solved && (() => {
+                                    const partialIcons = checkPartialQuadrants();
+                                    if (!partialIcons) return null;
+                                    
+                                    return (
+                                        <>
+                                            {partialIcons.tl && (
+                                                <div className="absolute z-20 text-[2.5rem] pointer-events-none quadrant-icon-appear"
+                                                    style={{ top: 'calc(33.333% - 24px)', left: 'calc(33.333% - 24px)' }}>
+                                                    {partialIcons.tl}
+                                                </div>
+                                            )}
+                                            {partialIcons.tr && (
+                                                <div className="absolute z-20 text-[2.5rem] pointer-events-none quadrant-icon-appear"
+                                                    style={{ top: 'calc(33.333% - 24px)', left: 'calc(66.666% - 24px)' }}>
+                                                    {partialIcons.tr}
+                                                </div>
+                                            )}
+                                            {partialIcons.bl && (
+                                                <div className="absolute z-20 text-[2.5rem] pointer-events-none quadrant-icon-appear"
+                                                    style={{ top: 'calc(66.666% - 24px)', left: 'calc(33.333% - 24px)' }}>
+                                                    {partialIcons.bl}
+                                                </div>
+                                            )}
+                                            {partialIcons.br && (
+                                                <div className="absolute z-20 text-[2.5rem] pointer-events-none quadrant-icon-appear"
+                                                    style={{ top: 'calc(66.666% - 24px)', left: 'calc(66.666% - 24px)' }}>
+                                                    {partialIcons.br}
+                                                </div>
+                                            )}
+                                        </>
+                                    );
+                                })()}
+                                
+                                {/* Quadrant Icons at Intersections (when solved) */}
+                                {solved && (() => {
+                                    const displayGrid = puzzle.solutions[solutionIndex];
+                                    const icons = getQuadrantIcons(displayGrid);
+                                    return (
+                                        <>
+                                            {/* Top-left quadrant icon */}
+                                            <div className="absolute z-20 text-[2.5rem] pointer-events-none quadrant-icon-appear"
+                                                style={{ top: 'calc(33.333% - 24px)', left: 'calc(33.333% - 24px)' }}>
+                                                {icons.tl}
+                                            </div>
+                                            {/* Top-right quadrant icon */}
+                                            <div className="absolute z-20 text-[2.5rem] pointer-events-none quadrant-icon-appear"
+                                                style={{ top: 'calc(33.333% - 24px)', left: 'calc(66.666% - 24px)', animationDelay: '0.1s' }}>
+                                                {icons.tr}
+                                            </div>
+                                            {/* Bottom-left quadrant icon */}
+                                            <div className="absolute z-20 text-[2.5rem] pointer-events-none quadrant-icon-appear"
+                                                style={{ top: 'calc(66.666% - 24px)', left: 'calc(33.333% - 24px)', animationDelay: '0.2s' }}>
+                                                {icons.bl}
+                                            </div>
+                                            {/* Bottom-right quadrant icon */}
+                                            <div className="absolute z-20 text-[2.5rem] pointer-events-none quadrant-icon-appear"
+                                                style={{ top: 'calc(66.666% - 24px)', left: 'calc(66.666% - 24px)', animationDelay: '0.3s' }}>
+                                                {icons.br}
+                                            </div>
+                                        </>
+                                    );
+                                })()}
+                                {(() => {
+                                    const displayGrid = solved ? puzzle.solutions[solutionIndex] : grid;
+                                    return displayGrid.map((word, idx) => {
+                                        const isCenter = idx === 4 && difficulty !== 'hardest'; // Hide center in hardest mode
+                                        const isSelected = selected === idx;
+                                        
+                                        // Determine which quadrants this cell belongs to
+                                        const inTopLeft = [0, 1, 3, 4].includes(idx);
+                                        const inTopRight = [1, 2, 4, 5].includes(idx);
+                                        const inBottomLeft = [3, 4, 6, 7].includes(idx);
+                                        const inBottomRight = [4, 5, 7, 8].includes(idx);
+                                        
+                                        // Check if cell is in a correct quadrant (amber state)
+                                        const inCorrectQuadrant = !solved && (
+                                            (inTopLeft && correctQuadrants.tl) ||
+                                            (inTopRight && correctQuadrants.tr) ||
+                                            (inBottomLeft && correctQuadrants.bl) ||
+                                            (inBottomRight && correctQuadrants.br)
+                                        );
+                                        
+                                        // Determine if cell should have celebration highlighting
+                                        let celebrationClass = '';
+                                        if (solved && celebrationStep > 0) {
+                                            // Steps 1-4: spotlight mode (one quadrant at a time)
+                                            if (celebrationStep >= 1 && celebrationStep <= 4) {
+                                                const spotlightQuadrant = celebrationStep - 1; // step 1->Q0, 2->Q1, 3->Q2, 4->Q3
+                                                const quadrants = [inTopLeft, inTopRight, inBottomLeft, inBottomRight];
+                                                if (quadrants[spotlightQuadrant]) {
+                                                    celebrationClass = 'celebration-highlight';
+                                                }
+                                            }
+                                            // Step 5: all quadrants green
+                                            else if (celebrationStep === 5) {
+                                                celebrationClass = 'celebration-highlight';
+                                            }
+                                        }
+                                        
+                                        return (
+                                            <div key={idx} onClick={() => handleCellClick(idx)}
+                                                className={`aspect-square rounded-xl border-4 flex flex-col items-center justify-center transition-all relative
+                                                    ${solved ? 'py-1 px-1' : 'py-4'}
+                                                    ${celebrationClass}
+                                                    ${isCenter ? 'locked-cell border-amber-500 cursor-not-allowed' : 
+                                                      isSelected ? 'cell-selected' :
+                                                      solved ? 'bg-green-50 border-green-400' :
+                                                      inCorrectQuadrant ? 'quadrant-correct' :
+                                                      'bg-gray-50 border-gray-400 cursor-pointer active:scale-95'}`}>
+                                                {isCenter && (
+                                                    <div className="absolute -top-2 -right-2 bg-amber-500 rounded-full p-1 z-10">
+                                                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                                                        </svg>
+                                                    </div>
+                                                )}
+                                                <div className={`font-bold ${getFontSize(word)} text-center px-0.5 leading-tight
+                                                    ${isCenter ? 'text-amber-900' : 
+                                                      solved ? 'text-green-800' : 
+                                                      isSelected ? 'text-white' : 'text-gray-800'}`}>
+                                                    {word}
+                                                </div>
+                                                {solved && puzzle.explanations[word] && (
+                                                    <div className="text-[10px] text-gray-600 text-center mt-0.5 leading-[1.2] px-0.5 w-full">
+                                                        {puzzle.explanations[word]}
+                                                    </div>
+                                                )}
+                                                {!isCenter && !solved && (
+                                                    <div className="text-xs text-gray-400 mt-1">{idx + 1}</div>
+                                                )}
+                                            </div>
+                                        );
+                                    });
+                                })()}
+                            </div>
+
+                            {!solved && selected !== null && (
+                                <div className="mt-4 text-center text-sm text-blue-600 font-semibold">
+                                    Selected: {grid[selected]} - Tap another to swap
+                                </div>
+                            )}
+                            {!solved && selected === null && (
+                                <div className="mt-4 text-center text-sm text-gray-500">
+                                    Tap two words to swap positions
+                                </div>
+                            )}
+                        </div>
+
+                        {/* COMPACT THEMES - 2x2 GRID - ALWAYS BELOW GRID */}
+                        {showThemes && (
+                            <div className="mt-6 bg-white/95 backdrop-blur rounded-2xl p-4">
+                                <div className="text-xs font-semibold text-gray-500 mb-3 text-center">
+                                    {difficulty === 'easy' ? '⭐ EASY MODE - Themes & Words' : 
+                                     difficulty === 'medium' ? '⭐⭐ MEDIUM MODE - Themes Only' :
+                                     difficulty === 'hard' ? '⭐⭐⭐ HARD MODE - Themes Only, No Feedback!' :
+                                     '⭐⭐⭐⭐ HARDEST MODE - Themes Only, Find the Center Word!'}
+                                </div>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {puzzle.quadrantClues.map((q, i) => (
+                                        <div key={i} className="border-2 border-gray-200 rounded-xl p-3 bg-gradient-to-br from-white to-gray-50">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <span className="text-2xl">{q.icon}</span>
+                                                <span className="font-bold text-sm leading-tight">{q.clue}</span>
+                                            </div>
+                                            {!solved && difficulty === 'easy' && (
+                                                <div className="flex flex-wrap gap-1.5">
+                                                    {q.words.map((w, j) => (
+                                                        <span key={j} className="text-xs bg-gray-200 px-2 py-1 rounded font-semibold">
+                                                            {w}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            )}
+                                            {!solved && difficulty !== 'easy' && (
+                                                <div className="text-xs text-gray-500 italic">
+                                                    Find the 4 words for this theme
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                        </>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
