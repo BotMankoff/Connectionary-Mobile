@@ -327,32 +327,66 @@
                 titleIcon: "🔥",
                 centerWord: "HEAT",
                 solutions: [
-                    ["WARM","BOIL","SEAR","HOT","HEAT","SEASON","WARRANT","BOOK","LAP"],
-                    ["WARRANT","HOT","WARM","BOOK","HEAT","BOIL","LAP","SEASON","SEAR"],
-                    ["SEAR","SEASON","LAP","BOIL","HEAT","BOOK","WARM","HOT","WARRANT"],
-                    ["LAP","BOOK","WARRANT","SEASON","HEAT","HOT","SEAR","BOIL","WARM"],
-                    ["SEAR","BOIL","WARM","SEASON","HEAT","HOT","LAP","BOOK","WARRANT"],
-                    ["LAP","SEASON","SEAR","BOOK","HEAT","BOIL","WARRANT","HOT","WARM"],
-                    ["WARM","HOT","WARRANT","BOIL","HEAT","BOOK","SEAR","SEASON","LAP"],
-                    ["WARRANT","BOOK","LAP","HOT","HEAT","SEASON","WARM","BOIL","SEAR"]
+                    ["WARM","BOIL","SEAR","HOT","HEAT","SEASON","WARRANT","CHASE","LAP"],
+                    ["WARRANT","HOT","WARM","CHASE","HEAT","BOIL","LAP","SEASON","SEAR"],
+                    ["LAP","CHASE","WARRANT","SEASON","HEAT","HOT","SEAR","BOIL","WARM"],
+                    ["SEAR","SEASON","LAP","BOIL","HEAT","CHASE","WARM","HOT","WARRANT"],
+                    ["SEAR","BOIL","WARM","SEASON","HEAT","HOT","LAP","CHASE","WARRANT"],
+                    ["WARRANT","CHASE","LAP","HOT","HEAT","SEASON","WARM","BOIL","SEAR"],
+                    ["WARM","HOT","WARRANT","BOIL","HEAT","CHASE","SEAR","SEASON","LAP"],
+                    ["LAP","SEASON","SEAR","CHASE","HEAT","BOIL","WARRANT","HOT","WARM"]
                 ],
-                allWords: ["WARM","BOIL","SEAR","HOT","SEASON","WARRANT","BOOK","LAP"],
+                allWords: ["WARM","BOIL","SEAR","HOT","SEASON","WARRANT","CHASE","LAP"],
                 quadrantClues: [
                     { clue: "TEMPERATURE", words: ["WARM","BOIL","HOT","HEAT"], icon: "🔥" },
                     { clue: "COOKING", words: ["BOIL","SEAR","HEAT","SEASON"], icon: "🍳" },
-                    { clue: "POLICE", words: ["HOT","HEAT","WARRANT","BOOK"], icon: "🚔" },
-                    { clue: "RACING", words: ["HEAT","SEASON","BOOK","LAP"], icon: "🏁" }
+                    { clue: "POLICE", words: ["HOT","HEAT","WARRANT","CHASE"], icon: "🚔" },
+                    { clue: "RACING", words: ["HEAT","SEASON","CHASE","LAP"], icon: "🏁" }
                 ],
                 explanations: {
                     "HEAT": "Form of energy / Warm up food / Slang for police / Qualifying race",
                     "WARM": "Moderately hot temperature",
                     "BOIL": "Liquid's change of state / Cooking method",
                     "SEAR": "High-heat cooking technique",
-                    "HOT": "High temperature / Stolen goods",
+                    "HOT": "High temperature / Stolen goods; 'hot pursuit'",
                     "SEASON": "Add flavor / Period of play",
                     "WARRANT": "Legal arrest document",
-                    "BOOK": "Charge with crime / Penalize in game",
+                    "CHASE": "Police pursuit / Racing event (e.g., steeplechase, cycling pursuit)",
                     "LAP": "Circuit in a race"
+                }
+            },
+            {
+                id: 9,
+                title: "Right Turn",
+                titleIcon: "➡️",
+                centerWord: "RIGHT",
+                solutions: [
+                    ["DIRECTION","LEFT","WING","STRAIGHT","RIGHT","FRANCHISE","JUST","DUE","CLAIM"],
+                    ["WING","LEFT","DIRECTION","FRANCHISE","RIGHT","STRAIGHT","CLAIM","DUE","JUST"],
+                    ["JUST","STRAIGHT","DIRECTION","DUE","RIGHT","LEFT","CLAIM","FRANCHISE","WING"],
+                    ["DIRECTION","STRAIGHT","JUST","LEFT","RIGHT","DUE","WING","FRANCHISE","CLAIM"],
+                    ["CLAIM","DUE","JUST","FRANCHISE","RIGHT","STRAIGHT","WING","LEFT","DIRECTION"],
+                    ["JUST","DUE","CLAIM","STRAIGHT","RIGHT","FRANCHISE","DIRECTION","LEFT","WING"],
+                    ["WING","FRANCHISE","CLAIM","LEFT","RIGHT","DUE","DIRECTION","STRAIGHT","JUST"],
+                    ["CLAIM","FRANCHISE","WING","DUE","RIGHT","LEFT","JUST","STRAIGHT","DIRECTION"]
+                ],
+                allWords: ["DIRECTION","LEFT","WING","FRANCHISE","CLAIM","DUE","JUST","STRAIGHT"],
+                quadrantClues: [
+                    { clue: "ORIENTATION", words: ["DIRECTION","LEFT","STRAIGHT","RIGHT"], icon: "🧭" },
+                    { clue: "POLITICS", words: ["WING","LEFT","FRANCHISE","RIGHT"], icon: "🗳️" },
+                    { clue: "ENTITLEMENT", words: ["CLAIM","FRANCHISE","DUE","RIGHT"], icon: "📜" },
+                    { clue: "CORRECTNESS", words: ["JUST","STRAIGHT","DUE","RIGHT"], icon: "✅" }
+                ],
+                explanations: {
+                    "RIGHT": "Four senses: (1) direction opposite of left, (2) correct or proper, (3) a moral or legal entitlement, (4) the conservative side in politics.",
+                    "DIRECTION": "Orientation or course, such as left, right, north, or south.",
+                    "LEFT": "(a) the side opposite of right (direction), (b) a political grouping or ideology, the Left.",
+                    "WING": "A political faction or grouping, as in left wing or right wing.",
+                    "FRANCHISE": "A right or privilege granted by a government, especially the right to vote.",
+                    "CLAIM": "A demand or assertion to have a right to something; a legal or moral claim.",
+                    "DUE": "(a) owed or deserved (entitlement), (b) proper or appropriate, as in giving someone their due.",
+                    "JUST": "Morally right, fair, or proper.",
+                    "STRAIGHT": "(a) not bent or curved; going directly ahead (orientation), (b) honest or direct, as in a straight answer (correctness)."
                 }
             }
         ];
@@ -1187,25 +1221,25 @@
                                     return (
                                         <>
                                             {partialIcons.tl && (
-                                                <div className="absolute z-20 text-[2.5rem] pointer-events-none quadrant-icon-appear"
+                                                <div className="absolute z-20 text-[2.75rem] pointer-events-none quadrant-icon-appear"
                                                     style={{ top: 'calc(33.333% - 24px)', left: 'calc(33.333% - 24px)' }}>
                                                     {partialIcons.tl}
                                                 </div>
                                             )}
                                             {partialIcons.tr && (
-                                                <div className="absolute z-20 text-[2.5rem] pointer-events-none quadrant-icon-appear"
+                                                <div className="absolute z-20 text-[2.75rem] pointer-events-none quadrant-icon-appear"
                                                     style={{ top: 'calc(33.333% - 24px)', left: 'calc(66.666% - 24px)' }}>
                                                     {partialIcons.tr}
                                                 </div>
                                             )}
                                             {partialIcons.bl && (
-                                                <div className="absolute z-20 text-[2.5rem] pointer-events-none quadrant-icon-appear"
+                                                <div className="absolute z-20 text-[2.75rem] pointer-events-none quadrant-icon-appear"
                                                     style={{ top: 'calc(66.666% - 24px)', left: 'calc(33.333% - 24px)' }}>
                                                     {partialIcons.bl}
                                                 </div>
                                             )}
                                             {partialIcons.br && (
-                                                <div className="absolute z-20 text-[2.5rem] pointer-events-none quadrant-icon-appear"
+                                                <div className="absolute z-20 text-[2.75rem] pointer-events-none quadrant-icon-appear"
                                                     style={{ top: 'calc(66.666% - 24px)', left: 'calc(66.666% - 24px)' }}>
                                                     {partialIcons.br}
                                                 </div>
@@ -1221,22 +1255,22 @@
                                     return (
                                         <>
                                             {/* Top-left quadrant icon */}
-                                            <div className="absolute z-20 text-[2.5rem] pointer-events-none quadrant-icon-appear"
+                                            <div className="absolute z-20 text-[2.75rem] pointer-events-none quadrant-icon-appear"
                                                 style={{ top: 'calc(33.333% - 24px)', left: 'calc(33.333% - 24px)' }}>
                                                 {icons.tl}
                                             </div>
                                             {/* Top-right quadrant icon */}
-                                            <div className="absolute z-20 text-[2.5rem] pointer-events-none quadrant-icon-appear"
+                                            <div className="absolute z-20 text-[2.75rem] pointer-events-none quadrant-icon-appear"
                                                 style={{ top: 'calc(33.333% - 24px)', left: 'calc(66.666% - 24px)', animationDelay: '0.1s' }}>
                                                 {icons.tr}
                                             </div>
                                             {/* Bottom-left quadrant icon */}
-                                            <div className="absolute z-20 text-[2.5rem] pointer-events-none quadrant-icon-appear"
+                                            <div className="absolute z-20 text-[2.75rem] pointer-events-none quadrant-icon-appear"
                                                 style={{ top: 'calc(66.666% - 24px)', left: 'calc(33.333% - 24px)', animationDelay: '0.2s' }}>
                                                 {icons.bl}
                                             </div>
                                             {/* Bottom-right quadrant icon */}
-                                            <div className="absolute z-20 text-[2.5rem] pointer-events-none quadrant-icon-appear"
+                                            <div className="absolute z-20 text-[2.75rem] pointer-events-none quadrant-icon-appear"
                                                 style={{ top: 'calc(66.666% - 24px)', left: 'calc(66.666% - 24px)', animationDelay: '0.3s' }}>
                                                 {icons.br}
                                             </div>
