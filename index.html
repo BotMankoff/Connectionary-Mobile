@@ -770,14 +770,6 @@
                 setCelebrationStep(-1); // Reset celebration
             };
 
-            const nextSolution = () => {
-                setSolutionIndex((solutionIndex + 1) % puzzle.solutions.length);
-            };
-
-            const prevSolution = () => {
-                setSolutionIndex((solutionIndex - 1 + puzzle.solutions.length) % puzzle.solutions.length);
-            };
-
             return (
                 <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4">
                     <div className="max-w-md mx-auto">
@@ -878,11 +870,8 @@
                                                 <span className="text-3xl flex-shrink-0">💡</span>
                                                 <div>
                                                     <h3 className="font-bold text-purple-900 mb-2 text-sm">Best Way to Learn:</h3>
-                                                    <p className="text-gray-800 text-sm leading-relaxed mb-3">
-                                                        Start with <strong>Puzzle #1</strong>. You'll see these same 9 words - click <strong>🎨 Show Themes</strong> to reveal how they connect, then arrange them correctly.
-                                                    </p>
                                                     <p className="text-gray-800 text-sm leading-relaxed">
-                                                        <strong>Plot twist:</strong> Each puzzle has <strong>8 different valid solutions!</strong> Tap <strong>More ⋮</strong> → <strong>🔄 Reset</strong> and find a completely different arrangement to master the mechanics.
+                                                        Start with <strong>Puzzle #1</strong>. You'll see these same 9 words - click <strong>🎨 Show Themes</strong> to reveal how they connect, then arrange them correctly.
                                                     </p>
                                                 </div>
                                             </div>
@@ -897,7 +886,7 @@
                                                 <div>
                                                     <h3 className="font-bold text-amber-900 mb-2 text-sm">Pro Strategy:</h3>
                                                     <p className="text-gray-800 text-sm leading-relaxed">
-                                                        When quadrants turn amber (correct), you can still swap words <strong>within</strong> those quadrants to reach different solutions. If swapping the remaining corners doesn't work, try swapping within an amber quadrant!
+                                                        When quadrants turn amber (correct), you can still swap words <strong>within</strong> those quadrants - they'll stay correct! If swapping the remaining corners doesn't work, try swapping within an amber quadrant.
                                                     </p>
                                                 </div>
                                             </div>
@@ -1057,23 +1046,10 @@
                                         <div>
                                             <div className="flex items-center gap-2 mb-2">
                                                 <span className="text-xl">🎲</span>
-                                                <h3 className="font-bold text-lg">Multiple Solutions</h3>
+                                                <h3 className="font-bold text-lg">Pro Strategy</h3>
                                             </div>
-                                            <p>Each puzzle has 8 valid solutions! When quadrants turn amber (correct), you can still swap words <strong>within</strong> those quadrants to reach different solutions.</p>
-                                            <p className="mt-2 text-sm">If swapping the remaining corners doesn't solve the puzzle, try swapping within an amber quadrant to pivot to a different solution path.</p>
-                                        </div>
-
-                                        <div>
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <span className="text-xl">⭐</span>
-                                                <h3 className="font-bold text-lg">Difficulty Modes</h3>
-                                            </div>
-                                            <ul className="text-sm space-y-1 pl-5">
-                                                <li><strong>⭐ Easy:</strong> See all words per theme. Icons for solved quadrants</li>
-                                                <li><strong>⭐⭐ Medium:</strong> Same as above but no knowledge of theme words</li>
-                                                <li><strong>⭐⭐⭐ Hard:</strong> Same as Medium but no icons for solved quadrants</li>
-                                                <li><strong>⭐⭐⭐⭐ Hardest:</strong> Find the center word!</li>
-                                            </ul>
+                                            <p>When quadrants turn amber (correct), you can still swap words <strong>within</strong> those quadrants - they'll stay correct!</p>
+                                            <p className="mt-2 text-sm">If swapping the remaining corners doesn't solve the puzzle, try swapping within an amber quadrant to find a valid arrangement.</p>
                                         </div>
 
                                         <button 
@@ -1106,27 +1082,6 @@
                                 </div>
                             </div>
 
-                            {/* Solution Rotation Controls */}
-                            {solved && (
-                                <div className="mb-4 flex items-center justify-center gap-3">
-                                    <button onClick={prevSolution}
-                                        className="px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold text-sm active:scale-95 transition-transform">
-                                        ← Prev
-                                    </button>
-                                    <div className="text-center">
-                                        <div className="text-gray-700 font-semibold">
-                                            Solution {solutionIndex + 1} of {puzzle.solutions.length}
-                                            {solutionIndex === userSolutionIndex && userSolutionIndex !== null && (
-                                                <span className="ml-1">⭐</span>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <button onClick={nextSolution}
-                                        className="px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold text-sm active:scale-95 transition-transform">
-                                        Next →
-                                    </button>
-                                </div>
-                            )}
                             
                             <div className="grid grid-cols-3 gap-3 relative">
                                 {/* Partial Quadrant Icons (during solving) */}
