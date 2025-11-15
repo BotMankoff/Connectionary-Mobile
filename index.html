@@ -456,6 +456,74 @@
                     "COVER": "Tent protection / Song remake",
                     "ALBUM": "Collection of songs"
                 }
+            },
+            {
+                id: 12,
+                title: "On a Roll",
+                titleIcon: "🎲",
+                centerWord: "ROLL",
+                solutions: [
+                    ["TUMBLE","SHAKE","BUN","RHYTHM","ROLL","STOCK","SONG","SCORE","CAMERA"],
+                    ["SONG","RHYTHM","TUMBLE","SCORE","ROLL","SHAKE","CAMERA","STOCK","BUN"],
+                    ["CAMERA","SCORE","SONG","STOCK","ROLL","RHYTHM","BUN","SHAKE","TUMBLE"],
+                    ["BUN","STOCK","CAMERA","SHAKE","ROLL","SCORE","TUMBLE","RHYTHM","SONG"],
+                    ["BUN","SHAKE","TUMBLE","STOCK","ROLL","RHYTHM","CAMERA","SCORE","SONG"],
+                    ["SONG","SCORE","CAMERA","RHYTHM","ROLL","STOCK","TUMBLE","SHAKE","BUN"],
+                    ["TUMBLE","RHYTHM","SONG","SHAKE","ROLL","SCORE","BUN","STOCK","CAMERA"],
+                    ["CAMERA","STOCK","BUN","SCORE","ROLL","SHAKE","SONG","RHYTHM","TUMBLE"]
+                ],
+                allWords: ["TUMBLE","SHAKE","BUN","RHYTHM","STOCK","SONG","SCORE","CAMERA"],
+                quadrantClues: [
+                    { clue: "MOVEMENT", words: ["TUMBLE","SHAKE","RHYTHM","ROLL"], icon: "🏃" },
+                    { clue: "FOOD", words: ["SHAKE","BUN","ROLL","STOCK"], icon: "🍔" },
+                    { clue: "MUSIC", words: ["RHYTHM","ROLL","SONG","SCORE"], icon: "🎵" },
+                    { clue: "FILM", words: ["ROLL","STOCK","SCORE","CAMERA"], icon: "🎬" }
+                ],
+                explanations: {
+                    "ROLL": "Tumble / Bread / Film / Rock music",
+                    "TUMBLE": "To fall or roll over",
+                    "SHAKE": "Move quickly / Milkshake",
+                    "BUN": "A small bread roll",
+                    "RHYTHM": "Movement pattern / Musical beat",
+                    "STOCK": "Food broth / Photographic film",
+                    "SONG": "Musical piece with words",
+                    "SCORE": "Film soundtrack / Written music",
+                    "CAMERA": "Device for capturing film"
+                }
+            },
+            {
+                id: 13,
+                title: "Big Draws",
+                titleIcon: "🎟️",
+                centerWord: "DRAW",
+                solutions: [
+                    ["STAR","FAN","TIE","CLIP","DRAW","POOL","GUN","PUMP","WELL"],
+                    ["GUN","CLIP","STAR","PUMP","DRAW","FAN","WELL","POOL","TIE"],
+                    ["WELL","PUMP","GUN","POOL","DRAW","CLIP","TIE","FAN","STAR"],
+                    ["TIE","POOL","WELL","FAN","DRAW","PUMP","STAR","CLIP","GUN"],
+                    ["TIE","FAN","STAR","POOL","DRAW","CLIP","WELL","PUMP","GUN"],
+                    ["GUN","PUMP","WELL","CLIP","DRAW","POOL","STAR","FAN","TIE"],
+                    ["STAR","CLIP","GUN","FAN","DRAW","PUMP","TIE","POOL","WELL"],
+                    ["WELL","POOL","TIE","PUMP","DRAW","FAN","GUN","CLIP","STAR"]
+                ],
+                allWords: ["STAR","FAN","TIE","CLIP","POOL","GUN","PUMP","WELL"],
+                quadrantClues: [
+                    { clue: "ENTERTAINMENT", words: ["STAR","FAN","CLIP","DRAW"], icon: "🎭" },
+                    { clue: "SPORTS", words: ["FAN","TIE","DRAW","POOL"], icon: "🏟️" },
+                    { clue: "WEAPONS", words: ["CLIP","DRAW","GUN","PUMP"], icon: "🔫" },
+                    { clue: "WATER", words: ["DRAW","POOL","PUMP","WELL"], icon: "💧" }
+                ],
+                explanations: {
+                    "DRAW": "Attraction / Tied game / Pull weapon / Extract water",
+                    "STAR": "Top performer or celebrity",
+                    "FAN": "Enthusiastic follower of performer or team",
+                    "TIE": "Even score in sports",
+                    "CLIP": "Video segment / Ammo holder",
+                    "POOL": "Billiards game / Body of water",
+                    "GUN": "Firearm weapon",
+                    "PUMP": "Water device / Pump-action shotgun",
+                    "WELL": "Water shaft or hole"
+                }
             }
         ];
 
@@ -473,6 +541,13 @@
             const [solutionIndex, setSolutionIndex] = useState(0);
             const [userSolutionIndex, setUserSolutionIndex] = useState(null);
             const [difficulty] = useState('medium'); // Fixed to medium difficulty
+            const [timer, setTimer] = useState(0); // Timer in seconds
+            const [timerActive, setTimerActive] = useState(false);
+            const [showGallery, setShowGallery] = useState(false);
+            const [solvedPuzzles, setSolvedPuzzles] = useState(() => {
+                const saved = localStorage.getItem('connectionary_solved_puzzles');
+                return saved ? JSON.parse(saved) : {};
+            });
             
             // Welcome and onboarding states
             const [showWelcome, setShowWelcome] = useState(() => {
@@ -516,7 +591,22 @@
                 setUserSolutionIndex(null);
                 setCorrectQuadrants({ tl: false, tr: false, bl: false, br: false });
                 setCelebrationStep(-1); // Reset celebration
+                setTimer(0); // Reset timer
+                setTimerActive(true); // Start timer
             }, [puzzleIdx, difficulty]); // Re-initialize when difficulty changes
+
+            // Timer effect
+            useEffect(() => {
+                let interval;
+                if (timerActive && !solved) {
+                    interval = setInterval(() => {
+                        setTimer(prev => prev + 1);
+                    }, 1000);
+                }
+                return () => {
+                    if (interval) clearInterval(interval);
+                };
+            }, [timerActive, solved]);
 
             // Check solution
             useEffect(() => {
@@ -529,6 +619,12 @@
                     setUserSolutionIndex(solIndex);
                     setSolutionIndex(solIndex);
                     setShowThemes(true);
+                    setTimerActive(false); // Stop timer when solved
+                    
+                    // Mark puzzle as solved
+                    const newSolvedPuzzles = { ...solvedPuzzles, [puzzle.id]: true };
+                    setSolvedPuzzles(newSolvedPuzzles);
+                    localStorage.setItem('connectionary_solved_puzzles', JSON.stringify(newSolvedPuzzles));
                 }
             }, [grid]);
 
@@ -780,6 +876,7 @@
                 setShowThemes(true);
                 setSolutionIndex(0);
                 setUserSolutionIndex(null);
+                setTimerActive(false); // Stop timer
             };
 
             const reset = () => {
@@ -802,6 +899,28 @@
                 setUserSolutionIndex(null);
                 setCorrectQuadrants({ tl: false, tr: false, bl: false, br: false });
                 setCelebrationStep(-1); // Reset celebration
+                setTimer(0); // Reset timer
+                setTimerActive(true); // Restart timer
+            };
+
+            const formatTime = (seconds) => {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            };
+
+            const undo = () => {
+                if (historyIdx > 0) {
+                    const newIdx = historyIdx - 1;
+                    setHistoryIdx(newIdx);
+                    setGrid(history[newIdx]);
+                    setSelected(null);
+                    setMoves(Math.max(0, moves - 1));
+                    
+                    // Recheck quadrants after undo
+                    const quadrantStatus = checkCorrectQuadrants(history[newIdx]);
+                    setCorrectQuadrants(quadrantStatus);
+                }
             };
 
             return (
@@ -974,15 +1093,21 @@
                         {!showWelcome && (
                         <>
 
-                        {/* Menu Buttons */}
-                        <div className="flex gap-3 mb-6">
+                        {/* Menu Buttons - 2x2 Grid */}
+                        <div className="grid grid-cols-2 gap-3 mb-6">
                             <button onClick={() => setShowThemes(!showThemes)}
-                                className="px-4 py-3 bg-purple-600 text-white rounded-lg font-semibold flex items-center justify-center gap-2 flex-1">
+                                className="px-4 py-3 bg-purple-600 text-white rounded-lg font-semibold flex items-center justify-center gap-2">
                                 {showThemes ? '🙈 Hide Themes' : '🎨 Show Themes'}
                             </button>
                             <button onClick={() => setShowHelp(true)}
-                                className="px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold flex items-center justify-center gap-2 flex-1">
+                                className="px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold flex items-center justify-center gap-2">
                                 📖 How to Play
+                            </button>
+                            <button 
+                                onClick={undo}
+                                disabled={historyIdx <= 0 || solved}
+                                className="px-4 py-3 bg-orange-600 text-white rounded-lg font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                                ↩️ Undo Move
                             </button>
                             <button onClick={() => setShowMenu(!showMenu)}
                                 className="px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold flex items-center justify-center gap-1">
@@ -992,6 +1117,11 @@
 
                         {showMenu && (
                             <div className="mb-6 bg-gray-800 rounded-lg py-2">
+                                <div onClick={() => { setShowGallery(true); setShowMenu(false); }}
+                                    className="flex items-center gap-3 px-4 py-3 text-white hover:bg-gray-700 cursor-pointer">
+                                    <span className="text-lg">🎨</span>
+                                    <span className="font-medium">Puzzle Gallery</span>
+                                </div>
                                 <div onClick={() => { reset(); setShowMenu(false); }}
                                     className="flex items-center gap-3 px-4 py-3 text-white hover:bg-gray-700 cursor-pointer">
                                     <span className="text-lg">🔄</span>
@@ -1097,6 +1227,94 @@
                             </div>
                         )}
 
+                        {/* Puzzle Gallery Modal */}
+                        {showGallery && (
+                            <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50" onClick={() => setShowGallery(false)}>
+                                <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6" onClick={e => e.stopPropagation()}>
+                                    {/* Header */}
+                                    <div className="flex items-center justify-between mb-4">
+                                        <h2 className="text-2xl font-bold text-gray-800">Puzzle Gallery</h2>
+                                        <button 
+                                            onClick={() => setShowGallery(false)}
+                                            className="w-10 h-10 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full text-gray-600 hover:text-gray-800 font-bold text-xl">
+                                            ×
+                                        </button>
+                                    </div>
+                                    
+                                    {/* Stats */}
+                                    <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg">
+                                        <div className="flex items-center justify-between text-sm">
+                                            <span className="text-gray-600">
+                                                Solved: <strong className="text-green-600">{Object.keys(solvedPuzzles).length}/{PUZZLES.length}</strong>
+                                            </span>
+                                            <span className="text-gray-600">
+                                                Remaining: <strong className="text-blue-600">{PUZZLES.length - Object.keys(solvedPuzzles).length}</strong>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Puzzle Grid */}
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                        {PUZZLES.map((p, idx) => {
+                                            const isSolved = solvedPuzzles[p.id];
+                                            const isCurrent = idx === puzzleIdx;
+                                            
+                                            return (
+                                                <button
+                                                    key={p.id}
+                                                    onClick={() => {
+                                                        setPuzzleIdx(idx);
+                                                        setShowGallery(false);
+                                                    }}
+                                                    className={`relative p-4 rounded-xl border-2 transition-all text-left ${
+                                                        isCurrent 
+                                                            ? 'border-blue-500 bg-blue-50' 
+                                                            : isSolved 
+                                                                ? 'border-green-300 bg-green-50 hover:border-green-500' 
+                                                                : 'border-gray-300 bg-white hover:border-gray-400'
+                                                    }`}>
+                                                    {/* Solved checkmark */}
+                                                    {isSolved && (
+                                                        <div className="absolute top-2 right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                                                            <span className="text-white text-sm">✓</span>
+                                                        </div>
+                                                    )}
+                                                    
+                                                    {/* Current indicator */}
+                                                    {isCurrent && (
+                                                        <div className="absolute top-2 left-2 px-2 py-0.5 bg-blue-500 text-white text-xs font-bold rounded">
+                                                            NOW
+                                                        </div>
+                                                    )}
+                                                    
+                                                    {/* Puzzle info */}
+                                                    <div className="text-3xl mb-2">{p.titleIcon}</div>
+                                                    <div className="font-bold text-sm text-gray-800 leading-tight mb-1">{p.title}</div>
+                                                    <div className="text-xs text-gray-500">#{idx + 1} • {p.centerWord}</div>
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                    
+                                    {/* Legend */}
+                                    <div className="mt-6 pt-4 border-t border-gray-200">
+                                        <div className="grid grid-cols-2 gap-3 text-xs">
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                                                    <span className="text-white text-xs">✓</span>
+                                                </div>
+                                                <span className="text-gray-600">Solved</span>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <div className="px-2 py-0.5 bg-blue-500 text-white text-xs font-bold rounded">NOW</div>
+                                                <span className="text-gray-600">Current Puzzle</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
                         {/* Grid */}
                         <div className="bg-white rounded-2xl p-4 shadow-2xl">
                             {/* COMPACT HEADER - NEW DESIGN */}
@@ -1105,9 +1323,13 @@
                                     <h2 className="text-lg font-bold text-gray-800 leading-tight">
                                         {puzzle.title}
                                     </h2>
-                                    {solved && (
+                                    {solved ? (
                                         <div className="text-xs text-green-600 font-semibold flex items-center gap-1">
-                                            ✓ Solved in {moves} moves
+                                            ✓ Solved in {moves} moves • {formatTime(timer)}
+                                        </div>
+                                    ) : (
+                                        <div className="text-xs text-gray-500 font-semibold flex items-center gap-1">
+                                            ⏱️ {formatTime(timer)} • {moves} moves
                                         </div>
                                     )}
                                 </div>
