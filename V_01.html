@@ -1529,6 +1529,12 @@
                                                         </svg>
                                                     </div>
                                                 )}
+                                                {/* Position number badge - shown after celebration completes */}
+                                                {solved && celebrationStep === 5 && (
+                                                    <div className="absolute -bottom-1 -left-1 bg-gray-700 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold z-10">
+                                                        {idx + 1}
+                                                    </div>
+                                                )}
                                                 <div className={`font-bold ${getFontSize(word)} text-center px-0.5 leading-tight
                                                     ${isCenter ? 'text-amber-900' : 
                                                       solved ? 'text-green-800' : 
@@ -1593,6 +1599,26 @@
                                                     {!solved && (
                                                         <div className="text-xs text-gray-500 italic">
                                                             Find the 4 words for this theme
+                                                        </div>
+                                                    )}
+                                                    {/* Show position numbers after celebration completes */}
+                                                    {solved && celebrationStep === 5 && (
+                                                        <div className="flex gap-1 mt-2 flex-wrap">
+                                                            {(() => {
+                                                                // Find positions of this theme's words in the displayGrid
+                                                                const positions = [];
+                                                                q.words.forEach(word => {
+                                                                    const pos = displayGrid.indexOf(word);
+                                                                    if (pos !== -1) positions.push(pos + 1); // +1 for 1-indexed display
+                                                                });
+                                                                positions.sort((a, b) => a - b); // Sort numerically
+                                                                
+                                                                return positions.map((pos, idx) => (
+                                                                    <span key={idx} className="bg-gray-700 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
+                                                                        {pos}
+                                                                    </span>
+                                                                ));
+                                                            })()}
                                                         </div>
                                                     )}
                                                 </div>
