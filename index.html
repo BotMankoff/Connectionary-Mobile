@@ -524,6 +524,40 @@
                     "PUMP": "Water device / Pump-action shotgun",
                     "WELL": "Water shaft or hole"
                 }
+            },
+            {
+                id: 14,
+                title: "Shell Shock",
+                titleIcon: "🌊",
+                centerWord: "SHELL",
+                solutions: [
+                    ["STROKE","BLADE","AMMO","WAKE","SHELL","PINCER","TIDE","BARNACLE","LOBSTER"],
+                    ["TIDE","WAKE","STROKE","BARNACLE","SHELL","BLADE","LOBSTER","PINCER","AMMO"],
+                    ["LOBSTER","BARNACLE","TIDE","PINCER","SHELL","WAKE","AMMO","BLADE","STROKE"],
+                    ["AMMO","PINCER","LOBSTER","BLADE","SHELL","BARNACLE","STROKE","WAKE","TIDE"],
+                    ["AMMO","BLADE","STROKE","PINCER","SHELL","WAKE","LOBSTER","BARNACLE","TIDE"],
+                    ["TIDE","BARNACLE","LOBSTER","WAKE","SHELL","PINCER","STROKE","BLADE","AMMO"],
+                    ["STROKE","WAKE","TIDE","BLADE","SHELL","BARNACLE","AMMO","PINCER","LOBSTER"],
+                    ["LOBSTER","PINCER","AMMO","BARNACLE","SHELL","BLADE","TIDE","WAKE","STROKE"]
+                ],
+                allWords: ["STROKE","BLADE","AMMO","WAKE","PINCER","TIDE","BARNACLE","LOBSTER"],
+                quadrantClues: [
+                    { clue: "ROWING", words: ["STROKE","BLADE","WAKE","SHELL"], icon: "🚣" },
+                    { clue: "MILITARY", words: ["BLADE","AMMO","PINCER","SHELL"], icon: "🪖" },
+                    { clue: "MARINE", words: ["WAKE","SHELL","TIDE","BARNACLE"], icon: "🌊" },
+                    { clue: "CRUSTACEANS", words: ["SHELL","PINCER","BARNACLE","LOBSTER"], icon: "🦞" }
+                ],
+                explanations: {
+                    "SHELL": "Racing shell / Artillery shell / Seashell / Crustacean exoskeleton",
+                    "STROKE": "Lead rower setting rhythm and pace",
+                    "BLADE": "Oar's flat end / Weapon's cutting edge",
+                    "AMMO": "Ammunition including shells and projectiles",
+                    "WAKE": "Trail of disturbed water behind boat",
+                    "PINCER": "Flanking military tactic / Crustacean claw",
+                    "TIDE": "Regular rise and fall of sea levels",
+                    "BARNACLE": "Marine crustacean attached to underwater surfaces",
+                    "LOBSTER": "Marine crustacean with hard shell and claws"
+                }
             }
         ];
 
@@ -534,7 +568,7 @@
             const [history, setHistory] = useState([]);
             const [historyIdx, setHistoryIdx] = useState(-1);
             const [solved, setSolved] = useState(false);
-            const [showThemes, setShowThemes] = useState(false);
+            const [showThemes, setShowThemes] = useState(true);
             const [showHelp, setShowHelp] = useState(false);
             const [showMenu, setShowMenu] = useState(false);
             const [moves, setMoves] = useState(0);
@@ -586,7 +620,7 @@
                 setSolved(false);
                 setSelected(null);
                 setMoves(0);
-                setShowThemes(false);
+                setShowThemes(true);
                 setSolutionIndex(0);
                 setUserSolutionIndex(null);
                 setCorrectQuadrants({ tl: false, tr: false, bl: false, br: false });
@@ -841,6 +875,31 @@
                 return bestMatch;
             };
 
+            // Sort quadrant clues by their spatial position in the grid (TL, TR, BL, BR)
+            const getQuadrantCluesBySpatialPosition = (displayGrid) => {
+                // Helper to check if a set of words matches a quadrant position
+                const quadrantMatches = (clueWords, positions) => {
+                    const quadrantWords = positions.map(pos => displayGrid[pos]);
+                    // Check if clue words match quadrant words (order doesn't matter)
+                    const clueWordsSorted = [...clueWords].sort();
+                    const quadrantWordsSorted = [...quadrantWords].sort();
+                    return JSON.stringify(clueWordsSorted) === JSON.stringify(quadrantWordsSorted);
+                };
+                
+                // Map each clue to its spatial position
+                const cluesWithPosition = puzzle.quadrantClues.map(clue => {
+                    let position = -1;
+                    if (quadrantMatches(clue.words, [0, 1, 3, 4])) position = 0; // TL
+                    else if (quadrantMatches(clue.words, [1, 2, 4, 5])) position = 1; // TR
+                    else if (quadrantMatches(clue.words, [3, 4, 6, 7])) position = 2; // BL
+                    else if (quadrantMatches(clue.words, [4, 5, 7, 8])) position = 3; // BR
+                    return { ...clue, position };
+                });
+                
+                // Sort by position (TL=0, TR=1, BL=2, BR=3)
+                return cluesWithPosition.sort((a, b) => a.position - b.position);
+            };
+
             const handleCellClick = (idx) => {
                 // Center word is always locked
                 if (solved) return;
@@ -894,7 +953,7 @@
                 setSolved(false);
                 setSelected(null);
                 setMoves(0);
-                setShowThemes(false);
+                setShowThemes(true);
                 setSolutionIndex(0);
                 setUserSolutionIndex(null);
                 setCorrectQuadrants({ tl: false, tr: false, bl: false, br: false });
@@ -1497,19 +1556,37 @@
                                     THEMES - Find 4 words for each
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
-                                    {puzzle.quadrantClues.map((q, i) => (
-                                        <div key={i} className="border-2 border-gray-200 rounded-xl p-3 bg-gradient-to-br from-white to-gray-50">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <span className="text-2xl">{q.icon}</span>
-                                                <span className="font-bold text-sm leading-tight">{q.clue}</span>
-                                            </div>
-                                            {!solved && (
-                                                <div className="text-xs text-gray-500 italic">
-                                                    Find the 4 words for this theme
+                                    {(() => {
+                                        // When solved, display themes in spatial order (TL, TR, BL, BR)
+                                        const displayGrid = solved ? puzzle.solutions[solutionIndex] : grid;
+                                        const themesToShow = solved 
+                                            ? getQuadrantCluesBySpatialPosition(displayGrid)
+                                            : puzzle.quadrantClues;
+                                        
+                                        return themesToShow.map((q, i) => {
+                                            // Determine if this theme should be highlighted during celebration
+                                            // celebrationStep 1-4 correspond to quadrants 0-3 (TL, TR, BL, BR)
+                                            const isHighlighted = solved && celebrationStep > 0 && celebrationStep <= 4 && (celebrationStep - 1) === i;
+                                            const isAllGreen = solved && celebrationStep === 5;
+                                            
+                                            return (
+                                                <div key={i} className={`border-2 rounded-xl p-3 bg-gradient-to-br from-white to-gray-50 transition-all duration-300
+                                                    ${isHighlighted ? 'border-black border-4 shadow-lg' : 
+                                                      isAllGreen ? 'border-green-500 border-4' : 
+                                                      'border-gray-200'}`}>
+                                                    <div className="flex items-center gap-2 mb-2">
+                                                        <span className="text-2xl">{q.icon}</span>
+                                                        <span className="font-bold text-sm leading-tight">{q.clue}</span>
+                                                    </div>
+                                                    {!solved && (
+                                                        <div className="text-xs text-gray-500 italic">
+                                                            Find the 4 words for this theme
+                                                        </div>
+                                                    )}
                                                 </div>
-                                            )}
-                                        </div>
-                                    ))}
+                                            );
+                                        });
+                                    })()}
                                 </div>
                             </div>
                         )}
