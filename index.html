@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Connectionary Mobile</title>
+    <title>Associology Mobile (Clean - No Grid Icons)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -16,8 +16,8 @@
             transform: scale(0.95);
         }
         .locked-cell {
-            background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+            background: linear-gradient(135deg, #86efac, #22c55e) !important;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
         }
         @keyframes celebration {
             0%, 100% { transform: scale(1); }
@@ -348,8 +348,8 @@
                     "WARM": "Moderately hot temperature",
                     "BOIL": "Liquid's change of state / Cooking method",
                     "SEAR": "High-heat cooking technique",
-                    "HOT": "High temperature / Stolen goods; 'hot pursuit'",
-                    "SEASON": "Add flavor / Period of play",
+                    "HOT": "High temperature / Stolen goods",
+                    "SEASON": "Add flavor / Period of competition",
                     "WARRANT": "Legal arrest document",
                     "CHASE": "Police pursuit / Racing event (e.g., steeplechase, cycling pursuit)",
                     "LAP": "Circuit in a race"
@@ -558,6 +558,380 @@
                     "BARNACLE": "Marine crustacean attached to underwater surfaces",
                     "LOBSTER": "Marine crustacean with hard shell and claws"
                 }
+            },
+            {
+                id: 15,
+                title: "That Rocks",
+                titleIcon: "🎸",
+                centerWord: "ROCK",
+                solutions: [
+                    ["JAZZ","STING","SHAKEDOWN","BAND","ROCK","CHISEL","GEM","STONE","MARBLE"],
+                    ["GEM","BAND","JAZZ","STONE","ROCK","STING","MARBLE","CHISEL","SHAKEDOWN"],
+                    ["MARBLE","STONE","GEM","CHISEL","ROCK","BAND","SHAKEDOWN","STING","JAZZ"],
+                    ["SHAKEDOWN","CHISEL","MARBLE","STING","ROCK","STONE","JAZZ","BAND","GEM"],
+                    ["SHAKEDOWN","STING","JAZZ","CHISEL","ROCK","BAND","MARBLE","STONE","GEM"],
+                    ["GEM","STONE","MARBLE","BAND","ROCK","CHISEL","JAZZ","STING","SHAKEDOWN"],
+                    ["JAZZ","BAND","GEM","STING","ROCK","STONE","SHAKEDOWN","CHISEL","MARBLE"],
+                    ["MARBLE","CHISEL","SHAKEDOWN","STONE","ROCK","STING","GEM","BAND","JAZZ"]
+                ],
+                allWords: ["JAZZ","STING","SHAKEDOWN","BAND","CHISEL","GEM","STONE","MARBLE"],
+                quadrantClues: [
+                    { clue: "MUSIC", words: ["JAZZ","STING","BAND","ROCK"], icon: "🎵" },
+                    { clue: "TAKE ADVANTAGE", words: ["STING","SHAKEDOWN","ROCK","CHISEL"], icon: "💸" },
+                    { clue: "JEWELRY", words: ["BAND","ROCK","GEM","STONE"], icon: "💍" },
+                    { clue: "SCULPTURE", words: ["ROCK","CHISEL","STONE","MARBLE"], icon: "🗿" }
+                ],
+                explanations: {
+                    "ROCK": "Music genre, shock or overwhelm someone, precious stone, sculpting material.",
+                    "JAZZ": "Improvisational music genre with syncopated rhythms.",
+                    "STING": "Rock/pop artist; elaborate con operation.",
+                    "SHAKEDOWN": "Extortion or thorough search through intimidation.",
+                    "BAND": "Musical group; ring worn on finger.",
+                    "CHISEL": "To cheat or defraud; tool for carving stone.",
+                    "GEM": "Precious stone used in jewelry.",
+                    "STONE": "Precious gem; hard material for sculpting.",
+                    "MARBLE": "Fine-grained rock used for sculpture and architecture."
+                }
+            },
+            {
+                id: 16,
+                title: "Full Circle",
+                titleIcon: "💍",
+                centerWord: "RING",
+                solutions: [
+                    ["VOWS","DIAMOND","OVAL","RECEPTION","RING","CORNER","DIAL","BELL","GLOVE"],
+                    ["DIAL","RECEPTION","VOWS","BELL","RING","DIAMOND","GLOVE","CORNER","OVAL"],
+                    ["GLOVE","BELL","DIAL","CORNER","RING","RECEPTION","OVAL","DIAMOND","VOWS"],
+                    ["OVAL","CORNER","GLOVE","DIAMOND","RING","BELL","VOWS","RECEPTION","DIAL"],
+                    ["OVAL","DIAMOND","VOWS","CORNER","RING","RECEPTION","GLOVE","BELL","DIAL"],
+                    ["DIAL","BELL","GLOVE","RECEPTION","RING","CORNER","VOWS","DIAMOND","OVAL"],
+                    ["VOWS","RECEPTION","DIAL","DIAMOND","RING","BELL","OVAL","CORNER","GLOVE"],
+                    ["GLOVE","CORNER","OVAL","BELL","RING","DIAMOND","DIAL","RECEPTION","VOWS"]
+                ],
+                allWords: ["VOWS","DIAMOND","OVAL","RECEPTION","CORNER","DIAL","BELL","GLOVE"],
+                quadrantClues: [
+                    { clue: "WEDDINGS", words: ["VOWS","DIAMOND","RECEPTION","RING"], icon: "💒" },
+                    { clue: "GEOMETRY", words: ["DIAMOND","OVAL","RING","CORNER"], icon: "📐" },
+                    { clue: "PHONES", words: ["RECEPTION","RING","DIAL","BELL"], icon: "☎️" },
+                    { clue: "BOXING", words: ["RING","CORNER","BELL","GLOVE"], icon: "🥊" }
+                ],
+                explanations: {
+                    "RING": "Wedding band / Geometric circle / Phone sound / Boxing arena",
+                    "VOWS": "Promises made during a wedding ceremony",
+                    "DIAMOND": "Precious stone for engagement / Rhombus shape",
+                    "OVAL": "An elongated round shape",
+                    "RECEPTION": "Wedding party / Cellular signal strength",
+                    "CORNER": "Where two lines meet / Boxer's resting area",
+                    "DIAL": "To input a number on a phone",
+                    "BELL": "Old telephone ringer / Boxing round signal",
+                    "GLOVE": "Padded handwear used by boxers"
+                }
+            },
+            {
+                id: 17,
+                title: "Room and Board",
+                titleIcon: "🏛️",
+                centerWord: "BOARD",
+                solutions: [
+                    ["PLANK","DECK","SHIP","PANEL","BOARD","COURSE","MOTION","TABLE","MEAL"],
+                    ["MOTION","PANEL","PLANK","TABLE","BOARD","DECK","MEAL","COURSE","SHIP"],
+                    ["MEAL","TABLE","MOTION","COURSE","BOARD","PANEL","SHIP","DECK","PLANK"],
+                    ["SHIP","COURSE","MEAL","DECK","BOARD","TABLE","PLANK","PANEL","MOTION"],
+                    ["PLANK","PANEL","MOTION","DECK","BOARD","TABLE","SHIP","COURSE","MEAL"],
+                    ["MOTION","TABLE","MEAL","PANEL","BOARD","COURSE","PLANK","DECK","SHIP"],
+                    ["MEAL","COURSE","SHIP","TABLE","BOARD","DECK","MOTION","PANEL","PLANK"],
+                    ["SHIP","DECK","PLANK","COURSE","BOARD","PANEL","MEAL","TABLE","MOTION"]
+                ],
+                allWords: ["PLANK","DECK","SHIP","PANEL","COURSE","MOTION","TABLE","MEAL"],
+                quadrantClues: [
+                    { clue: "LUMBER", words: ["PLANK","DECK","PANEL","BOARD"], icon: "🪵" },
+                    { clue: "NAUTICAL", words: ["DECK","SHIP","BOARD","COURSE"], icon: "⛵" },
+                    { clue: "GOVERNANCE", words: ["PANEL","BOARD","MOTION","TABLE"], icon: "⚖️" },
+                    { clue: "DINING", words: ["BOARD","COURSE","TABLE","MEAL"], icon: "🍽️" }
+                ],
+                explanations: {
+                    "BOARD": "Wood plank, ship boarding, governing body, meals provided.",
+                    "PLANK": "Heavy thick board used in construction.",
+                    "DECK": "Wooden platform; floor of a ship.",
+                    "SHIP": "Large vessel that travels by sea.",
+                    "PANEL": "Wood sheet; group of experts.",
+                    "COURSE": "Ship's route; part of a meal.",
+                    "MOTION": "Formal proposal in governance proceedings.",
+                    "TABLE": "To postpone consideration; dining furniture.",
+                    "MEAL": "Occasion of eating food."
+                }
+            },
+            {
+                id: 18,
+                title: "Tipping the Scales",
+                titleIcon: "⚖️",
+                centerWord: "SCALE",
+                solutions: [
+                    ["TEMPO","BASS","SOLE","KEY","SCALE","NET","GRID","UNITS","BALANCE"],
+                    ["GRID","KEY","TEMPO","UNITS","SCALE","BASS","BALANCE","NET","SOLE"],
+                    ["BALANCE","UNITS","GRID","NET","SCALE","KEY","SOLE","BASS","TEMPO"],
+                    ["SOLE","NET","BALANCE","BASS","SCALE","UNITS","TEMPO","KEY","GRID"],
+                    ["SOLE","BASS","TEMPO","NET","SCALE","KEY","BALANCE","UNITS","GRID"],
+                    ["BALANCE","NET","SOLE","UNITS","SCALE","BASS","GRID","KEY","TEMPO"],
+                    ["TEMPO","KEY","GRID","BASS","SCALE","UNITS","SOLE","NET","BALANCE"],
+                    ["GRID","UNITS","BALANCE","KEY","SCALE","NET","TEMPO","BASS","SOLE"]
+                ],
+                allWords: ["TEMPO","BASS","SOLE","KEY","NET","GRID","UNITS","BALANCE"],
+                quadrantClues: [
+                    { clue: "MUSIC", words: ["TEMPO","BASS","KEY","SCALE"], icon: "🎵" },
+                    { clue: "FISH", words: ["BASS","SOLE","SCALE","NET"], icon: "🐟" },
+                    { clue: "MAPS", words: ["KEY","SCALE","GRID","UNITS"], icon: "🗺️" },
+                    { clue: "WEIGHING", words: ["SCALE","NET","UNITS","BALANCE"], icon: "⚖️" }
+                ],
+                explanations: {
+                    "SCALE": "Musical notes sequence, fish skin, map ratio, weighing device.",
+                    "TEMPO": "Speed or pace of music.",
+                    "BASS": "Low musical pitch; type of fish.",
+                    "SOLE": "Flat fish species.",
+                    "KEY": "Musical tonal center; map legend.",
+                    "NET": "Fishing tool; weight after deductions.",
+                    "GRID": "Lines forming map coordinates.",
+                    "UNITS": "Map measurement; weight measurement.",
+                    "BALANCE": "Device for comparing masses."
+                }
+            },
+            {
+                id: 19,
+                title: "Book It",
+                titleIcon: "📖",
+                centerWord: "BOOK",
+                solutions: [
+                    ["NOVEL","TEXT","FACE","SENTENCE","BOOK","DATE","WARRANT","CHARGE","TABLE"],
+                    ["SENTENCE","WARRANT","NOVEL","CHARGE","BOOK","TEXT","TABLE","DATE","FACE"],
+                    ["TABLE","DATE","FACE","CHARGE","BOOK","TEXT","WARRANT","SENTENCE","NOVEL"],
+                    ["FACE","TEXT","NOVEL","DATE","BOOK","SENTENCE","TABLE","CHARGE","WARRANT"],
+                    ["FACE","DATE","TABLE","TEXT","BOOK","CHARGE","NOVEL","SENTENCE","WARRANT"],
+                    ["NOVEL","SENTENCE","WARRANT","TEXT","BOOK","CHARGE","FACE","DATE","TABLE"],
+                    ["TABLE","CHARGE","WARRANT","DATE","BOOK","SENTENCE","FACE","TEXT","NOVEL"],
+                    ["WARRANT","CHARGE","TABLE","SENTENCE","BOOK","DATE","NOVEL","TEXT","FACE"]
+                ],
+                allWords: ["NOVEL","TEXT","FACE","SENTENCE","DATE","WARRANT","CHARGE","TABLE"],
+                quadrantClues: [
+                    { clue: "WRITING", words: ["NOVEL","TEXT","SENTENCE","BOOK"], icon: "✍️" },
+                    { clue: "—BOOK", words: ["TEXT","FACE","BOOK","DATE"], icon: "📚" },
+                    { clue: "LAW", words: ["SENTENCE","BOOK","WARRANT","CHARGE"], icon: "👮" },
+                    { clue: "RESERVATIONS", words: ["BOOK","DATE","CHARGE","TABLE"], icon: "📅" }
+                ],
+                explanations: {
+                    "BOOK": "Written work / Forms compounds / Police arrest / Reserve appointment",
+                    "NOVEL": "Fictional narrative book",
+                    "TEXT": "Written content / Forms 'textbook'",
+                    "FACE": "'Facebook' (Social media site)",
+                    "SENTENCE": "Grammatical structure / Prison term",
+                    "DATE": "'Datebook' / Appointment time",
+                    "WARRANT": "Legal authorization for arrest",
+                    "CHARGE": "Accusation of crime / Service fee or cover",
+                    "TABLE": "To reserve a spot at a restaurant"
+                }
+            },
+            {
+                id: 20,
+                title: "Fair and Square",
+                titleIcon: "🟦",
+                centerWord: "SQUARE",
+                solutions: [
+                    ["OVAL","BLOCK","PARK","CUBE","SQUARE","COURT","PRIME","EVEN","JUST"],
+                    ["PARK","COURT","JUST","BLOCK","SQUARE","EVEN","OVAL","CUBE","PRIME"],
+                    ["JUST","EVEN","PRIME","COURT","SQUARE","CUBE","PARK","BLOCK","OVAL"],
+                    ["PRIME","CUBE","OVAL","EVEN","SQUARE","BLOCK","JUST","COURT","PARK"],
+                    ["PRIME","EVEN","JUST","CUBE","SQUARE","COURT","OVAL","BLOCK","PARK"],
+                    ["PARK","BLOCK","OVAL","COURT","SQUARE","CUBE","JUST","EVEN","PRIME"],
+                    ["JUST","COURT","PARK","EVEN","SQUARE","BLOCK","PRIME","CUBE","OVAL"],
+                    ["OVAL","CUBE","PRIME","BLOCK","SQUARE","EVEN","PARK","COURT","JUST"]
+                ],
+                allWords: ["OVAL","BLOCK","PARK","CUBE","COURT","PRIME","EVEN","JUST"],
+                quadrantClues: [
+                    { clue: "SHAPES", words: ["OVAL","BLOCK","CUBE","SQUARE"], icon: "🔷" },
+                    { clue: "CITY", words: ["BLOCK","PARK","SQUARE","COURT"], icon: "🏙️" },
+                    { clue: "MATH", words: ["CUBE","SQUARE","PRIME","EVEN"], icon: "➗" },
+                    { clue: "FAIRNESS", words: ["SQUARE","COURT","EVEN","JUST"], icon: "⚖️" }
+                ],
+                explanations: {
+                    "SQUARE": "Shape; city plaza; multiply by itself; fair and honest",
+                    "OVAL": "Elongated circular or egg-like shape",
+                    "BLOCK": "Solid cube shape; city section between streets",
+                    "PARK": "Public green space in a city",
+                    "CUBE": "Six-sided 3D shape; third power in math",
+                    "COURT": "Dead-end residential street; place of justice",
+                    "PRIME": "Number divisible only by 1 and itself",
+                    "EVEN": "Divisible by two; fair or equal",
+                    "JUST": "Fair, righteous, or morally correct"
+                }
+            },
+            {
+                id: 21,
+                title: "Crowned Heads",
+                titleIcon: "👑",
+                centerWord: "KING",
+                solutions: [
+                    ["JUMP","BOARD","MATE","CROWN","KING","RANK","REIGN","COURT","SUIT"],
+                    ["MATE","RANK","SUIT","BOARD","KING","COURT","JUMP","CROWN","REIGN"],
+                    ["SUIT","COURT","REIGN","RANK","KING","CROWN","MATE","BOARD","JUMP"],
+                    ["REIGN","CROWN","JUMP","COURT","KING","BOARD","SUIT","RANK","MATE"],
+                    ["REIGN","COURT","SUIT","CROWN","KING","RANK","JUMP","BOARD","MATE"],
+                    ["MATE","BOARD","JUMP","RANK","KING","CROWN","SUIT","COURT","REIGN"],
+                    ["SUIT","RANK","MATE","COURT","KING","BOARD","REIGN","CROWN","JUMP"],
+                    ["JUMP","CROWN","REIGN","BOARD","KING","COURT","MATE","RANK","SUIT"]
+                ],
+                allWords: ["JUMP","BOARD","MATE","CROWN","RANK","REIGN","COURT","SUIT"],
+                quadrantClues: [
+                    { clue: "CHECKERS", words: ["JUMP","BOARD","CROWN","KING"], icon: "⚫" },
+                    { clue: "CHESS", words: ["BOARD","MATE","KING","RANK"], icon: "♟️" },
+                    { clue: "MONARCHY", words: ["CROWN","KING","REIGN","COURT"], icon: "👑" },
+                    { clue: "CARDS", words: ["KING","RANK","COURT","SUIT"], icon: "🃏" }
+                ],
+                explanations: {
+                    "KING": "Checkers piece / Chess piece / Monarch / Face card",
+                    "JUMP": "To capture an opponent's piece in checkers",
+                    "BOARD": "The playing surface for tabletop games",
+                    "MATE": "Winning position in chess ('Checkmate')",
+                    "CROWN": "To promote a checker / Royal headgear",
+                    "RANK": "Horizontal row on a chessboard / Card value",
+                    "REIGN": "Period of a monarch's rule",
+                    "COURT": "Royal entourage / Face cards (J, Q, K)",
+                    "SUIT": "Card category (Hearts, Clubs, etc.)"
+                }
+            },
+            {
+                id: 22,
+                title: "Break a Leg",
+                titleIcon: "🤕",
+                centerWord: "CAST",
+                solutions: [
+                    ["CURTAIN","STAGE","SUTURE","LINE","CAST","BRACE","REEL","HOOK","ANVIL"],
+                    ["REEL","LINE","CURTAIN","HOOK","CAST","STAGE","ANVIL","BRACE","SUTURE"],
+                    ["SUTURE","BRACE","ANVIL","STAGE","CAST","HOOK","CURTAIN","LINE","REEL"],
+                    ["ANVIL","HOOK","REEL","BRACE","CAST","LINE","SUTURE","STAGE","CURTAIN"],
+                    ["SUTURE","STAGE","CURTAIN","BRACE","CAST","LINE","ANVIL","HOOK","REEL"],
+                    ["ANVIL","BRACE","SUTURE","HOOK","CAST","STAGE","REEL","LINE","CURTAIN"],
+                    ["CURTAIN","LINE","REEL","STAGE","CAST","HOOK","SUTURE","BRACE","ANVIL"],
+                    ["REEL","HOOK","ANVIL","LINE","CAST","BRACE","CURTAIN","STAGE","SUTURE"]
+                ],
+                allWords: ["CURTAIN","STAGE","SUTURE","LINE","BRACE","REEL","HOOK","ANVIL"],
+                quadrantClues: [
+                    { clue: "THEATER", words: ["CURTAIN","STAGE","LINE","CAST"], icon: "🎭" },
+                    { clue: "MEDICINE", words: ["STAGE","SUTURE","CAST","BRACE"], icon: "🏥" },
+                    { clue: "FISHING", words: ["LINE","CAST","REEL","HOOK"], icon: "🎣" },
+                    { clue: "METALWORK", words: ["CAST","BRACE","HOOK","ANVIL"], icon: "⚒️" }
+                ],
+                explanations: {
+                    "CAST": "Actors / Plaster casing / Throw line / Mold metal",
+                    "CURTAIN": "Theater drape or barrier",
+                    "STAGE": "Performance platform / Degree of illness progression",
+                    "SUTURE": "Medical stitch",
+                    "LINE": "Spoken dialogue / Fishing string",
+                    "BRACE": "Orthopedic support / Structural metal support",
+                    "REEL": "Winding device for fishing",
+                    "HOOK": "Fishing barb / Curved metal tool",
+                    "ANVIL": "Heavy block for shaping metal"
+                }
+            },
+            {
+                id: 23,
+                title: "Liquid Logic",
+                titleIcon: "🧪",
+                centerWord: "SOLUTION",
+                solutions: [
+                    ["ROOT","BASE","ACID","SQUARE","SOLUTION","AGENT","DOWN","CLUE","CRIME"],
+                    ["DOWN","SQUARE","ROOT","CLUE","SOLUTION","BASE","CRIME","AGENT","ACID"],
+                    ["CRIME","AGENT","ACID","CLUE","SOLUTION","BASE","DOWN","SQUARE","ROOT"],
+                    ["ACID","AGENT","CRIME","BASE","SOLUTION","CLUE","ROOT","SQUARE","DOWN"],
+                    ["ACID","BASE","ROOT","AGENT","SOLUTION","SQUARE","CRIME","CLUE","DOWN"],
+                    ["ROOT","SQUARE","DOWN","BASE","SOLUTION","CLUE","ACID","AGENT","CRIME"],
+                    ["DOWN","CLUE","CRIME","SQUARE","SOLUTION","AGENT","ROOT","BASE","ACID"],
+                    ["CRIME","CLUE","DOWN","AGENT","SOLUTION","SQUARE","ACID","BASE","ROOT"]
+                ],
+                allWords: ["ROOT","BASE","ACID","SQUARE","AGENT","DOWN","CLUE","CRIME"],
+                quadrantClues: [
+                    { clue: "MATH", words: ["ROOT","BASE","SQUARE","SOLUTION"], icon: "➗" },
+                    { clue: "CHEMISTRY", words: ["BASE","ACID","AGENT","SOLUTION"], icon: "🧪" },
+                    { clue: "CROSSWORDS", words: ["SQUARE","SOLUTION","CLUE","DOWN"], icon: "✏️" },
+                    { clue: "MYSTERY", words: ["SOLUTION","AGENT","CLUE","CRIME"], icon: "🕵️" }
+                ],
+                explanations: {
+                    "SOLUTION": "Math answer / Chemical mixture / Puzzle answer / Solved crime",
+                    "ROOT": "Origin of a number (Square Root)",
+                    "BASE": "Number system radix / Chemical with pH > 7",
+                    "ACID": "Chemical substance with pH < 7",
+                    "SQUARE": "Number times itself / Box in a crossword grid",
+                    "AGENT": "Chemical substance / Investigator or spy",
+                    "DOWN": "Crossword answer direction",
+                    "CLUE": "Hint for a puzzle / Evidence in a crime",
+                    "CRIME": "Unlawful act to be investigated"
+                }
+            },
+            {
+                id: 24,
+                title: "Court Order",
+                titleIcon: "⚖️",
+                centerWord: "COURT",
+                solutions: [
+                    ["THRONE","BALL","SQUASH","PEERS","COURT","MATCH","GAVEL","BOND","FLAME"],
+                    ["SQUASH","MATCH","FLAME","BALL","COURT","BOND","THRONE","PEERS","GAVEL"],
+                    ["FLAME","BOND","GAVEL","MATCH","COURT","PEERS","SQUASH","BALL","THRONE"],
+                    ["GAVEL","PEERS","THRONE","BOND","COURT","BALL","FLAME","MATCH","SQUASH"],
+                    ["THRONE","PEERS","GAVEL","BALL","COURT","BOND","SQUASH","MATCH","FLAME"],
+                    ["GAVEL","BOND","FLAME","PEERS","COURT","MATCH","THRONE","BALL","SQUASH"],
+                    ["FLAME","MATCH","SQUASH","BOND","COURT","BALL","GAVEL","PEERS","THRONE"],
+                    ["SQUASH","BALL","THRONE","MATCH","COURT","PEERS","FLAME","BOND","GAVEL"]
+                ],
+                allWords: ["THRONE","BALL","SQUASH","PEERS","MATCH","GAVEL","BOND","FLAME"],
+                quadrantClues: [
+                    { clue: "ROYALTY", words: ["THRONE","BALL","PEERS","COURT"], icon: "👑" },
+                    { clue: "SPORTS", words: ["BALL","SQUASH","MATCH","COURT"], icon: "🏸" },
+                    { clue: "LAW", words: ["PEERS","COURT","GAVEL","BOND"], icon: "⚖️" },
+                    { clue: "ROMANCE", words: ["COURT","MATCH","BOND","FLAME"], icon: "💕" }
+                ],
+                explanations: {
+                    "COURT": "Royal court / Playing court / Court of law / To woo",
+                    "THRONE": "Monarch's seat",
+                    "BALL": "Formal dance / Sports equipment",
+                    "SQUASH": "Racket sport",
+                    "PEERS": "Nobles / Jury of one's peers",
+                    "MATCH": "Competition / Marriage partner",
+                    "GAVEL": "Judge's mallet",
+                    "BOND": "Bail security / Emotional connection",
+                    "FLAME": "Sweetheart"
+                }
+            },
+            {
+                id: 25,
+                title: "The Gambit",
+                titleIcon: "🎲",
+                centerWord: "PIECE",
+                solutions: [
+                    ["KNIGHT","MINIATURE","STATUE","CHECKER","PIECE","LOT","SCOOP","STOCK","SHARE"],
+                    ["STATUE","LOT","SHARE","MINIATURE","PIECE","STOCK","KNIGHT","CHECKER","SCOOP"],
+                    ["SHARE","STOCK","SCOOP","LOT","PIECE","CHECKER","STATUE","MINIATURE","KNIGHT"],
+                    ["SCOOP","CHECKER","KNIGHT","STOCK","PIECE","MINIATURE","SHARE","LOT","STATUE"],
+                    ["STATUE","MINIATURE","KNIGHT","LOT","PIECE","CHECKER","SHARE","STOCK","SCOOP"],
+                    ["SCOOP","STOCK","SHARE","CHECKER","PIECE","LOT","KNIGHT","MINIATURE","STATUE"],
+                    ["KNIGHT","CHECKER","SCOOP","MINIATURE","PIECE","STOCK","STATUE","LOT","SHARE"],
+                    ["SHARE","LOT","STATUE","STOCK","PIECE","MINIATURE","SCOOP","CHECKER","KNIGHT"]
+                ],
+                allWords: ["KNIGHT","MINIATURE","STATUE","CHECKER","LOT","SCOOP","STOCK","SHARE"],
+                quadrantClues: [
+                    { clue: "BOARD GAMES", words: ["KNIGHT","MINIATURE","CHECKER","PIECE"], icon: "🎲" },
+                    { clue: "ARTWORK", words: ["MINIATURE","STATUE","PIECE","LOT"], icon: "🎨" },
+                    { clue: "JOURNALISM", words: ["CHECKER","PIECE","SCOOP","STOCK"], icon: "📰" },
+                    { clue: "FINANCE", words: ["PIECE","LOT","STOCK","SHARE"], icon: "📈" }
+                ],
+                explanations: {
+                    "PIECE": "Game token / Artwork / Article / Share of business",
+                    "KNIGHT": "Chess piece",
+                    "MINIATURE": "Small game model / Miniature painting",
+                    "STATUE": "Sculptural artwork",
+                    "CHECKER": "Game piece / Fact-checker",
+                    "LOT": "Auction item / Bundle of shares",
+                    "SCOOP": "Exclusive news story",
+                    "STOCK": "Stock photo / Company share",
+                    "SHARE": "Unit of ownership"
+                }
             }
         ];
 
@@ -600,19 +974,36 @@
                 bl: false,
                 br: false
             });
-            const [celebrationStep, setCelebrationStep] = useState(-1); // -1=not started, 0=delay, 1-4=spotlight quadrants, 5=all green
 
             const puzzle = PUZZLES[puzzleIdx];
+
+            const hasThreeOrMoreCorrectInQuadrant = (testGrid) => {
+                const checkQuadrant = (positions) => {
+                    const currentWords = positions.map(pos => testGrid[pos]);
+                    
+                    // Check against each theme
+                    for (const theme of puzzle.quadrantClues) {
+                        const matchCount = currentWords.filter(word => theme.words.includes(word)).length;
+                        if (matchCount >= 3) return true; // 3 or 4 words from same theme
+                    }
+                    return false;
+                };
+                
+                return checkQuadrant([0, 1, 3, 4]) || 
+                       checkQuadrant([1, 2, 4, 5]) || 
+                       checkQuadrant([3, 4, 6, 7]) || 
+                       checkQuadrant([4, 5, 7, 8]);
+            };
 
             // Initialize puzzle
             useEffect(() => {
                 let shuffled;
-                // Keep shuffling until we get a starting position with NO correct quadrants
+                // Keep shuffling until we get a starting position with NO quadrant having 3+ correct words
                 do {
                     // Always lock center word at position 4
                     shuffled = [...puzzle.allWords].sort(() => Math.random() - 0.5);
                     shuffled.splice(4, 0, puzzle.centerWord);
-                } while (hasAnyCorrectQuadrant(shuffled));
+                } while (hasAnyCorrectQuadrant(shuffled) || hasThreeOrMoreCorrectInQuadrant(shuffled));
                 
                 setGrid(shuffled);
                 setHistory([shuffled]);
@@ -624,7 +1015,6 @@
                 setSolutionIndex(0);
                 setUserSolutionIndex(null);
                 setCorrectQuadrants({ tl: false, tr: false, bl: false, br: false });
-                setCelebrationStep(-1); // Reset celebration
                 setTimer(0); // Reset timer
                 setTimerActive(true); // Start timer
             }, [puzzleIdx, difficulty]); // Re-initialize when difficulty changes
@@ -662,25 +1052,10 @@
                 }
             }, [grid]);
 
-            // Celebration sequence effect - triggers when puzzle is solved
+            // No celebration animation needed - themes are always in correct positions
             useEffect(() => {
-                if (solved && celebrationStep === -1) {
-                    // Sequence: 0=delay, 1-4=spotlight each quadrant, 5=all green
-                    const sequence = [0, 1, 2, 3, 4, 5];
-                    let currentIndex = 0;
-                    
-                    const interval = setInterval(() => {
-                        currentIndex++;
-                        if (currentIndex < sequence.length) {
-                            setCelebrationStep(sequence[currentIndex]);
-                        } else {
-                            clearInterval(interval);
-                        }
-                    }, 2500); // 2.5 seconds per step
-                    
-                    return () => clearInterval(interval);
-                }
-            }, [solved]); // Only depend on solved, not celebrationStep
+                // Celebration sequence removed - instant feedback instead
+            }, [solved]);
 
             const getFontSize = (word) => {
                 if (word.length <= 5) return 'text-lg';
@@ -824,80 +1199,71 @@
             };
 
             const checkCorrectQuadrants = (testGrid) => {
-                const checkQuadrant = (positions, solution) => {
-                    const cornerPos = positions.find(p => [0, 2, 6, 8].includes(p));
-                    const edgePositions = positions.filter(p => [1, 3, 5, 7].includes(p));
-                    const centerPos = 4;
+                // LENIENT VERSION: Check if 4 words belong to same theme (ignoring position)
+                const checkQuadrant = (positions) => {
+                    // Get the 4 words in this quadrant
+                    const words = positions.map(pos => testGrid[pos]);
                     
-                    if (cornerPos === undefined || edgePositions.length !== 2) return false;
+                    // Check if all 4 words belong to any single theme
+                    for (const theme of puzzle.quadrantClues) {
+                        const allWordsInTheme = words.every(word => theme.words.includes(word));
+                        if (allWordsInTheme) {
+                            return true; // All 4 words belong to this theme
+                        }
+                    }
                     
-                    const currentCorner = testGrid[cornerPos];
-                    const currentEdge1 = testGrid[edgePositions[0]];
-                    const currentEdge2 = testGrid[edgePositions[1]];
-                    const currentCenter = testGrid[centerPos];
-                    const currentEdgesSorted = [currentEdge1, currentEdge2].sort();
-                    
-                    const solutionCorner = solution[cornerPos];
-                    const solutionEdge1 = solution[edgePositions[0]];
-                    const solutionEdge2 = solution[edgePositions[1]];
-                    const solutionCenter = solution[centerPos];
-                    const solutionEdgesSorted = [solutionEdge1, solutionEdge2].sort();
-                    
-                    return currentCorner === solutionCorner &&
-                        currentCenter === solutionCenter &&
-                        currentEdgesSorted[0] === solutionEdgesSorted[0] &&
-                        currentEdgesSorted[1] === solutionEdgesSorted[1];
+                    return false; // No theme contains all 4 words
                 };
                 
-                // Check each solution and find one with the most matching quadrants
-                let bestMatch = { tl: false, tr: false, bl: false, br: false };
-                let bestMatchCount = 0;
-                
-                for (const solution of puzzle.solutions) {
-                    const tlMatch = checkQuadrant([0, 1, 3, 4], solution);
-                    const trMatch = checkQuadrant([1, 2, 4, 5], solution);
-                    const blMatch = checkQuadrant([3, 4, 6, 7], solution);
-                    const brMatch = checkQuadrant([4, 5, 7, 8], solution);
-                    
-                    const matchCount = (tlMatch ? 1 : 0) + (trMatch ? 1 : 0) + (blMatch ? 1 : 0) + (brMatch ? 1 : 0);
-                    
-                    if (matchCount > bestMatchCount) {
-                        bestMatchCount = matchCount;
-                        bestMatch = {
-                            tl: tlMatch,
-                            tr: trMatch,
-                            bl: blMatch,
-                            br: brMatch
-                        };
-                    }
-                }
-                
-                return bestMatch;
+                return {
+                    tl: checkQuadrant([0, 1, 3, 4]),
+                    tr: checkQuadrant([1, 2, 4, 5]),
+                    bl: checkQuadrant([3, 4, 6, 7]),
+                    br: checkQuadrant([4, 5, 7, 8])
+                };
             };
 
-            // Sort quadrant clues by their spatial position in the grid (TL, TR, BL, BR)
+            // Sort quadrant clues by their spatial position based on corner word location
             const getQuadrantCluesBySpatialPosition = (displayGrid) => {
-                // Helper to check if a set of words matches a quadrant position
-                const quadrantMatches = (clueWords, positions) => {
-                    const quadrantWords = positions.map(pos => displayGrid[pos]);
-                    // Check if clue words match quadrant words (order doesn't matter)
-                    const clueWordsSorted = [...clueWords].sort();
-                    const quadrantWordsSorted = [...quadrantWords].sort();
-                    return JSON.stringify(clueWordsSorted) === JSON.stringify(quadrantWordsSorted);
-                };
-                
-                // Map each clue to its spatial position
+                // Map each clue to its spatial position based on where its corner word is
                 const cluesWithPosition = puzzle.quadrantClues.map(clue => {
+                    // Find the corner word for this theme (word that appears in only this theme)
+                    const cornerWord = clue.words.find(word => {
+                        const themeCount = puzzle.quadrantClues.filter(t => t.words.includes(word)).length;
+                        return themeCount === 1;
+                    });
+                    
+                    if (!cornerWord) return { ...clue, position: -1 };
+                    
+                    // Find where this corner word is currently located
+                    const cornerPos = displayGrid.indexOf(cornerWord);
+                    
+                    // Determine which spatial quadrant this corner belongs to
+                    // Prioritize corner positions, then edges (picking first matching quadrant)
                     let position = -1;
-                    if (quadrantMatches(clue.words, [0, 1, 3, 4])) position = 0; // TL
-                    else if (quadrantMatches(clue.words, [1, 2, 4, 5])) position = 1; // TR
-                    else if (quadrantMatches(clue.words, [3, 4, 6, 7])) position = 2; // BL
-                    else if (quadrantMatches(clue.words, [4, 5, 7, 8])) position = 3; // BR
+                    
+                    // Check corners first (definitive positioning)
+                    if (cornerPos === 0) position = 0;      // TL corner → TL quadrant
+                    else if (cornerPos === 2) position = 1; // TR corner → TR quadrant
+                    else if (cornerPos === 6) position = 2; // BL corner → BL quadrant
+                    else if (cornerPos === 8) position = 3; // BR corner → BR quadrant
+                    // Check edges (word belongs to 2 quadrants, pick based on position priority)
+                    else if (cornerPos === 1) position = 0; // Top edge → TL quadrant (or TR, but pick TL)
+                    else if (cornerPos === 3) position = 0; // Left edge → TL quadrant (or BL, but pick TL)
+                    else if (cornerPos === 5) position = 1; // Right edge → TR quadrant (or BR, but pick TR)
+                    else if (cornerPos === 7) position = 2; // Bottom edge → BL quadrant (or BR, but pick BL)
+                    // Center position (4) - can't determine, stays -1
+                    
                     return { ...clue, position };
                 });
                 
                 // Sort by position (TL=0, TR=1, BL=2, BR=3)
-                return cluesWithPosition.sort((a, b) => a.position - b.position);
+                // Themes without a corner or corner at center get position=-1 and go to end
+                return cluesWithPosition.sort((a, b) => {
+                    if (a.position === -1) return 1;
+                    if (b.position === -1) return -1;
+                    return a.position - b.position;
+                });
             };
 
             const handleCellClick = (idx) => {
@@ -1024,10 +1390,10 @@
                                     {/* Hero Section */}
                                     <div className="text-center mb-6">
                                         <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-2">
-                                            Connectionary
+                                            Associology
                                         </h1>
                                         <p className="text-gray-500 text-sm font-medium">
-                                            The Word Connection Puzzle
+                                            The Word Association Puzzle
                                         </p>
                                     </div>
 
@@ -1053,11 +1419,11 @@
                                                         key={idx}
                                                         className={`aspect-square rounded-lg flex items-center justify-center font-bold text-sm border-2 ${
                                                             idx === 4 
-                                                                ? 'bg-gradient-to-br from-amber-400 to-amber-500 border-amber-600 text-amber-900 relative'
+                                                                ? 'bg-gradient-to-br from-green-400 to-green-500 border-green-600 text-green-900 relative'
                                                                 : 'bg-white border-gray-300 text-gray-800'
                                                         }`}>
                                                         {idx === 4 && (
-                                                            <div className="absolute -top-1.5 -right-1.5 bg-amber-500 rounded-full p-0.5">
+                                                            <div className="absolute -top-1.5 -right-1.5 bg-green-600 rounded-full p-0.5">
                                                                 <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
                                                                     <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
                                                                 </svg>
@@ -1090,6 +1456,32 @@
                                         </div>
                                     </div>
 
+                                    {/* Two-Tier Feedback System */}
+                                    <div className="mb-6">
+                                        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-4 border-2 border-blue-300">
+                                            <div className="flex items-start gap-3">
+                                                <span className="text-3xl flex-shrink-0">📊</span>
+                                                <div>
+                                                    <h3 className="font-bold text-blue-900 mb-2 text-sm">Visual Feedback:</h3>
+                                                    <div className="space-y-2">
+                                                        <div className="flex items-start gap-2">
+                                                            <span className="text-xl">🟨</span>
+                                                            <p className="text-gray-800 text-sm leading-relaxed">
+                                                                <strong>Amber quadrant:</strong> You found the correct 4 words for this theme, but they're not in the right positions yet!
+                                                            </p>
+                                                        </div>
+                                                        <div className="flex items-start gap-2">
+                                                            <span className="text-xl">🟩</span>
+                                                            <p className="text-gray-800 text-sm leading-relaxed">
+                                                                <strong>Green quadrant:</strong> Perfect! These 4 words are positioned correctly and will mesh with the full solution!
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     {/* Strategy Hint */}
                                     <div className="mb-6">
                                         <div className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-2xl p-4 border-2 border-amber-300">
@@ -1098,7 +1490,7 @@
                                                 <div>
                                                     <h3 className="font-bold text-amber-900 mb-2 text-sm">Pro Strategy:</h3>
                                                     <p className="text-gray-800 text-sm leading-relaxed">
-                                                        When quadrants turn amber (correct), you can still swap words <strong>within</strong> those quadrants - they'll stay correct! If swapping the remaining corners doesn't work, try swapping within an amber quadrant.
+                                                        Quadrants turn <strong>amber</strong> when you group correct words. Icons appear when those words are also in the <strong>right positions</strong> for the full solution. If you have amber but no icon, try rearranging within that quadrant!
                                                     </p>
                                                 </div>
                                             </div>
@@ -1263,7 +1655,20 @@
                                                 <h3 className="font-bold text-lg">Tip</h3>
                                             </div>
                                             <p>DRIVE (center) fits ALL 4 themes!</p>
-                                            <p className="mt-2 text-sm">Words may work as part of common phrases (e.g., "drive away" or "chase off").</p>
+                                            <p className="mt-2 text-sm">Words connect through meanings, associations, or common phrases (e.g., "drive away" or "chase off").</p>
+                                        </div>
+
+                                        <div>
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <span className="text-xl">📊</span>
+                                                <h3 className="font-bold text-lg">Visual Feedback</h3>
+                                            </div>
+                                            <p className="mb-2"><strong>Clear color-coded feedback:</strong></p>
+                                            <div className="space-y-2 ml-2">
+                                                <p className="text-sm">🟨 <strong>Amber quadrant:</strong> Correct 4 words grouped, but not in the right positions yet!</p>
+                                                <p className="text-sm">🟩 <strong>Green quadrant:</strong> Perfect! Words are correctly positioned to mesh with the full solution!</p>
+                                            </div>
+                                            <p className="mt-2 text-sm text-gray-600">Amber = close. Green = done!</p>
                                         </div>
 
                                         <div>
@@ -1271,8 +1676,8 @@
                                                 <span className="text-xl">🎲</span>
                                                 <h3 className="font-bold text-lg">Pro Strategy</h3>
                                             </div>
-                                            <p>When quadrants turn amber (correct), you can still swap words <strong>within</strong> those quadrants - they'll stay correct!</p>
-                                            <p className="mt-2 text-sm">If swapping the remaining corners doesn't solve the puzzle, try swapping within an amber quadrant to find a valid arrangement.</p>
+                                            <p>When quadrants turn amber, you can swap words <strong>within</strong> those quadrants - they'll stay amber!</p>
+                                            <p className="mt-2 text-sm">Keep rearranging until the quadrant turns green - that means you've got it!</p>
                                         </div>
 
                                         <button 
@@ -1399,72 +1804,14 @@
 
                             
                             <div className="grid grid-cols-3 gap-3 relative">
-                                {/* Partial Quadrant Icons (during solving) */}
-                                {!solved && (() => {
-                                    const partialIcons = checkPartialQuadrants();
-                                    if (!partialIcons) return null;
-                                    
-                                    return (
-                                        <>
-                                            {partialIcons.tl && (
-                                                <div className="absolute z-20 text-[2.75rem] pointer-events-none quadrant-icon-appear"
-                                                    style={{ top: 'calc(33.333% - 24px)', left: 'calc(33.333% - 24px)' }}>
-                                                    {partialIcons.tl}
-                                                </div>
-                                            )}
-                                            {partialIcons.tr && (
-                                                <div className="absolute z-20 text-[2.75rem] pointer-events-none quadrant-icon-appear"
-                                                    style={{ top: 'calc(33.333% - 24px)', left: 'calc(66.666% - 24px)' }}>
-                                                    {partialIcons.tr}
-                                                </div>
-                                            )}
-                                            {partialIcons.bl && (
-                                                <div className="absolute z-20 text-[2.75rem] pointer-events-none quadrant-icon-appear"
-                                                    style={{ top: 'calc(66.666% - 24px)', left: 'calc(33.333% - 24px)' }}>
-                                                    {partialIcons.bl}
-                                                </div>
-                                            )}
-                                            {partialIcons.br && (
-                                                <div className="absolute z-20 text-[2.75rem] pointer-events-none quadrant-icon-appear"
-                                                    style={{ top: 'calc(66.666% - 24px)', left: 'calc(66.666% - 24px)' }}>
-                                                    {partialIcons.br}
-                                                </div>
-                                            )}
-                                        </>
-                                    );
-                                })()}
+                                {/* No icons displayed at intersections - green quadrants are the feedback */}
                                 
-                                {/* Quadrant Icons at Intersections (when solved) */}
-                                {solved && (() => {
-                                    const displayGrid = puzzle.solutions[solutionIndex];
-                                    const icons = getQuadrantIcons(displayGrid);
-                                    return (
-                                        <>
-                                            {/* Top-left quadrant icon */}
-                                            <div className="absolute z-20 text-[2.75rem] pointer-events-none quadrant-icon-appear"
-                                                style={{ top: 'calc(33.333% - 24px)', left: 'calc(33.333% - 24px)' }}>
-                                                {icons.tl}
-                                            </div>
-                                            {/* Top-right quadrant icon */}
-                                            <div className="absolute z-20 text-[2.75rem] pointer-events-none quadrant-icon-appear"
-                                                style={{ top: 'calc(33.333% - 24px)', left: 'calc(66.666% - 24px)', animationDelay: '0.1s' }}>
-                                                {icons.tr}
-                                            </div>
-                                            {/* Bottom-left quadrant icon */}
-                                            <div className="absolute z-20 text-[2.75rem] pointer-events-none quadrant-icon-appear"
-                                                style={{ top: 'calc(66.666% - 24px)', left: 'calc(33.333% - 24px)', animationDelay: '0.2s' }}>
-                                                {icons.bl}
-                                            </div>
-                                            {/* Bottom-right quadrant icon */}
-                                            <div className="absolute z-20 text-[2.75rem] pointer-events-none quadrant-icon-appear"
-                                                style={{ top: 'calc(66.666% - 24px)', left: 'calc(66.666% - 24px)', animationDelay: '0.3s' }}>
-                                                {icons.br}
-                                            </div>
-                                        </>
-                                    );
-                                })()}
+                                {/* No icons displayed - green quadrants provide all feedback */}
+                                
                                 {(() => {
                                     const displayGrid = solved ? puzzle.solutions[solutionIndex] : grid;
+                                    const partialIcons = !solved ? checkPartialQuadrants() : null;
+                                    
                                     return displayGrid.map((word, idx) => {
                                         const isCenter = idx === 4; // Center always locked
                                         const isSelected = selected === idx;
@@ -1475,7 +1822,7 @@
                                         const inBottomLeft = [3, 4, 6, 7].includes(idx);
                                         const inBottomRight = [4, 5, 7, 8].includes(idx);
                                         
-                                        // Check if cell is in a correct quadrant (amber state)
+                                        // Check if cell is in a correct quadrant (has correct 4 words)
                                         const inCorrectQuadrant = !solved && (
                                             (inTopLeft && correctQuadrants.tl) ||
                                             (inTopRight && correctQuadrants.tr) ||
@@ -1483,48 +1830,40 @@
                                             (inBottomRight && correctQuadrants.br)
                                         );
                                         
-                                        // Determine if cell should have celebration highlighting
-                                        let celebrationClass = '';
-                                        if (solved && celebrationStep > 0) {
-                                            // Steps 1-4: spotlight mode (one quadrant at a time)
-                                            if (celebrationStep >= 1 && celebrationStep <= 4) {
-                                                const spotlightQuadrant = celebrationStep - 1; // step 1->Q0, 2->Q1, 3->Q2, 4->Q3
-                                                const quadrants = [inTopLeft, inTopRight, inBottomLeft, inBottomRight];
-                                                if (quadrants[spotlightQuadrant]) {
-                                                    celebrationClass = 'celebration-highlight';
-                                                }
-                                            }
-                                            // Step 5: all quadrants green
-                                            else if (celebrationStep === 5) {
-                                                celebrationClass = 'celebration-highlight';
-                                            }
-                                        }
+                                        // NEW: Check if cell is in a quadrant with an icon (correct positions)
+                                        const inGreenQuadrant = !solved && partialIcons && (
+                                            (inTopLeft && partialIcons.tl) ||
+                                            (inTopRight && partialIcons.tr) ||
+                                            (inBottomLeft && partialIcons.bl) ||
+                                            (inBottomRight && partialIcons.br)
+                                        );
+                                        
                                         
                                         return (
                                             <div key={idx} onClick={() => handleCellClick(idx)}
                                                 className={`aspect-square rounded-xl border-4 flex flex-col items-center justify-center transition-all relative
                                                     ${solved ? 'py-1 px-1' : 'py-4'}
-                                                    ${celebrationClass}
-                                                    ${isCenter ? 'locked-cell border-amber-500 cursor-not-allowed' : 
+                                                    ${isCenter ? 'locked-cell border-green-500 cursor-not-allowed' : 
                                                       isSelected ? 'cell-selected' :
                                                       solved ? 'bg-green-50 border-green-400' :
+                                                      inGreenQuadrant ? 'bg-green-50 border-green-400' :
                                                       inCorrectQuadrant ? 'quadrant-correct' :
                                                       'bg-gray-50 border-gray-400 cursor-pointer active:scale-95'}`}>
                                                 {isCenter && (
-                                                    <div className="absolute -top-2 -right-2 bg-amber-500 rounded-full p-1 z-10">
+                                                    <div className="absolute -top-2 -right-2 bg-green-600 rounded-full p-1 z-10">
                                                         <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                                                             <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
                                                         </svg>
                                                     </div>
                                                 )}
-                                                {/* Position number badge - shown after celebration completes */}
-                                                {solved && celebrationStep === 5 && (
+                                                {/* Position number badge - shown when solved */}
+                                                {solved && (
                                                     <div className="absolute -bottom-1 -left-1 bg-gray-700 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold z-10">
                                                         {idx + 1}
                                                     </div>
                                                 )}
                                                 <div className={`font-bold ${getFontSize(word)} text-center px-0.5 leading-tight
-                                                    ${isCenter ? 'text-amber-900' : 
+                                                    ${isCenter ? 'text-green-900' : 
                                                       solved ? 'text-green-800' : 
                                                       isSelected ? 'text-white' : 'text-gray-800'}`}>
                                                     {word}
@@ -1534,7 +1873,7 @@
                                                         {puzzle.explanations[word]}
                                                     </div>
                                                 )}
-                                                {!isCenter && !solved && (
+                                                {!solved && (
                                                     <div className="text-xs text-gray-400 mt-1">{idx + 1}</div>
                                                 )}
                                             </div>
@@ -1555,58 +1894,61 @@
                             )}
                         </div>
 
-                        {/* COMPACT THEMES - 2x2 GRID - ALWAYS BELOW GRID */}
+                        {/* DYNAMIC THEMES - 2x2 GRID MATCHING BOARD POSITIONS */}
                         {showThemes && (
                             <div className="mt-6 bg-white/95 backdrop-blur rounded-2xl p-4">
                                 <div className="text-xs font-semibold text-gray-500 mb-3 text-center">
-                                    THEMES - Find 4 words for each
+                                    THEMES - Positioned to match grid layout
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
                                     {(() => {
-                                        // When solved, display themes in spatial order (TL, TR, BL, BR)
+                                        // Always display themes in spatial order based on current grid
                                         const displayGrid = solved ? puzzle.solutions[solutionIndex] : grid;
-                                        const themesToShow = solved 
-                                            ? getQuadrantCluesBySpatialPosition(displayGrid)
-                                            : puzzle.quadrantClues;
+                                        const themesToShow = getQuadrantCluesBySpatialPosition(displayGrid);
+                                        
+                                        // Get partial quadrant icons for during gameplay
+                                        const partialIcons = !solved ? checkPartialQuadrants() : null;
                                         
                                         return themesToShow.map((q, i) => {
-                                            // Determine if this theme should be highlighted during celebration
-                                            // celebrationStep 1-4 correspond to quadrants 0-3 (TL, TR, BL, BR)
-                                            const isHighlighted = solved && celebrationStep > 0 && celebrationStep <= 4 && (celebrationStep - 1) === i;
-                                            const isAllGreen = solved && celebrationStep === 5;
+                                            // Check if this theme has its quadrant solved (green)
+                                            let hasIconShowing = false;
+                                            if (!solved && partialIcons) {
+                                                // Map spatial position to quadrant check
+                                                if (i === 0) hasIconShowing = partialIcons.tl === q.icon;      // Top-Left
+                                                else if (i === 1) hasIconShowing = partialIcons.tr === q.icon; // Top-Right
+                                                else if (i === 2) hasIconShowing = partialIcons.bl === q.icon; // Bottom-Left
+                                                else if (i === 3) hasIconShowing = partialIcons.br === q.icon; // Bottom-Right
+                                            }
+                                            
+                                            // Calculate ACTUAL position numbers where this theme's words are located
+                                            const positions = [];
+                                            if (hasIconShowing || solved) {
+                                                // Find where each word in this theme is currently located in the grid
+                                                q.words.forEach(word => {
+                                                    const pos = displayGrid.indexOf(word);
+                                                    if (pos !== -1) positions.push(pos + 1); // +1 for 1-indexed display
+                                                });
+                                                positions.sort((a, b) => a - b); // Sort numerically
+                                            }
                                             
                                             return (
                                                 <div key={i} className={`border-2 rounded-xl p-3 bg-gradient-to-br from-white to-gray-50 transition-all duration-300
-                                                    ${isHighlighted ? 'border-black border-4 shadow-lg' : 
-                                                      isAllGreen ? 'border-green-500 border-4' : 
+                                                    ${solved ? 'border-green-500 border-4' :
+                                                      hasIconShowing ? 'border-green-500 border-4' :
                                                       'border-gray-200'}`}>
                                                     <div className="flex items-center gap-2 mb-2">
                                                         <span className="text-2xl">{q.icon}</span>
                                                         <span className="font-bold text-sm leading-tight">{q.clue}</span>
                                                     </div>
-                                                    {!solved && (
-                                                        <div className="text-xs text-gray-500 italic">
-                                                            Find the 4 words for this theme
-                                                        </div>
-                                                    )}
-                                                    {/* Show position numbers after celebration completes */}
-                                                    {solved && celebrationStep === 5 && (
+                                                    {/* Only show position numbers when this quadrant is correctly solved */}
+                                                    {positions.length > 0 && (
                                                         <div className="flex gap-1 mt-2 flex-wrap">
-                                                            {(() => {
-                                                                // Find positions of this theme's words in the displayGrid
-                                                                const positions = [];
-                                                                q.words.forEach(word => {
-                                                                    const pos = displayGrid.indexOf(word);
-                                                                    if (pos !== -1) positions.push(pos + 1); // +1 for 1-indexed display
-                                                                });
-                                                                positions.sort((a, b) => a - b); // Sort numerically
-                                                                
-                                                                return positions.map((pos, idx) => (
-                                                                    <span key={idx} className="bg-gray-700 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
-                                                                        {pos}
-                                                                    </span>
-                                                                ));
-                                                            })()}
+                                                            {positions.map((pos, idx) => (
+                                                                <span key={idx} className={`rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold
+                                                                    ${pos === 5 ? 'bg-green-600 text-white' : 'bg-gray-300 text-gray-700'}`}>
+                                                                    {pos}
+                                                                </span>
+                                                            ))}
                                                         </div>
                                                     )}
                                                 </div>
